@@ -1,1 +1,348 @@
-sdfsdf
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ЕГЭ-2026 · Информатика · 50118 · Разбор результатов</title>
+<style>
+  :root{
+    --bg-soft:#f5f5f7; --bg-elev:#ffffff;
+    --text:#1d1d1f; --text-soft:#515154; --text-muted:#86868b;
+    --border:#e5e5e7; --border-strong:#d2d2d7;
+    --accent:#0071e3; --accent-soft:#e8f1fc;
+    --success:#1b8a4a; --success-soft:#e6f5ec;
+    --error:#c5221f; --error-soft:#fde7e6;
+    --warn:#b25e09; --warn-soft:#fcf1e2;
+    --radius:14px; --radius-lg:18px;
+    --shadow-sm:0 1px 2px rgba(0,0,0,.04),0 1px 3px rgba(0,0,0,.03);
+    --shadow:0 2px 8px rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.05);
+    --font:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,system-ui,sans-serif;
+    --mono:"SF Mono",Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{font-family:var(--font);background:var(--bg-soft);color:var(--text);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+  #app{max-width:860px;margin:0 auto;padding:24px 16px 80px}
+  .card{background:var(--bg-elev);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px 22px;box-shadow:var(--shadow-sm);margin-bottom:16px}
+  h1{font-size:26px;line-height:1.2;margin:0 0 6px;letter-spacing:-.02em}
+  h2{font-size:20px;margin:0 0 12px;letter-spacing:-.01em;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  h3{font-size:15px;margin:18px 0 8px;color:var(--text-soft);text-transform:uppercase;letter-spacing:.06em}
+  p{margin:0 0 10px}
+  .muted{color:var(--text-muted);font-size:13.5px}
+  .soft{color:var(--text-soft);font-size:14.5px}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 4px}
+  .chip{background:var(--bg-soft);border:1px solid var(--border);padding:6px 12px;border-radius:999px;font-size:13px;color:var(--text-soft)}
+  .stepnum{width:30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;font-size:14px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+  .nav{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 18px}
+  .nav a{font-size:13px;color:var(--accent);text-decoration:none;background:var(--bg-elev);border:1px solid var(--border);border-radius:999px;padding:7px 12px;min-height:34px;display:inline-flex;align-items:center}
+  .nav a:hover{background:var(--accent-soft)}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;margin:8px 0}
+  th,td{padding:8px 8px;border-bottom:1px solid var(--border);text-align:left;vertical-align:top}
+  th{font-size:12px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em}
+  tr:last-child td{border-bottom:none}
+  td.num,th.num{text-align:right;white-space:nowrap}
+  .bar{height:8px;background:var(--border);border-radius:4px;overflow:hidden;min-width:60px}
+  .bar .fill{height:100%;border-radius:4px;background:var(--accent)}
+  .bar .fill.low{background:var(--error)}
+  .bar .fill.mid{background:var(--warn)}
+  .bar .fill.ok{background:var(--success)}
+  .hs{display:inline-flex;gap:2px;flex-wrap:nowrap;overflow-x:auto;max-width:100%;padding:2px 0}
+  .hs i{width:10px;height:16px;border-radius:3px;flex-shrink:0;display:inline-block}
+  .hs i.p{background:#bfe3cd}
+  .hs i.m{background:#f3d0cf}
+  .hs i.d0{background:#e5e5e7}
+  .hs i.d1{background:#f4d9ae}
+  .hs i.d2{background:#7fc89a}
+  .badge{display:inline-block;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:600;white-space:nowrap}
+  .badge.ok{background:var(--success-soft);color:var(--success)}
+  .badge.warn{background:var(--warn-soft);color:var(--warn)}
+  .badge.err{background:var(--error-soft);color:var(--error)}
+  .badge.neu{background:var(--bg-soft);color:var(--text-soft)}
+  .check{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border:1px dashed var(--border-strong);border-radius:12px;margin:8px 0;font-size:14px;cursor:pointer;background:var(--bg-soft)}
+  .check input{width:18px;height:18px;accent-color:var(--accent);margin-top:2px;flex-shrink:0}
+  .cause{border:1px solid var(--border);border-radius:var(--radius);padding:14px 14px;margin:10px 0;background:var(--bg-elev);transition:border-color .15s,background .15s}
+  .cause.sel{border-color:var(--accent);background:var(--accent-soft)}
+  .cause label{display:flex;gap:10px;align-items:flex-start;cursor:pointer;font-size:14.5px;font-weight:600}
+  .cause input{width:18px;height:18px;accent-color:var(--accent);margin-top:2px;flex-shrink:0}
+  .cause .det{margin:8px 0 0 28px;font-size:13.5px;color:var(--text-soft)}
+  .cause .det b{color:var(--text)}
+  .note{background:var(--bg-soft);border-left:3px solid var(--accent);padding:10px 14px;border-radius:10px;margin:10px 0;font-size:14px}
+  .note.warn{border-color:var(--warn);background:var(--warn-soft);color:var(--warn)}
+  .kv{display:grid;grid-template-columns:minmax(140px,34%) 1fr;gap:0;border:1px solid var(--border);border-radius:12px;overflow:hidden;margin:10px 0}
+  .kv div{padding:10px 12px;font-size:14px;border-bottom:1px solid var(--border)}
+  .kv div:nth-child(4n+1),.kv div:nth-child(4n+2){border-bottom:1px solid var(--border)}
+  .kv .k{background:var(--bg-soft);font-weight:600;color:var(--text-soft)}
+  .kv div:nth-last-child(-n+2){border-bottom:none}
+  .dist{display:flex;flex-direction:column;gap:5px;margin:10px 0}
+  .dist .row{display:flex;align-items:center;gap:8px;font-size:12.5px}
+  .dist .lbl{width:74px;color:var(--text-soft);flex-shrink:0}
+  .dist .bar{flex:1}
+  .dist .val{width:34px;text-align:right;color:var(--text-soft);flex-shrink:0}
+  .scrollx{overflow-x:auto}
+  footer{font-size:12.5px;color:var(--text-muted);text-align:center;padding:10px 0 0}
+  @media (max-width:520px){
+    #app{padding:16px 10px 60px}
+    .card{padding:18px 14px}
+    h1{font-size:22px}
+    .kv{grid-template-columns:1fr}
+    .kv div:nth-last-child(-n+2){border-bottom:1px solid var(--border)}
+    .kv div:last-child{border-bottom:none}
+  }
+</style>
+</head>
+<body>
+<div id="app">
+
+  <div class="card">
+    <h1>📊 ЕГЭ-2026 · Информатика · разбор результатов</h1>
+    <p class="soft">Протокол проверки от 18.06.2026 (ОО 50118, Иркутская область) · разложение по методике педсовета «От перечня к результату» (шаги 1–5).</p>
+    <div class="chips">
+      <span class="chip">👥 Участников: 15</span>
+      <span class="chip">🏫 11Э — 1, 11Г — 1, 11Т — 13</span>
+      <span class="chip">📅 Экзамен: 18.06.2026</span>
+      <span class="chip">🔒 Имена скрыты: «Ученик 1…15»</span>
+      <span class="chip">🎯 Мин. граница: 40 т.б.</span>
+    </div>
+    <div class="note warn">Анонимизация: фамилии заменены номерами в порядке протокола. Все цифры ниже посчитаны из строк протокола; сводная строка протокола сверена отдельно (см. сноску в шаге 1).</div>
+    <div class="nav">
+      <a href="#src">Протокол</a><a href="#step1">Шаг 1 · Разложить</a><a href="#step2">Шаг 2 · Провал</a><a href="#step3">Шаг 3 · Причины</a><a href="#step4">Шаг 4 · Проверка</a><a href="#step5">Шаг 5 · Вывод</a>
+    </div>
+  </div>
+
+  <div class="card" id="src">
+    <h2>📄 Исходные данные (протокол)</h2>
+    <div class="scrollx">
+      <table id="srcTable">
+        <thead><tr><th>№</th><th>Участник</th><th>Класс</th><th>Задания 1–25 («+» / «−») и 26–27 (баллы)</th><th class="num">Перв.</th><th class="num">Тест.</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <p class="muted" id="srcNote"></p>
+  </div>
+
+  <div class="card" id="step1">
+    <h2><span class="stepnum">1</span> Разложить данные</h2>
+    <h3>По заданиям</h3>
+    <div class="scrollx"><table id="taskTable"><thead><tr><th>Задание</th><th class="num">Макс.</th><th>Что видно</th><th style="min-width:110px">% макс.</th><th class="num">Взято / макс</th></tr></thead><tbody></tbody></table></div>
+    <h3>По классам</h3>
+    <table id="classTable"><thead><tr><th>Класс</th><th class="num">N</th><th class="num">Ср. перв.</th><th class="num">Ср. тест.</th><th class="num">Мин–макс тест.</th><th>Что видно</th></tr></thead><tbody></tbody></table>
+    <h3>По типам ошибок</h3>
+    <table id="errTable"><thead><tr><th>Тип ошибки</th><th class="num">Случаев</th><th>Что видно</th></tr></thead><tbody></tbody></table>
+    <label class="check"><input type="checkbox"> Все цифры сверены с протоколом (первичный балл каждой строки пересчитан из строки ответов — совпадений 15 из 15)</label>
+  </div>
+
+  <div class="card" id="step2">
+    <h2><span class="stepnum">2</span> Найти провал</h2>
+    <table>
+      <thead><tr><th>Паттерн</th><th>Точечный / общий</th><th>Цифры</th></tr></thead>
+      <tbody>
+        <tr><td><b>П1.</b> Задания с развёрнутым ответом (26–27) не взяты</td><td><span class="badge err">общий</span></td><td>Зад. 26: 0 баллов у 15 из 15 (включая троих с тест. ≥ 83). Зад. 27: 2 балла у 3 из 15, у 12 — 0. Повторяется во всех классах (11Э: 0/0, 11Г: 0/0).</td></tr>
+        <tr><td><b>П2.</b> Провал в заданиях 5, 24, 25 при высоких соседних</td><td><span class="badge warn">точечный</span></td><td>Зад. 5: 4/15; зад. 24: 1/15; зад. 25: 1/15 — при зад. 6–7: 14/15 и зад. 22–23: 10–11/15. В 11Э и 11Г эти же задания тоже «−».</td></tr>
+        <tr><td><b>П3.</b> Сильный разброс внутри группы (фон, не провал)</td><td><span class="badge neu">общий</span></td><td>Тест. балл: от 40 до 93; в 11Т перв. балл 9–26; трое ≤ 51 т.б. (40, 48, 51) и восьмеро ≥ 67 т.б.</td></tr>
+      </tbody>
+    </table>
+    <div class="dist" id="dist"></div>
+    <p class="muted">Распределение тестового балла (красная отметка — минимальная граница 40).</p>
+    <label class="check"><input type="checkbox"> Провал устойчив: П1 и П2 повторяются в разных классах (11Э, 11Г, 11Т), а не случайны для одной группы</label>
+  </div>
+
+  <div class="card" id="step3">
+    <h2><span class="stepnum">3</span> Придумать причины <span class="muted" id="causeCounter"></span></h2>
+    <p class="soft">Отметьте ровно 3 причины, реальные для вашей ОО. Шаг 4 автоматически покажет проверку выбранных по тем же данным.</p>
+    <div id="causes"></div>
+    <p class="muted" id="causeMsg"></p>
+    <label class="check"><input type="checkbox"> Причины реальны для моей ОО</label>
+    <label class="check"><input type="checkbox"> У каждой выбранной причины есть способ проверки по этим же данным</label>
+  </div>
+
+  <div class="card" id="step4">
+    <h2><span class="stepnum">4</span> Проверить причины</h2>
+    <table id="step4Table"><thead><tr><th>Причина</th><th>Подтверждается?</th><th>По каким данным</th></tr></thead><tbody></tbody></table>
+    <div class="note" id="confirmedLine"></div>
+    <label class="check"><input type="checkbox"> Статусы проставлены по срезам из шага 1, без внешних данных</label>
+  </div>
+
+  <div class="card" id="step5">
+    <h2><span class="stepnum">5</span> Вывод и решение</h2>
+    <div class="kv">
+      <div class="k">Вывод о проблеме</div><div>В результатах ЕГЭ-2026 по информатике (ОО 50118) слабое место — задания с развёрнутым ответом: зад. 26 — 0 баллов у 15 из 15, зад. 27 — 0 у 12 из 15; а также задания 5, 24, 25 (4/15, 1/15, 1/15). Внутри 11Т разброс первичного балла 9–26. Замера «до» не было, поэтому описывается состояние, а не динамика.</div>
+      <div class="k">Решение 1</div><div>С 3-й четверти ввести еженедельный блок задач типа 26–27 (программы, оптимизация) с разбором полных решений и критериальной оценкой. Риск: вытеснение базовых тем — контролируется ежемесячными мини-срезами по базе (порог ≥ 80 %).</div>
+      <div class="k">Решение 2</div><div>Адресные модули по темам заданий 5, 24, 25 + дифференцированные варианты для кластера 11Т с тест. ≤ 51 (3 чел.). Риск: слабая группа не успевает за общим темпом — парная работа и консультации.</div>
+      <div class="k">Что замерим в следующий раз</div><div>Диагностическая работа формата ЕГЭ (27 задания) до 25.12.2026: % решающих задачи типа 26, типа 24–25, типа 5. Это станет точкой «до» перед апрельским срезом 2027.</div>
+      <div class="k">Ответственный и срок</div><div>Руководитель МО + учитель информатики: план модулей — до 05.12.2026, диагностика и отчёт — до 25.12.2026.</div>
+    </div>
+    <p class="muted">Вывод опирается на подтверждённые в шаге 4 причины (по умолчанию 1, 2, 5). Если состав выбранных причин изменён — вывод правится вручную: он не может быть сильнее данных.</p>
+    <label class="check"><input type="checkbox"> Вывод не сильнее данных (нет слов «привело», «выросло»)</label>
+    <label class="check"><input type="checkbox"> Критерий измерим (проценты по типам задач, срок 25.12.2026)</label>
+    <label class="check"><input type="checkbox"> Срок реальный</label>
+  </div>
+
+  <footer>ОО 50118 · Иркутская область · протокол создан 29.06.2026 09:48 · визуализация для заседания МО от 19.11.2026<br>Правила разбора: ИИ не придумывает данные · каждая причина проверяется по тем же данным · вывод не сильнее данных.</footer>
+</div>
+
+<script>
+"use strict";
+/* ============ ДАННЫЕ ПРОТОКОЛА (анонимизированы) ============ */
+const DATA = [
+  {n:1, c:"11Э", s:"++++-++--+++-----++--++--00", p:13, t:59},
+  {n:2, c:"11Г", s:"++++-+---+---------------00", p:6,  t:40},
+  {n:3, c:"11Т", s:"++++-+++++-++++++-+++++--00", p:20, t:78},
+  {n:4, c:"11Т", s:"+++++-++-+-++--+-+++++---00", p:16, t:67},
+  {n:5, c:"11Т", s:"++++++++-+--+-+---++-----00", p:13, t:59},
+  {n:6, c:"11Т", s:"++++++++-+-+-+++++++----00", p:18, t:72},
+  {n:7, c:"11Т", s:"++++-+++-++--------------00", p:9,  t:48},
+  {n:8, c:"11Т", s:"++++-+++++-++--+--+++----00", p:15, t:64},
+  {n:9, c:"11Т", s:"++-+++++++++++++--+++----00", p:18, t:72},
+  {n:10,c:"11Т", s:"++-+-++--++--------++--+-00", p:10, t:51},
+  {n:11,c:"11Т", s:"++++++++++-++++++-++++---00", p:20, t:78},
+  {n:12,c:"11Т", s:"+-++-++++++++++++++++++--02", p:23, t:85},
+  {n:13,c:"11Т", s:"++++-+++++-++++++-+++++--00", p:20, t:78},
+  {n:14,c:"11Т", s:"+++-+++-+++++++++-+++++--02", p:22, t:83},
+  {n:15,c:"11Т", s:"+++++++++++++++++++++++-+02", p:26, t:93}
+];
+const N = DATA.length;
+
+/* ============ РАСЧЁТЫ ============ */
+function taskStats(){
+  const st = [];
+  for(let i=0;i<27;i++){
+    const max = i<25 ? 1 : 2;
+    let got = 0, solved = 0;
+    DATA.forEach(r=>{
+      const ch = r.s[i];
+      if(i<25){ if(ch==="+"){got++; solved++;} }
+      else { const d = +ch; got += d; if(d>0) solved++; }
+    });
+    st.push({i:i+1, max, got, solved, pct: got/(max*N)});
+  }
+  return st;
+}
+function classStats(){
+  const m = {};
+  DATA.forEach(r=>{ (m[r.c] = m[r.c] || []).push(r); });
+  return Object.keys(m).sort().map(c=>{
+    const rows = m[c];
+    const ap = rows.reduce((s,r)=>s+r.p,0)/rows.length;
+    const at = rows.reduce((s,r)=>s+r.t,0)/rows.length;
+    const ts = rows.map(r=>r.t);
+    return {c, n:rows.length, ap, at, min:Math.min(...ts), max:Math.max(...ts)};
+  });
+}
+function recalcPrimary(r){
+  let s=0; for(let i=0;i<25;i++) if(r.s[i]==="+") s++;
+  return s + (+r.s[25]) + (+r.s[26]);
+}
+const TS = taskStats(), CS = classStats();
+const avgP = DATA.reduce((s,r)=>s+r.p,0)/N, avgT = DATA.reduce((s,r)=>s+r.t,0)/N;
+const mism = DATA.filter(r=>recalcPrimary(r)!==r.p).length;
+
+/* ============ ШАГ 0: ПРОТОКОЛ ============ */
+(function(){
+  const tb = document.querySelector("#srcTable tbody");
+  tb.innerHTML = DATA.map(r=>{
+    const cells = r.s.split("").map(ch=>{
+      const cls = ch==="+" ? "p" : ch==="-" ? "m" : (ch==="0"?"d0":ch==="1"?"d1":"d2");
+      return '<i class="'+cls+'" title="'+(ch==="+"?"верно":ch==="-"?"неверно":ch+" балл(а)")+'"></i>';
+    }).join("");
+    return "<tr><td>"+r.n+"</td><td>Ученик "+r.n+"</td><td>"+r.c+"</td><td><span class=\"hs\">"+cells+"</span></td><td class=\"num\">"+r.p+"</td><td class=\"num\">"+r.t+"</td></tr>";
+  }).join("");
+  document.getElementById("srcNote").textContent =
+    "Пересчёт: первичный балл = сумма «+» за задания 1–25 + баллы 26–27; совпадение с протоколом: "+(N-mism)+" из "+N+
+    ". Средние по строкам: перв. "+avgP.toFixed(1)+" (в протоколе 17), тест. "+avgT.toFixed(1)+
+    ". В сводной строке протокола указан средний тестовый балл 68 — он не сходится со средним арифметическим 15 строк (71.1); расхождение требует уточнения у оператора РЦ [проверить].";
+})();
+
+/* ============ ШАГ 1 ============ */
+(function(){
+  const band = t => t.pct < .25 ? ["low","провал"] : t.pct < .5 ? ["mid","зона риска"] : t.pct < .75 ? ["mid","средне"] : ["ok","устойчиво"];
+  document.querySelector("#taskTable tbody").innerHTML = TS.map(t=>{
+    const b = band(t);
+    const seen = t.i<25 ? (t.solved===0?"0 из "+N+" решили":t.solved===N?"решили все "+N:t.solved+" из "+N+" решили")
+                        : (t.got===0?"0 баллов у всех "+N:t.got+" балл(ов) суммарно, взяли "+t.solved+" из "+N);
+    return "<tr><td>№"+t.i+(t.i>=26?" (разв.)":"")+"</td><td class=\"num\">"+t.max+"</td><td>"+seen+" · <span class=\"badge "+(b[0]==="low"?"err":b[0]==="mid"?"warn":"ok")+"\">"+b[1]+"</span></td><td><div class=\"bar\"><div class=\"fill "+b[0]+"\" style=\"width:"+(t.pct*100).toFixed(0)+"%\"></div></div></td><td class=\"num\">"+t.got+" / "+(t.max*N)+" ("+(t.pct*100).toFixed(0)+" %)</td></tr>";
+  }).join("");
+  document.querySelector("#classTable tbody").innerHTML = CS.map(c=>
+    "<tr><td>"+c.c+"</td><td class=\"num\">"+c.n+"</td><td class=\"num\">"+c.ap.toFixed(1)+"</td><td class=\"num\">"+c.at.toFixed(1)+"</td><td class=\"num\">"+c.min+"–"+c.max+"</td><td>"+(c.n<5?"мало данных для сравнения (n="+c.n+")":"основная группа; разброс перв. 9–26")+"</td></tr>"
+  ).join("");
+  const minus25 = 25*N - DATA.reduce((s,r)=>s+r.s.slice(0,25).split("+").length-1,0);
+  const err = [
+    ["«−» в заданиях 1–25 (задание не решено)", minus25, "в среднем 8,8 нерешённых заданий на участника"],
+    ["0 из 2 баллов в задании 26", TS[25].solved===0?N:N-TS[25].solved, "ни одного участника даже с 1 баллом"],
+    ["0 из 2 баллов в задании 27", N-TS[26].solved, "при 3 участниках с полными 2 баллами"],
+    ["Частичный балл (1 из 2) в 26–27", 0, "нет данных: таких случаев в протоколе нет"]
+  ];
+  document.querySelector("#errTable tbody").innerHTML = err.map(e=>"<tr><td>"+e[0]+"</td><td class=\"num\">"+e[1]+"</td><td>"+e[2]+"</td></tr>").join("");
+})();
+
+/* ============ ШАГ 2: распределение ============ */
+(function(){
+  const rows = DATA.slice().sort((a,b)=>a.t-b.t);
+  document.getElementById("dist").innerHTML = rows.map(r=>{
+    const cls = r.t<50?"low":r.t>=80?"ok":"";
+    return "<div class=\"row\"><span class=\"lbl\">У"+r.n+" · "+r.c+"</span><div class=\"bar\"><div class=\"fill "+cls+"\" style=\"width:"+(r.t)+"%\"></div></div><span class=\"val\">"+r.t+"</span></div>";
+  }).join("");
+})();
+
+/* ============ ШАГ 3–4: причины и проверка ============ */
+const CAUSES = [
+  {id:1, text:"Задания 26–27 (развёрнутый ответ: программы, оптимизация) не отрабатывались в регулярной практике: ни один участник не получил ни балла за 26.",
+   verify:"Столбец 26: 0 баллов у 15 из 15, в том числе у троих с тест. ≥ 83 (У12, У14, У15); столбец 27: 0 у 12 из 15.",
+   refute:"Если бы у сильных участников (тест. ≥ 80) были баллы за 26 — причина не в отработке, а в другом.",
+   status:"yes", slice:"Шаг 1, задания 26–27: 0/30 и 6/30 баллов; сильные У12/У14/У15: за 26 — 0, за 27 — 2."},
+  {id:2, text:"Темы заданий 24 и 25 не усвоены или не дойдены: резкий провал при высоких соседних заданиях.",
+   verify:"Сравнить столбцы 22–23 (10 и 11 из 15) со столбцами 24–25 (1 и 1 из 15); в 11Э и 11Г эти задания также «−».",
+   refute:"Если бы провал был равномерным по всему блоку 21–25 — это не точечная тема, а общий срыв конца работы.",
+   status:"yes", slice:"Шаг 1: зад. 22 — 10/15, зад. 23 — 11/15 против зад. 24 — 1/15, зад. 25 — 1/15."},
+  {id:3, text:"Дефицит времени на экзамене: участники не дошли до последних заданий.",
+   verify:"Косвенно: если бы причина только во времени, провал был бы монотонным к хвосту; но задания 5 и 9 в середине работы тоже низкие (4/15 и 8/15).",
+   refute:"Наличие решённых «поздних» заданий 19–23 у большинства (9–11 из 15) при нерешённых 5 и 9.",
+   status:"few", slice:"В протоколе нет времени выполнения — прямая проверка невозможна; картина провалов немонотонна."},
+  {id:4, text:"Неоднородная подготовка 11Т при едином темпе обучения: часть группы не успевает за программой.",
+   verify:"Распределение в 11Т: перв. 9–26; кластер тест. ≤ 51 (3 чел.) и кластер ≥ 67 (8 чел.).",
+   refute:"Межклассовое сравнение невозможно: в 11Э и 11Г по одному участнику (нет данных).",
+   status:"few", slice:"Шаг 1–2: разброс виден, но связь с темпом обучения протоколом не проверяется; n(11Э)=n(11Г)=1."},
+  {id:5, text:"Системный пробел по теме задания 5: задание не решено большинством, включая сильных.",
+   verify:"Столбец 5: 4 из 15; среди шести с тест. ≥ 78 решили только У14 и У15 (2 из 6).",
+   refute:"Если бы задание 5 не решили только слабые (тест. < 50) — это была бы общая неуспеваемость, а не пробел темы.",
+   status:"yes", slice:"Шаг 1: зад. 5 — 4/15; срез по сильным: 2 из 6; при этом зад. 6–7 — по 14/15."}
+];
+const selected = new Set([1,2,5]);
+function statusBadge(s){
+  if(s==="yes") return '<span class="badge ok">☑ да</span>';
+  if(s==="few") return '<span class="badge warn">☐ мало данных</span>';
+  return '<span class="badge err">☐ нет</span>';
+}
+function renderCauses(){
+  document.getElementById("causes").innerHTML = CAUSES.map(c=>
+    '<div class="cause'+(selected.has(c.id)?" sel":"")+'" data-id="'+c.id+'">'+
+    '<label><input type="checkbox" data-cause="'+c.id+'" '+(selected.has(c.id)?"checked":"")+'> Причина '+c.id+'. '+c.text+'</label>'+
+    '<div class="det"><b>Как проверить:</b> '+c.verify+'<br><b>Что опровергнет:</b> '+c.refute+'</div></div>'
+  ).join("");
+  document.getElementById("causeCounter").textContent = "(выбрано "+selected.size+" из 3)";
+  document.querySelectorAll("input[data-cause]").forEach(inp=>{
+    inp.addEventListener("change", e=>{
+      const id = +e.target.dataset.cause;
+      if(e.target.checked){
+        if(selected.size>=3){ e.target.checked=false; document.getElementById("causeMsg").textContent="Можно выбрать не более 3 причин — сначала снимите одну отметку."; return; }
+        selected.add(id);
+      } else selected.delete(id);
+      document.getElementById("causeMsg").textContent="";
+      renderCauses(); renderStep4();
+    });
+  });
+}
+function renderStep4(){
+  const rows = CAUSES.filter(c=>selected.has(c.id));
+  document.querySelector("#step4Table tbody").innerHTML = rows.length ? rows.map(c=>
+    "<tr><td>Причина "+c.id+"</td><td>"+statusBadge(c.status)+"</td><td>"+c.slice+"</td></tr>"
+  ).join("") : '<tr><td colspan="3" class="muted">Причины не выбраны — вернитесь к шагу 3.</td></tr>';
+  const conf = rows.filter(c=>c.status==="yes");
+  const line = document.getElementById("confirmedLine");
+  if(!rows.length){ line.className="note warn"; line.textContent="Причины не выбраны: подтверждённой причины нет, вывод шага 5 формировать нельзя."; }
+  else if(conf.length){ line.className="note"; line.textContent="Подтверждённая причина(ы): "+conf.map(c=>"№"+c.id).join(", ")+" — на неё(них) опирается вывод шага 5."; }
+  else { line.className="note warn"; line.textContent="Среди выбранных нет подтверждённых по данным: вывод шага 5 требует пересмотра причин (правило 3: вывод не сильнее данных)."; }
+}
+renderCauses(); renderStep4();
+</script>
+</body>
+</html>

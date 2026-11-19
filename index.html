@@ -1,348 +1,1941 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>ЕГЭ-2026 · Информатика · 50118 · Разбор результатов</title>
+<title>КЕГЭ 2026 · Информатика — доказательный разбор протокола 050118</title>
+<meta name="description" content="Разбор результатов ЕГЭ по информатике (КЕГЭ) 18.06.2026 по кодификатору 2026 и методике педсовета «От перечня к результату». Разработчик: учитель информатики Масликов Михаил Михайлович.">
+<meta name="theme-color" content="#FBFBFD">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%230A84FF'/><text x='16' y='23' font-size='20' font-family='monospace' fill='white' text-anchor='middle'>+</text></svg>">
 <style>
-  :root{
-    --bg-soft:#f5f5f7; --bg-elev:#ffffff;
-    --text:#1d1d1f; --text-soft:#515154; --text-muted:#86868b;
-    --border:#e5e5e7; --border-strong:#d2d2d7;
-    --accent:#0071e3; --accent-soft:#e8f1fc;
-    --success:#1b8a4a; --success-soft:#e6f5ec;
-    --error:#c5221f; --error-soft:#fde7e6;
-    --warn:#b25e09; --warn-soft:#fcf1e2;
-    --radius:14px; --radius-lg:18px;
-    --shadow-sm:0 1px 2px rgba(0,0,0,.04),0 1px 3px rgba(0,0,0,.03);
-    --shadow:0 2px 8px rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.05);
-    --font:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,system-ui,sans-serif;
-    --mono:"SF Mono",Menlo,Consolas,monospace;
-  }
-  *{box-sizing:border-box}
-  html,body{margin:0;padding:0}
-  body{font-family:var(--font);background:var(--bg-soft);color:var(--text);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
-  #app{max-width:860px;margin:0 auto;padding:24px 16px 80px}
-  .card{background:var(--bg-elev);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px 22px;box-shadow:var(--shadow-sm);margin-bottom:16px}
-  h1{font-size:26px;line-height:1.2;margin:0 0 6px;letter-spacing:-.02em}
-  h2{font-size:20px;margin:0 0 12px;letter-spacing:-.01em;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-  h3{font-size:15px;margin:18px 0 8px;color:var(--text-soft);text-transform:uppercase;letter-spacing:.06em}
-  p{margin:0 0 10px}
-  .muted{color:var(--text-muted);font-size:13.5px}
-  .soft{color:var(--text-soft);font-size:14.5px}
-  .chips{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 4px}
-  .chip{background:var(--bg-soft);border:1px solid var(--border);padding:6px 12px;border-radius:999px;font-size:13px;color:var(--text-soft)}
-  .stepnum{width:30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;font-size:14px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
-  .nav{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 18px}
-  .nav a{font-size:13px;color:var(--accent);text-decoration:none;background:var(--bg-elev);border:1px solid var(--border);border-radius:999px;padding:7px 12px;min-height:34px;display:inline-flex;align-items:center}
-  .nav a:hover{background:var(--accent-soft)}
-  table{width:100%;border-collapse:collapse;font-size:13.5px;margin:8px 0}
-  th,td{padding:8px 8px;border-bottom:1px solid var(--border);text-align:left;vertical-align:top}
-  th{font-size:12px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em}
-  tr:last-child td{border-bottom:none}
-  td.num,th.num{text-align:right;white-space:nowrap}
-  .bar{height:8px;background:var(--border);border-radius:4px;overflow:hidden;min-width:60px}
-  .bar .fill{height:100%;border-radius:4px;background:var(--accent)}
-  .bar .fill.low{background:var(--error)}
-  .bar .fill.mid{background:var(--warn)}
-  .bar .fill.ok{background:var(--success)}
-  .hs{display:inline-flex;gap:2px;flex-wrap:nowrap;overflow-x:auto;max-width:100%;padding:2px 0}
-  .hs i{width:10px;height:16px;border-radius:3px;flex-shrink:0;display:inline-block}
-  .hs i.p{background:#bfe3cd}
-  .hs i.m{background:#f3d0cf}
-  .hs i.d0{background:#e5e5e7}
-  .hs i.d1{background:#f4d9ae}
-  .hs i.d2{background:#7fc89a}
-  .badge{display:inline-block;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:600;white-space:nowrap}
-  .badge.ok{background:var(--success-soft);color:var(--success)}
-  .badge.warn{background:var(--warn-soft);color:var(--warn)}
-  .badge.err{background:var(--error-soft);color:var(--error)}
-  .badge.neu{background:var(--bg-soft);color:var(--text-soft)}
-  .check{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border:1px dashed var(--border-strong);border-radius:12px;margin:8px 0;font-size:14px;cursor:pointer;background:var(--bg-soft)}
-  .check input{width:18px;height:18px;accent-color:var(--accent);margin-top:2px;flex-shrink:0}
-  .cause{border:1px solid var(--border);border-radius:var(--radius);padding:14px 14px;margin:10px 0;background:var(--bg-elev);transition:border-color .15s,background .15s}
-  .cause.sel{border-color:var(--accent);background:var(--accent-soft)}
-  .cause label{display:flex;gap:10px;align-items:flex-start;cursor:pointer;font-size:14.5px;font-weight:600}
-  .cause input{width:18px;height:18px;accent-color:var(--accent);margin-top:2px;flex-shrink:0}
-  .cause .det{margin:8px 0 0 28px;font-size:13.5px;color:var(--text-soft)}
-  .cause .det b{color:var(--text)}
-  .note{background:var(--bg-soft);border-left:3px solid var(--accent);padding:10px 14px;border-radius:10px;margin:10px 0;font-size:14px}
-  .note.warn{border-color:var(--warn);background:var(--warn-soft);color:var(--warn)}
-  .kv{display:grid;grid-template-columns:minmax(140px,34%) 1fr;gap:0;border:1px solid var(--border);border-radius:12px;overflow:hidden;margin:10px 0}
-  .kv div{padding:10px 12px;font-size:14px;border-bottom:1px solid var(--border)}
-  .kv div:nth-child(4n+1),.kv div:nth-child(4n+2){border-bottom:1px solid var(--border)}
-  .kv .k{background:var(--bg-soft);font-weight:600;color:var(--text-soft)}
-  .kv div:nth-last-child(-n+2){border-bottom:none}
-  .dist{display:flex;flex-direction:column;gap:5px;margin:10px 0}
-  .dist .row{display:flex;align-items:center;gap:8px;font-size:12.5px}
-  .dist .lbl{width:74px;color:var(--text-soft);flex-shrink:0}
-  .dist .bar{flex:1}
-  .dist .val{width:34px;text-align:right;color:var(--text-soft);flex-shrink:0}
-  .scrollx{overflow-x:auto}
-  footer{font-size:12.5px;color:var(--text-muted);text-align:center;padding:10px 0 0}
-  @media (max-width:520px){
-    #app{padding:16px 10px 60px}
-    .card{padding:18px 14px}
-    h1{font-size:22px}
-    .kv{grid-template-columns:1fr}
-    .kv div:nth-last-child(-n+2){border-bottom:1px solid var(--border)}
-    .kv div:last-child{border-bottom:none}
-  }
+:root{
+  --bg:#FBFBFD;--bg2:#F5F5F7;--surface:#FFFFFF;--surface2:#F5F5F7;--surface3:#EDEDF0;
+  --line:rgba(0,0,0,.09);--line2:rgba(0,0,0,.16);--hair:rgba(0,0,0,.06);
+  --txt:#1D1D1F;--txt2:#6E6E73;--txt3:#86868B;
+  --blue:#0A84FF;--blue-i:#0058C7;--cyan:#00C2D1;--cyan-i:#00757F;--teal:#00B39F;--teal-i:#00705F;
+  --violet:#7D5AFF;--violet-i:#5732CE;--magenta:#FF2D78;--magenta-i:#C11458;--red:#FF3B30;--red-i:#C4241A;
+  --amber:#FF9F0A;--amber-i:#8A5300;--green:#34C759;--green-i:#1B7F3B;--lime:#8FD119;
+  --ok:var(--green-i);--warn:var(--amber-i);--bad:var(--red-i);--info:var(--blue-i);
+  --hp:#1B7F3B;--hp-bg:#E7F8EC;--hp-bd:rgba(52,199,89,.38);
+  --hm:#C11458;--hm-bg:#FDECF3;--hm-bd:rgba(255,45,120,.32);
+  --h0:#C4241A;--h0-bg:#FDECEA;--h0-bd:rgba(255,59,48,.32);
+  --h1:#8A5300;--h1-bg:#FFF3DF;--h1-bd:rgba(255,159,10,.4);
+  --h2:#00757F;--h2-bg:#E2F6F8;--h2-bd:rgba(0,194,209,.4);
+  --b1:#00C2D1;--b2:#0A84FF;--b3:#00B39F;--b4:#FF2D78;--b5:#FF9F0A;
+  --lvB:#34C759;--lvP:#0A84FF;--lvV:#7D5AFF;
+  --cell:26px;--nav:60px;--r:20px;
+  --shadow:0 1px 2px rgba(0,0,0,.04),0 10px 30px rgba(0,0,0,.055);
+  --shadow-l:0 2px 6px rgba(0,0,0,.06),0 22px 60px rgba(0,0,0,.10);
+  --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",system-ui,"Helvetica Neue",Arial,sans-serif;
+  --disp:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",system-ui,"Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+}
+:root[data-palette="soft"]{--blue:#5AA9F5;--cyan:#5FC7D1;--teal:#5FC2B4;--violet:#A48CF0;--magenta:#F58AB0;--red:#F58A82;--amber:#F5C069;--green:#7FD69B;
+  --b1:#5FC7D1;--b2:#5AA9F5;--b3:#5FC2B4;--b4:#F58AB0;--b5:#F5C069;--lvB:#7FD69B;--lvP:#5AA9F5;--lvV:#A48CF0}
+:root[data-palette="cvd"]{--blue:#0072B2;--cyan:#009E9E;--teal:#009E73;--violet:#7B52AB;--magenta:#D55E00;--red:#B3260E;--amber:#E69F00;--green:#009E73;
+  --b1:#0072B2;--b2:#56B4E9;--b3:#009E73;--b4:#D55E00;--b5:#E69F00;--lvB:#009E73;--lvP:#0072B2;--lvV:#7B52AB;
+  --hp:#005A46;--hp-bg:#E3F5EF;--hm:#8A3D00;--hm-bg:#FCEEE2;--h0:#8A2000;--h0-bg:#FBE9E4;--h2:#005A66;--h2-bg:#E2F2F5}
+:root[data-hatch="0"] .b-none{border-style:solid}
+*{box-sizing:border-box;scrollbar-width:thin;scrollbar-color:#C9D6E6 #F0F0F3}
+::-webkit-scrollbar{width:11px;height:11px}
+::-webkit-scrollbar-track{background:#F0F0F3;border-radius:9px}
+::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#7FB6F5,#0A84FF);border-radius:9px;border:3px solid #F0F0F3}
+::-webkit-scrollbar-thumb:hover{background:linear-gradient(180deg,#00C2D1,#0058C7)}
+::-webkit-scrollbar-corner{background:#F0F0F3}
+html{scroll-behavior:smooth;scroll-padding-top:82px;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--txt);font-family:var(--sans);font-size:15px;line-height:1.55;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0;z-index:-2;background:
+  radial-gradient(760px 520px at 6% -8%,rgba(10,132,255,.13),transparent 62%),
+  radial-gradient(720px 520px at 96% 2%,rgba(125,90,255,.12),transparent 62%),
+  radial-gradient(820px 620px at 78% 96%,rgba(0,194,209,.10),transparent 62%),
+  radial-gradient(680px 520px at 18% 88%,rgba(255,45,120,.07),transparent 62%),
+  linear-gradient(180deg,#FFFFFF,#FBFBFD 40%,#F5F5F7)}
+body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.55;
+  background-image:linear-gradient(rgba(0,0,0,.028) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,.028) 1px,transparent 1px);
+  background-size:52px 52px;-webkit-mask-image:radial-gradient(circle at 50% 12%,#000,transparent 78%);mask-image:radial-gradient(circle at 50% 12%,#000,transparent 78%)}
+h1,h2,h3,h4{font-family:var(--disp);color:var(--txt);margin:0;line-height:1.1;letter-spacing:-.025em;font-weight:700}
+p{margin:0 0 10px}
+a{color:inherit;text-decoration:none}
+button,input,select,textarea{font-family:inherit;font-size:inherit;color:inherit}
+:focus-visible{outline:2.5px solid var(--blue);outline-offset:2px;border-radius:8px}
+.wrap{max-width:1300px;margin:0 auto;padding:0 22px}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.mut{color:var(--txt2)}.dim{color:var(--txt3)}
+.small{font-size:12.5px}.tiny{font-size:11px}
+/* nav */
+.nav{position:fixed;top:0;left:0;right:0;height:var(--nav);z-index:60;display:flex;align-items:center;gap:14px;padding:0 20px;
+  background:rgba(251,251,253,.78);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid var(--hair)}
+.brand{display:flex;align-items:center;gap:9px;font-family:var(--mono);font-weight:700;font-size:14px;flex:none}
+.brand i{width:28px;height:28px;border-radius:9px;display:grid;place-items:center;background:linear-gradient(140deg,var(--cyan),var(--blue));color:#fff;font-style:normal;font-weight:800;box-shadow:0 3px 10px rgba(10,132,255,.35)}
+.brand small{display:block;font-size:9.5px;color:var(--txt3);font-weight:500;letter-spacing:.07em}
+.navlinks{display:flex;gap:2px;margin-left:4px;flex:1;overflow:hidden}
+.navlinks a{position:relative;padding:7px 10px;border-radius:9px;font-size:13px;color:var(--txt2);transition:.2s;white-space:nowrap}
+.navlinks a b{font-family:var(--mono);color:var(--txt3);font-weight:600;margin-right:4px;font-size:11px}
+.navlinks a:hover{color:var(--txt);background:rgba(0,0,0,.045)}
+.navlinks a.on{color:var(--blue-i);background:rgba(10,132,255,.10)}
+.navlinks a.on b{color:var(--blue)}
+.navright{display:flex;align-items:center;gap:9px;flex:none}
+.prog-pill{display:flex;align-items:center;gap:7px;font-family:var(--mono);font-size:12px;color:var(--txt2);border:1px solid var(--line);padding:5px 11px;border-radius:999px;background:#fff}
+.prog-pill b{color:var(--green-i)}
+.burger{display:none;width:36px;height:36px;border-radius:10px;border:1px solid var(--line);background:#fff;cursor:pointer}
+.burger span{display:block;width:15px;height:2px;background:var(--txt);margin:3px auto;border-radius:2px;transition:.2s}
+.rail{position:fixed;left:12px;top:50%;transform:translateY(-50%);z-index:50;display:flex;flex-direction:column;gap:13px}
+.rail a{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:10px;color:var(--txt3);transition:.25s}
+.rail i{width:9px;height:9px;border-radius:50%;border:1.5px solid var(--line2);background:#fff;transition:.25s}
+.rail a.on{color:var(--blue-i)}.rail a.on i{background:var(--blue);border-color:var(--blue);box-shadow:0 0 0 4px rgba(10,132,255,.16)}
+.rail a.done i{background:var(--green);border-color:var(--green)}
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:9px 15px;border-radius:12px;border:1px solid var(--line);
+  background:#fff;color:var(--txt);cursor:pointer;font-size:13px;font-weight:600;transition:transform .18s,box-shadow .18s,background .18s;white-space:nowrap;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.btn:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(0,0,0,.10);border-color:var(--line2)}
+.btn:active{transform:translateY(0) scale(.985)}
+.btn--primary{background:linear-gradient(135deg,#0A84FF,#0058C7);color:#fff;border-color:transparent;box-shadow:0 4px 14px rgba(10,132,255,.32)}
+.btn--primary:hover{box-shadow:0 8px 24px rgba(10,132,255,.42)}
+.btn--danger{color:var(--red-i);border-color:rgba(255,59,48,.3);background:#fff}
+.btn--danger:hover{background:#FFF4F3;border-color:var(--red)}
+.btn--sm{padding:6px 11px;font-size:12px;border-radius:10px}
+.btn[disabled]{opacity:.45;cursor:not-allowed;transform:none!important}
+/* layout */
+section{padding:68px 0;position:relative}
+.step-head{display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:start;margin-bottom:22px}
+.step-num{font-family:var(--disp);font-weight:800;font-size:clamp(42px,6.4vw,78px);line-height:.85;letter-spacing:-.05em;
+  background:linear-gradient(150deg,var(--blue),var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent}
+.step-head h2{font-size:clamp(22px,2.9vw,33px)}
+.step-meta{display:flex;flex-wrap:wrap;gap:7px;margin:10px 0 8px}
+.instr{color:var(--txt2);max-width:840px;font-size:14px}
+.card{background:var(--surface);border:1px solid var(--hair);border-radius:var(--r);padding:20px;position:relative;box-shadow:var(--shadow)}
+.card h3{font-size:16px;margin-bottom:6px}
+.grid{display:grid;gap:16px}
+.g2{grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}.g6{grid-template-columns:repeat(6,1fr)}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;border:1px solid var(--line);background:#fff;font-size:11.5px;font-family:var(--mono);color:var(--txt2)}
+button.chip{cursor:pointer}button.chip:hover{border-color:var(--blue);color:var(--blue-i)}
+.chip--cy{color:var(--cyan-i);border-color:rgba(0,194,209,.4);background:#EAF8FA}
+.chip--vi{color:var(--violet-i);border-color:rgba(125,90,255,.35);background:#F1EDFF}
+.chip--am{color:var(--amber-i);border-color:rgba(255,159,10,.4);background:#FFF6E8}
+.chip--bl{color:var(--blue-i);border-color:rgba(10,132,255,.35);background:#EAF3FF}
+.badge{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:8px;font-size:11px;font-weight:700;font-family:var(--mono)}
+.b-ok{color:var(--green-i);background:#E7F8EC;border:1px solid rgba(52,199,89,.32)}
+.b-warn{color:var(--amber-i);background:#FFF4E2;border:1px solid rgba(255,159,10,.35)}
+.b-bad{color:var(--red-i);background:#FDECEA;border:1px solid rgba(255,59,48,.3)}
+.b-info{color:var(--blue-i);background:#EAF3FF;border:1px solid rgba(10,132,255,.3)}
+.b-none{color:var(--txt3);background:#F2F2F5;border:1px dashed var(--line2)}
+.b-pt{color:var(--magenta-i);background:#FDECF3;border:1px solid rgba(255,45,120,.3)}
+.b-lvB{color:var(--green-i);background:#E7F8EC;border:1px solid rgba(52,199,89,.32)}
+.b-lvP{color:var(--blue-i);background:#EAF3FF;border:1px solid rgba(10,132,255,.3)}
+.b-lvV{color:var(--violet-i);background:#F1EDFF;border:1px solid rgba(125,90,255,.32)}
+/* hero */
+.hero{padding-top:calc(var(--nav) + 42px);padding-bottom:34px}
+.dev{display:inline-flex;align-items:center;gap:11px;padding:9px 16px 9px 11px;border-radius:999px;background:#fff;border:1px solid var(--line);box-shadow:var(--shadow);margin-bottom:18px;max-width:100%}
+.dev i{width:30px;height:30px;border-radius:50%;flex:none;display:grid;place-items:center;color:#fff;font-style:normal;font-weight:700;font-size:12px;font-family:var(--mono);
+  background:linear-gradient(140deg,var(--violet),var(--blue) 60%,var(--cyan));box-shadow:0 3px 10px rgba(125,90,255,.3)}
+.dev span{font-size:13px;color:var(--txt2)}
+.dev b{color:var(--txt);font-weight:700}
+.hero h1{font-size:clamp(31px,5.4vw,60px);letter-spacing:-.035em}
+.hero h1 em{font-style:normal;background:linear-gradient(100deg,#0058C7,#5732CE 48%,#C11458);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero-sub{max-width:760px;color:var(--txt2);font-size:16px;margin-top:14px}
+.kpi{padding:15px 16px 14px}
+.kpi .k-l{font-size:10.5px;font-family:var(--mono);color:var(--txt3);text-transform:uppercase;letter-spacing:.07em;min-height:26px}
+.kpi .k-v{font-family:var(--mono);font-weight:700;font-size:clamp(23px,2.8vw,32px);color:var(--txt);margin-top:6px;line-height:1}
+.kpi .k-n{font-size:11.5px;color:var(--txt2);margin-top:6px}
+.kpi.a-cy .k-v{color:var(--cyan-i)}.kpi.a-bl .k-v{color:var(--blue-i)}.kpi.a-bad .k-v{color:var(--red-i)}.kpi.a-am .k-v{color:var(--amber-i)}.kpi.a-ok .k-v{color:var(--green-i)}.kpi.a-vi .k-v{color:var(--violet-i)}
+.rules{display:grid;gap:12px;grid-template-columns:repeat(3,1fr)}
+.rule{padding:14px 16px 14px 46px;border-radius:16px;border:1px solid var(--hair);background:#fff;position:relative;box-shadow:var(--shadow)}
+.rule b{position:absolute;left:15px;top:14px;font-family:var(--mono);font-size:14px;color:var(--blue)}
+.rule p{margin:0;font-size:13px;color:var(--txt2)}
+.rule strong{color:var(--txt);display:block;font-size:13.5px;margin-bottom:2px}
+.tape{overflow:hidden;border:1px solid var(--hair);border-radius:16px;background:#fff;padding:10px 0;margin-top:18px;box-shadow:var(--shadow);
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent)}
+.tape-run{display:flex;gap:24px;width:max-content;animation:run 52s linear infinite;font-family:var(--mono);font-size:13px;letter-spacing:.15em}
+.tape:hover .tape-run{animation-play-state:paused}
+@keyframes run{to{transform:translateX(-50%)}}
+.tp-p{color:var(--hp)}.tp-m{color:var(--hm)}.tp-0{color:var(--h0)}.tp-2{color:var(--h2)}
+.tape-run em{font-style:normal;color:var(--txt3);letter-spacing:0;margin-right:8px}
+/* controls */
+.ctl{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px 18px;padding:16px 18px;border-radius:18px;border:1px solid var(--hair);
+  background:linear-gradient(150deg,#FFFFFF,#F7F9FC);box-shadow:var(--shadow);margin-bottom:16px}
+.ctl-h{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;border-bottom:1px solid var(--hair);padding-bottom:10px}
+.ctl-h b{font-family:var(--mono);font-size:11.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--blue-i)}
+.ctl-views{grid-column:1/-1;display:flex;gap:8px;align-items:center;flex-wrap:wrap;border-bottom:1px solid var(--hair);padding-bottom:11px}
+.ctl-i{display:flex;flex-direction:column;gap:7px;min-width:0}
+.ctl-i > span{font-size:10.5px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--txt3);display:flex;justify-content:space-between;gap:8px}
+.ctl-i > span b{color:var(--blue-i);font-weight:700}
+.ctl-i select{width:100%}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.tab{padding:8px 14px;border-radius:11px;border:1px solid var(--line);background:#fff;color:var(--txt2);cursor:pointer;font-size:13px;font-weight:600;transition:.2s}
+.tab:hover{color:var(--txt);border-color:var(--line2)}
+.tab.on{background:linear-gradient(135deg,#0A84FF,#0058C7);color:#fff;border-color:transparent;box-shadow:0 4px 12px rgba(10,132,255,.28)}
+.panel{display:none}.panel.on{display:block;animation:fade .32s ease}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:14px}
+.field{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);border-radius:11px;padding:7px 11px}
+.field input,.field select{background:transparent;border:0;outline:none;min-width:50px}
+.field label{font-size:10.5px;font-family:var(--mono);color:var(--txt3);text-transform:uppercase;letter-spacing:.06em}
+.field input[type=search]{width:170px}
+select{background:#fff;border:1px solid var(--line);border-radius:10px;padding:6px 9px;cursor:pointer}
+.sw{display:inline-flex;align-items:center;gap:9px;cursor:pointer;font-size:12.5px;color:var(--txt2);user-select:none}
+.sw input{position:absolute;opacity:0;width:0;height:0}
+.sw i{width:38px;height:22px;border-radius:999px;background:var(--surface3);position:relative;transition:.24s;flex:none}
+.sw i::after{content:"";position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:.24s}
+.sw input:checked + i{background:linear-gradient(135deg,var(--green),#28A745)}
+.sw input:checked + i::after{left:18px}
+.sw input:focus-visible + i{outline:2.5px solid var(--blue);outline-offset:2px}
+input[type=range]{-webkit-appearance:none;appearance:none;height:5px;border-radius:5px;background:linear-gradient(90deg,var(--blue),var(--cyan));outline:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:#fff;border:1px solid rgba(0,0,0,.1);box-shadow:0 2px 6px rgba(0,0,0,.25);cursor:pointer}
+input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:#fff;border:1px solid rgba(0,0,0,.1);box-shadow:0 2px 6px rgba(0,0,0,.25);cursor:pointer}
+.seg{display:flex;background:var(--surface2);border-radius:11px;padding:3px;gap:2px;border:1px solid var(--hair)}
+.seg button{flex:1;padding:6px 8px;border:0;background:transparent;color:var(--txt2);border-radius:8px;cursor:pointer;font-size:12px;font-weight:600;transition:.18s;white-space:nowrap}
+.seg button:hover{color:var(--txt)}
+.seg button.on{background:#fff;color:var(--txt);box-shadow:0 1px 3px rgba(0,0,0,.14)}
+.seg.st button.on[data-v=confirmed]{color:var(--green-i);background:#E7F8EC}
+.seg.st button.on[data-v=refuted]{color:var(--red-i);background:#FDECEA}
+.seg.st button.on[data-v=insufficient]{color:var(--amber-i);background:#FFF4E2}
+/* tables */
+.tw{overflow:auto;border:1px solid var(--hair);border-radius:16px;background:#fff;box-shadow:var(--shadow)}
+table.tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px}
+.tbl th{position:sticky;top:0;z-index:2;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);text-align:left;padding:10px 12px;font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--txt3);border-bottom:1px solid var(--line);white-space:nowrap}
+.tbl th.srt{cursor:pointer;user-select:none}.tbl th.srt:hover{color:var(--blue-i)}
+.tbl th.srt::after{content:"↕";margin-left:5px;opacity:.45}
+.tbl th.srt.asc::after{content:"↑";opacity:1;color:var(--blue)}
+.tbl th.srt.desc::after{content:"↓";opacity:1;color:var(--blue)}
+.tbl td{padding:9px 12px;border-bottom:1px solid var(--hair);vertical-align:middle}
+.tbl tbody tr{transition:.15s}
+.tbl tbody tr:hover{background:#F7FAFF}
+.tbl tbody tr.sel{background:#F1EDFF}
+.tbl tbody tr:last-child td{border-bottom:0}
+.tbl .num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.rowbtn{cursor:pointer}
+.bar{height:6px;border-radius:4px;background:var(--surface3);overflow:hidden;min-width:56px}
+.bar i{display:block;height:100%;border-radius:4px;background:linear-gradient(90deg,var(--cyan),var(--blue));transition:width .8s cubic-bezier(.2,.8,.2,1)}
+.bar i.bad{background:linear-gradient(90deg,var(--magenta),var(--red))}
+.bar i.warn{background:linear-gradient(90deg,var(--amber),#FF7A00)}
+.bar i.ok{background:linear-gradient(90deg,var(--lime),var(--green))}
+.mini-tape{display:flex;gap:1.5px}
+.mini-tape i{width:6px;height:14px;border-radius:2px;flex:none}
+.mv-p{background:var(--green)}.mv-m{background:var(--magenta);opacity:.55}.mv-0{background:var(--red);opacity:.7}.mv-2{background:var(--cyan)}.mv-1{background:var(--amber)}
+/* matrix */
+.mx-wrap{overflow:auto;border:1px solid var(--hair);border-radius:16px;background:#fff;box-shadow:var(--shadow);padding-bottom:4px}
+.mx{display:grid;gap:3px;padding:12px;width:max-content}
+.mx-cell{width:var(--cell);height:var(--cell);border-radius:7px;display:grid;place-items:center;font-family:var(--mono);font-size:calc(var(--cell)*.42);font-weight:700;transition:transform .14s,box-shadow .14s}
+.mx-cell[data-v=p]{background:var(--hp-bg);color:var(--hp);box-shadow:inset 0 0 0 1px var(--hp-bd)}
+.mx-cell[data-v=m]{background:var(--hm-bg);color:var(--hm);box-shadow:inset 0 0 0 1px var(--hm-bd)}
+.mx-cell[data-v="0"]{background:var(--h0-bg);color:var(--h0);box-shadow:inset 0 0 0 1px var(--h0-bd)}
+.mx-cell[data-v="1"]{background:var(--h1-bg);color:var(--h1);box-shadow:inset 0 0 0 1px var(--h1-bd)}
+.mx-cell[data-v="2"]{background:var(--h2-bg);color:var(--h2);box-shadow:inset 0 0 0 1px var(--h2-bd)}
+.mx-cell:hover{transform:scale(1.16);z-index:3;box-shadow:0 0 0 2px var(--blue),0 6px 16px rgba(0,0,0,.16)}
+.mx-cell.mx-row-hl{box-shadow:0 0 0 2px var(--violet);transform:scale(1.08)}
+.mx-lab{position:sticky;left:0;z-index:2;background:linear-gradient(90deg,#fff 80%,rgba(255,255,255,0));display:flex;align-items:center;gap:8px;padding-right:12px;font-size:12px;white-space:nowrap}
+.mx-lab b{font-weight:700}.mx-lab span{font-family:var(--mono);font-size:10.5px;color:var(--txt3)}
+.mx-head{font-family:var(--mono);font-size:10px;color:var(--txt3);text-align:center;min-height:26px;display:grid;place-items:center;line-height:1.1;cursor:pointer;border-radius:6px}
+.mx-head:hover{color:var(--blue-i);background:#EAF3FF}
+.mx-head.bad{color:var(--magenta-i);font-weight:700}
+.mx-foot{font-family:var(--mono);font-size:10px;text-align:center;color:var(--txt2);padding-top:5px;border-top:1px solid var(--hair);cursor:pointer}
+.mx-foot.bad{color:var(--red-i);font-weight:700}
+.legend{display:flex;flex-wrap:wrap;gap:12px;margin-top:12px;font-size:11.5px;color:var(--txt2);font-family:var(--mono)}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:4px;margin-right:6px;vertical-align:-2px}
+/* charts */
+.chart{width:100%;height:auto;display:block;overflow:visible}
+.chart .grid-l{stroke:rgba(0,0,0,.08);stroke-width:1}
+.chart .axis{fill:var(--txt3);font-family:var(--mono);font-size:10px}
+.chart .val{fill:var(--txt);font-family:var(--mono);font-size:10px;font-weight:700}
+.chart .thr{stroke:var(--amber);stroke-width:1.5;stroke-dasharray:6 5}
+.chart .thr-t{fill:var(--amber-i);font-family:var(--mono);font-size:10px;font-weight:700}
+.chart .cbar{transition:opacity .2s}
+.chart .cbar:hover{opacity:.72}
+.chart .b1{fill:var(--b1)}.chart .b2{fill:var(--b2)}.chart .b3{fill:var(--b3)}.chart .b4{fill:var(--b4)}.chart .b5{fill:var(--b5)}
+.chart .lvB{fill:var(--lvB)}.chart .lvP{fill:var(--lvP)}.chart .lvV{fill:var(--lvV)}
+.chart .hit{fill:transparent;cursor:pointer}
+.chart .grow{transform-box:fill-box;transform-origin:bottom;animation:grow .85s cubic-bezier(.2,.8,.2,1) both}
+.chart .growx{transform-box:fill-box;transform-origin:left;animation:growx .85s cubic-bezier(.2,.8,.2,1) both}
+@keyframes grow{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+@keyframes growx{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+/* ruler */
+.rul-wrap{overflow:auto;border:1px solid var(--hair);border-radius:16px;background:#fff;padding:14px;box-shadow:var(--shadow)}
+.ruler{display:grid;grid-template-columns:repeat(30,minmax(23px,1fr));gap:3px;min-width:760px;align-items:end}
+.rul-col{display:flex;flex-direction:column;align-items:center;gap:4px;cursor:default;border-radius:8px;padding:2px 0;transition:.15s}
+.rul-col:hover{background:#F2F7FF}
+.rul-col.thr{background:#FFF6E8;box-shadow:inset 0 0 0 1px rgba(255,159,10,.45)}
+.rul-bar{width:100%;border-radius:5px 5px 3px 3px;background:linear-gradient(180deg,var(--cyan),var(--blue));min-height:3px}
+.rul-t{font-family:var(--mono);font-size:10px;font-weight:700;color:var(--txt)}
+.rul-p{font-family:var(--mono);font-size:9.5px;color:var(--txt3)}
+.rul-dots{display:flex;flex-wrap:wrap;gap:2px;justify-content:center;min-height:9px}
+.rul-dots i{width:6px;height:6px;border-radius:50%;background:var(--violet)}
+.rul-dots i.ghost{background:transparent;box-shadow:inset 0 0 0 1.5px var(--magenta)}
+/* patterns / causes */
+.pat{border-left:4px solid var(--magenta);padding:16px 18px}
+.pat.ok{border-left-color:var(--green)}
+.pat.gen{border-left-color:var(--amber)}
+.pat.lv{border-left-color:var(--violet)}
+.pat h4{font-size:15px;margin-bottom:8px;font-weight:700;line-height:1.3}
+.pat .fig{font-family:var(--mono);font-size:12.5px;color:var(--txt);background:var(--surface2);border:1px solid var(--hair);border-radius:12px;padding:9px 11px;margin-top:9px}
+.cause{display:flex;flex-direction:column;gap:10px;border:1px solid var(--hair);border-radius:18px;padding:16px;background:#fff;box-shadow:var(--shadow);transition:.22s}
+.cause.on{border-color:rgba(10,132,255,.45);box-shadow:0 6px 24px rgba(10,132,255,.16)}
+.cause-h{display:flex;gap:11px;align-items:flex-start}
+.cause-n{font-family:var(--mono);font-size:12px;color:var(--blue-i);border:1px solid rgba(10,132,255,.3);background:#EAF3FF;border-radius:8px;padding:2px 7px;flex:none}
+.cause h4{font-size:14.5px;font-weight:700;line-height:1.35}
+.cause dl{margin:0;display:grid;gap:8px}
+.cause dt{font-size:10.5px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--txt3)}
+.cause dd{margin:2px 0 0;font-size:13px;color:var(--txt2)}
+.cause-f{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:auto;padding-top:8px;border-top:1px solid var(--hair)}
+.edit-in{width:100%;background:#fff;border:1px solid var(--line2);border-radius:11px;padding:8px 11px;outline:none;font-size:13px;resize:vertical;transition:.18s}
+.edit-in:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(10,132,255,.15)}
+textarea.edit-in{min-height:88px;line-height:1.5}
+.check{display:inline-flex;align-items:flex-start;gap:10px;cursor:pointer;font-size:13px;color:var(--txt2);user-select:none}
+.check input{position:absolute;opacity:0;width:0;height:0}
+.check i{width:20px;height:20px;border-radius:6px;border:1.5px solid var(--line2);background:#fff;flex:none;display:grid;place-items:center;transition:.2s;margin-top:1px}
+.check i::after{content:"✓";font-size:12px;color:#fff;opacity:0;transform:scale(.5);transition:.2s;font-weight:900}
+.check input:checked + i{background:linear-gradient(135deg,var(--green),#28A745);border-color:transparent}
+.check input:checked + i::after{opacity:1;transform:scale(1)}
+.check input:focus-visible + i{outline:2.5px solid var(--blue);outline-offset:2px}
+.checks{display:flex;flex-wrap:wrap;gap:16px;align-items:center;margin-top:16px;padding:14px 16px;border:1px dashed var(--line2);border-radius:14px;background:var(--surface2)}
+.note{border-left:4px solid var(--amber);background:#FFF9EF;padding:11px 14px;border-radius:0 12px 12px 0;font-size:13px;color:var(--txt2)}
+.note.bad{border-left-color:var(--red);background:#FFF4F3}
+.note.ok{border-left-color:var(--green);background:#F0FAF3}
+.note.info{border-left-color:var(--blue);background:#F2F8FF}
+.note b{color:var(--txt)}
+.prompt{border:1px dashed var(--line2);border-radius:14px;background:var(--surface2);margin:14px 0}
+.prompt summary{cursor:pointer;padding:11px 15px;font-family:var(--mono);font-size:11.5px;color:var(--violet-i);list-style:none;display:flex;justify-content:space-between;gap:10px;align-items:center}
+.prompt summary::-webkit-details-marker{display:none}
+.prompt summary::after{content:"▾";color:var(--txt3)}
+.prompt[open] summary::after{content:"▴"}
+.prompt .pbody{padding:0 15px 14px;font-size:13px;color:var(--txt2);font-family:var(--mono);line-height:1.6}
+/* drawer / toast / tip */
+.scrim{position:fixed;inset:0;background:rgba(0,0,0,.28);backdrop-filter:blur(3px);opacity:0;pointer-events:none;transition:.3s;z-index:70}
+.scrim.on{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;right:0;height:100%;width:min(470px,100%);background:#fff;border-left:1px solid var(--line);z-index:80;transform:translateX(102%);
+  transition:transform .4s cubic-bezier(.32,.72,0,1);display:flex;flex-direction:column;box-shadow:-20px 0 60px rgba(0,0,0,.16)}
+.drawer.on{transform:none}
+.drawer-h{padding:16px 20px;border-bottom:1px solid var(--hair);display:flex;justify-content:space-between;align-items:flex-start;gap:12px;background:rgba(255,255,255,.9);backdrop-filter:blur(10px)}
+.drawer-b{padding:18px 20px 44px;overflow:auto;flex:1;-webkit-overflow-scrolling:touch}
+.x{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:var(--surface2);cursor:pointer;color:var(--txt2);font-size:15px;line-height:1;flex:none}
+.x:hover{color:var(--red-i);border-color:var(--red);background:#FFF4F3}
+.toasts{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:100;display:flex;flex-direction:column;gap:10px;align-items:center;width:min(560px,92vw)}
+.toast{display:flex;align-items:center;gap:12px;padding:11px 15px;border-radius:16px;border:1px solid var(--hair);background:rgba(255,255,255,.97);backdrop-filter:blur(12px);box-shadow:var(--shadow-l);font-size:13px;animation:tin .3s ease;width:100%}
+@keyframes tin{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.toast.out{opacity:0;transform:translateY(10px);transition:.3s}
+.toast i{width:8px;height:8px;border-radius:50%;background:var(--blue);flex:none}
+.toast.ok i{background:var(--green)}.toast.bad i{background:var(--red)}
+.toast span{flex:1}
+.tip{position:fixed;z-index:110;pointer-events:none;opacity:0;transition:opacity .14s;background:rgba(29,29,31,.95);color:#fff;border-radius:11px;padding:8px 11px;font-size:12px;font-family:var(--mono);box-shadow:0 10px 30px rgba(0,0,0,.28);max-width:270px;line-height:1.45}
+.tip.on{opacity:1}
+.tip b{color:#fff}
+/* misc */
+.rv{opacity:0;transform:translateY(18px)}
+.rv.in{opacity:1;transform:none;transition:opacity .65s cubic-bezier(.2,.7,.2,1),transform .65s cubic-bezier(.2,.7,.2,1)}
+.ring{transform:rotate(-90deg)}
+.ring circle{fill:none;stroke-width:9;stroke-linecap:round}
+.ring .bg{stroke:var(--surface3)}
+.ring .fg{stroke:url(#ringgrad);transition:stroke-dashoffset .9s cubic-bezier(.2,.8,.2,1)}
+.final-item{display:flex;gap:13px;align-items:flex-start;padding:14px 16px;border:1px solid var(--hair);border-radius:14px;background:#fff;box-shadow:var(--shadow);transition:.22s}
+.final-item.done{border-color:rgba(52,199,89,.4);background:#F4FCF6}
+.final-item .fi-n{font-family:var(--mono);font-size:12px;color:var(--txt3)}
+.hr{height:1px;background:var(--hair);margin:20px 0}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:13px}
+.kv dt{color:var(--txt3);font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;padding-top:2px}
+.kv dd{margin:0;color:var(--txt)}
+.stack{display:flex;flex-direction:column;gap:12px}
+.row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.between{justify-content:space-between}
+.grow{flex:1;min-width:0}
+.hidden{display:none!important}
+.grip{cursor:grab;color:var(--txt3);font-size:15px;padding:2px 6px;border-radius:8px;border:1px solid var(--hair);background:var(--surface2);user-select:none}
+.grip:active{cursor:grabbing}
+.card.drop-target{border-color:var(--blue);box-shadow:0 0 0 3px rgba(10,132,255,.18)}
+.simtile{background:var(--surface2);border:1px solid var(--hair);border-radius:14px;padding:12px 14px}
+.simtile .s-l{font-size:10.5px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--txt3)}
+.simtile .s-v{font-family:var(--mono);font-size:20px;font-weight:700;margin-top:5px}
+.simtile .s-v em{font-style:normal;color:var(--txt3);font-size:14px}
+.simtile .s-v b{color:var(--blue-i)}
+footer{padding:34px 0 60px;border-top:1px solid var(--hair);color:var(--txt3);font-size:12.5px;background:rgba(255,255,255,.6)}
+.src{font-family:var(--mono);font-size:11.5px}
+@media (max-width:1180px){.rail{display:none}.ctl{grid-template-columns:repeat(2,minmax(0,1fr))}.g6{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:1080px){
+  .navlinks{display:none;position:absolute;top:var(--nav);left:0;right:0;flex-direction:column;background:rgba(255,255,255,.98);backdrop-filter:blur(20px);border-bottom:1px solid var(--line);padding:10px;gap:2px;box-shadow:var(--shadow-l);max-height:70vh;overflow:auto}
+  .navlinks.open{display:flex}.burger{display:block}.navlinks a{padding:11px 12px;font-size:14px}}
+@media (max-width:900px){.g3,.g4{grid-template-columns:repeat(2,1fr)}.rules{grid-template-columns:1fr}.g2{grid-template-columns:1fr}
+  .final-grid{grid-template-columns:1fr!important}}
+@media (max-width:760px){
+  .wrap{padding:0 15px}section{padding:46px 0}.hero{padding-top:calc(var(--nav) + 26px)}
+  .g6,.g3,.g4{grid-template-columns:repeat(2,1fr)}.ctl{grid-template-columns:1fr;padding:14px}
+  .step-head{grid-template-columns:1fr;gap:6px}.step-num{font-size:38px}
+  .prog-pill{display:none}.card{padding:16px;border-radius:16px}
+  .tabs{flex-wrap:nowrap;overflow-x:auto;padding-bottom:6px;-webkit-overflow-scrolling:touch}
+  .tab{flex:none}
+  .tw table.tbl{min-width:620px}
+  #p-students .tw table.tbl{min-width:800px}
+  .field input[type=search]{width:130px}
+  .drawer{width:100%}.drawer-b{padding:16px 16px 60px}
+  .hero-sub{font-size:14.5px}.dev{padding:8px 14px 8px 9px}.dev span{font-size:12px}
+  .toasts{bottom:14px}
+  .toolbar{gap:8px}.btn{padding:8px 13px}
+}
+@media (max-width:420px){.g6,.g3,.g4,.grid.g2{grid-template-columns:1fr}.kpi .k-l{min-height:0}}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}html{scroll-behavior:auto}.rv{opacity:1;transform:none}}
+@media print{
+  body{background:#fff}body::before,body::after{display:none}
+  .nav,.rail,.burger,.toolbar,.ctl,.tabs,.toasts,.scrim,.drawer,.prompt,.tape,.no-print{display:none!important}
+  .panel{display:block!important}section{padding:16px 0;break-inside:avoid}.card{break-inside:avoid;box-shadow:none;border:1px solid #ddd}
+  .rv{opacity:1!important;transform:none!important}.grow,.growx{animation:none!important}
+  .tw,.mx-wrap,.rul-wrap{overflow:visible;box-shadow:none}.tw table.tbl{min-width:0!important}
+  .hero h1 em,.step-num{color:#111!important;-webkit-text-fill-color:#111!important;background:none!important}
+}
 </style>
 </head>
 <body>
-<div id="app">
-
-  <div class="card">
-    <h1>📊 ЕГЭ-2026 · Информатика · разбор результатов</h1>
-    <p class="soft">Протокол проверки от 18.06.2026 (ОО 50118, Иркутская область) · разложение по методике педсовета «От перечня к результату» (шаги 1–5).</p>
-    <div class="chips">
-      <span class="chip">👥 Участников: 15</span>
-      <span class="chip">🏫 11Э — 1, 11Г — 1, 11Т — 13</span>
-      <span class="chip">📅 Экзамен: 18.06.2026</span>
-      <span class="chip">🔒 Имена скрыты: «Ученик 1…15»</span>
-      <span class="chip">🎯 Мин. граница: 40 т.б.</span>
-    </div>
-    <div class="note warn">Анонимизация: фамилии заменены номерами в порядке протокола. Все цифры ниже посчитаны из строк протокола; сводная строка протокола сверена отдельно (см. сноску в шаге 1).</div>
-    <div class="nav">
-      <a href="#src">Протокол</a><a href="#step1">Шаг 1 · Разложить</a><a href="#step2">Шаг 2 · Провал</a><a href="#step3">Шаг 3 · Причины</a><a href="#step4">Шаг 4 · Проверка</a><a href="#step5">Шаг 5 · Вывод</a>
-    </div>
+<nav class="nav">
+  <a class="brand" href="#top"><i>+</i><span>КЕГЭ·26<small>ПРОТОКОЛ 050118</small></span></a>
+  <div class="navlinks" id="navlinks">
+    <a href="#top" data-nav="top">Обзор</a>
+    <a href="#codifier" data-nav="codifier">Кодификатор</a>
+    <a href="#step1" data-nav="step1"><b>01</b>Данные</a>
+    <a href="#step2" data-nav="step2"><b>02</b>Провал</a>
+    <a href="#step3" data-nav="step3"><b>03</b>Причины</a>
+    <a href="#step4" data-nav="step4"><b>04</b>Проверка</a>
+    <a href="#step5" data-nav="step5"><b>05</b>Решение</a>
+    <a href="#final" data-nav="final">Итог МО</a>
   </div>
-
-  <div class="card" id="src">
-    <h2>📄 Исходные данные (протокол)</h2>
-    <div class="scrollx">
-      <table id="srcTable">
-        <thead><tr><th>№</th><th>Участник</th><th>Класс</th><th>Задания 1–25 («+» / «−») и 26–27 (баллы)</th><th class="num">Перв.</th><th class="num">Тест.</th></tr></thead>
-        <tbody></tbody>
-      </table>
-    </div>
-    <p class="muted" id="srcNote"></p>
+  <div class="navright">
+    <div class="prog-pill" title="Готовность по чек-листу ИТОГ МО">МО <b id="progTxt">0/5</b></div>
+    <button class="btn btn--primary btn--sm" id="btnExportTop">Экспорт</button>
+    <button class="burger" id="burger" aria-label="Меню" aria-expanded="false"><span></span><span></span><span></span></button>
   </div>
-
-  <div class="card" id="step1">
-    <h2><span class="stepnum">1</span> Разложить данные</h2>
-    <h3>По заданиям</h3>
-    <div class="scrollx"><table id="taskTable"><thead><tr><th>Задание</th><th class="num">Макс.</th><th>Что видно</th><th style="min-width:110px">% макс.</th><th class="num">Взято / макс</th></tr></thead><tbody></tbody></table></div>
-    <h3>По классам</h3>
-    <table id="classTable"><thead><tr><th>Класс</th><th class="num">N</th><th class="num">Ср. перв.</th><th class="num">Ср. тест.</th><th class="num">Мин–макс тест.</th><th>Что видно</th></tr></thead><tbody></tbody></table>
-    <h3>По типам ошибок</h3>
-    <table id="errTable"><thead><tr><th>Тип ошибки</th><th class="num">Случаев</th><th>Что видно</th></tr></thead><tbody></tbody></table>
-    <label class="check"><input type="checkbox"> Все цифры сверены с протоколом (первичный балл каждой строки пересчитан из строки ответов — совпадений 15 из 15)</label>
-  </div>
-
-  <div class="card" id="step2">
-    <h2><span class="stepnum">2</span> Найти провал</h2>
-    <table>
-      <thead><tr><th>Паттерн</th><th>Точечный / общий</th><th>Цифры</th></tr></thead>
-      <tbody>
-        <tr><td><b>П1.</b> Задания с развёрнутым ответом (26–27) не взяты</td><td><span class="badge err">общий</span></td><td>Зад. 26: 0 баллов у 15 из 15 (включая троих с тест. ≥ 83). Зад. 27: 2 балла у 3 из 15, у 12 — 0. Повторяется во всех классах (11Э: 0/0, 11Г: 0/0).</td></tr>
-        <tr><td><b>П2.</b> Провал в заданиях 5, 24, 25 при высоких соседних</td><td><span class="badge warn">точечный</span></td><td>Зад. 5: 4/15; зад. 24: 1/15; зад. 25: 1/15 — при зад. 6–7: 14/15 и зад. 22–23: 10–11/15. В 11Э и 11Г эти же задания тоже «−».</td></tr>
-        <tr><td><b>П3.</b> Сильный разброс внутри группы (фон, не провал)</td><td><span class="badge neu">общий</span></td><td>Тест. балл: от 40 до 93; в 11Т перв. балл 9–26; трое ≤ 51 т.б. (40, 48, 51) и восьмеро ≥ 67 т.б.</td></tr>
-      </tbody>
-    </table>
-    <div class="dist" id="dist"></div>
-    <p class="muted">Распределение тестового балла (красная отметка — минимальная граница 40).</p>
-    <label class="check"><input type="checkbox"> Провал устойчив: П1 и П2 повторяются в разных классах (11Э, 11Г, 11Т), а не случайны для одной группы</label>
-  </div>
-
-  <div class="card" id="step3">
-    <h2><span class="stepnum">3</span> Придумать причины <span class="muted" id="causeCounter"></span></h2>
-    <p class="soft">Отметьте ровно 3 причины, реальные для вашей ОО. Шаг 4 автоматически покажет проверку выбранных по тем же данным.</p>
-    <div id="causes"></div>
-    <p class="muted" id="causeMsg"></p>
-    <label class="check"><input type="checkbox"> Причины реальны для моей ОО</label>
-    <label class="check"><input type="checkbox"> У каждой выбранной причины есть способ проверки по этим же данным</label>
-  </div>
-
-  <div class="card" id="step4">
-    <h2><span class="stepnum">4</span> Проверить причины</h2>
-    <table id="step4Table"><thead><tr><th>Причина</th><th>Подтверждается?</th><th>По каким данным</th></tr></thead><tbody></tbody></table>
-    <div class="note" id="confirmedLine"></div>
-    <label class="check"><input type="checkbox"> Статусы проставлены по срезам из шага 1, без внешних данных</label>
-  </div>
-
-  <div class="card" id="step5">
-    <h2><span class="stepnum">5</span> Вывод и решение</h2>
-    <div class="kv">
-      <div class="k">Вывод о проблеме</div><div>В результатах ЕГЭ-2026 по информатике (ОО 50118) слабое место — задания с развёрнутым ответом: зад. 26 — 0 баллов у 15 из 15, зад. 27 — 0 у 12 из 15; а также задания 5, 24, 25 (4/15, 1/15, 1/15). Внутри 11Т разброс первичного балла 9–26. Замера «до» не было, поэтому описывается состояние, а не динамика.</div>
-      <div class="k">Решение 1</div><div>С 3-й четверти ввести еженедельный блок задач типа 26–27 (программы, оптимизация) с разбором полных решений и критериальной оценкой. Риск: вытеснение базовых тем — контролируется ежемесячными мини-срезами по базе (порог ≥ 80 %).</div>
-      <div class="k">Решение 2</div><div>Адресные модули по темам заданий 5, 24, 25 + дифференцированные варианты для кластера 11Т с тест. ≤ 51 (3 чел.). Риск: слабая группа не успевает за общим темпом — парная работа и консультации.</div>
-      <div class="k">Что замерим в следующий раз</div><div>Диагностическая работа формата ЕГЭ (27 задания) до 25.12.2026: % решающих задачи типа 26, типа 24–25, типа 5. Это станет точкой «до» перед апрельским срезом 2027.</div>
-      <div class="k">Ответственный и срок</div><div>Руководитель МО + учитель информатики: план модулей — до 05.12.2026, диагностика и отчёт — до 25.12.2026.</div>
-    </div>
-    <p class="muted">Вывод опирается на подтверждённые в шаге 4 причины (по умолчанию 1, 2, 5). Если состав выбранных причин изменён — вывод правится вручную: он не может быть сильнее данных.</p>
-    <label class="check"><input type="checkbox"> Вывод не сильнее данных (нет слов «привело», «выросло»)</label>
-    <label class="check"><input type="checkbox"> Критерий измерим (проценты по типам задач, срок 25.12.2026)</label>
-    <label class="check"><input type="checkbox"> Срок реальный</label>
-  </div>
-
-  <footer>ОО 50118 · Иркутская область · протокол создан 29.06.2026 09:48 · визуализация для заседания МО от 19.11.2026<br>Правила разбора: ИИ не придумывает данные · каждая причина проверяется по тем же данным · вывод не сильнее данных.</footer>
+</nav>
+<div class="rail">
+  <a href="#step1" data-rail="step1"><i></i>01</a>
+  <a href="#step2" data-rail="step2"><i></i>02</a>
+  <a href="#step3" data-rail="step3"><i></i>03</a>
+  <a href="#step4" data-rail="step4"><i></i>04</a>
+  <a href="#step5" data-rail="step5"><i></i>05</a>
 </div>
 
+<header class="hero" id="top">
+  <div class="wrap">
+    <div class="dev rv"><i>ММ</i><span>Разработчик: учитель информатики <b>Масликов Михаил Михайлович</b></span></div>
+    <div class="row rv" style="gap:7px;margin-bottom:16px">
+      <span class="chip chip--bl">38 — Иркутская область</span>
+      <span class="chip">ОО 50118</span>
+      <span class="chip chip--vi">25 — Информатика (КЕГЭ)</span>
+      <span class="chip">Экзамен: 18.06.2026</span>
+      <span class="chip">Протокол: 29.06.2026 09:48</span>
+      <span class="chip chip--cy">Кодификатор 2026 приложен</span>
+    </div>
+    <h1 class="rv">Где именно провал:<br><em>27 заданий × 15 участников</em></h1>
+    <p class="hero-sub rv">Доказательный разбор протокола ЕГЭ по информатике за 18.06.2026: сверка со шкалой и кодификатором 2026, пять шагов педсовета «От перечня к результату». Участники обезличены — <b class="mono">Ученик 1 … Ученик 15</b> в порядке строк протокола.</p>
+    <div class="row rv" style="margin:20px 0 6px">
+      <a class="btn btn--primary" href="#step1">Начать разбор · Шаг 1</a>
+      <a class="btn" href="#codifier">Шкала и пороги</a>
+      <a class="btn" href="#p-check-anchor" id="btnToCheck">Сверка с протоколом</a>
+    </div>
+    <div class="grid g6 rv" id="heroKpis" style="margin-top:20px"></div>
+    <div class="tape rv" aria-hidden="true"><div class="tape-run" id="tapeRun"></div></div>
+    <div class="rules rv" style="margin-top:20px">
+      <div class="rule"><b>01</b><strong>ИИ не придумывает данные</strong><p>Нет «до» → говорим о состоянии, а не о приросте. Отсутствующие поля помечены «нет данных».</p></div>
+      <div class="rule"><b>02</b><strong>У каждой причины — проверка</strong><p>Причина проверяется только по этим же данным: подтверждающий и опровергающий срез.</p></div>
+      <div class="rule"><b>03</b><strong>Вывод не сильнее данных</strong><p>Запрещены слова «привело», «выросло» — редактор вывода проверяет формулировки.</p></div>
+    </div>
+  </div>
+</header>
+
+<main>
+<section id="codifier">
+  <div class="wrap">
+    <div class="step-head rv">
+      <div class="step-num">К</div>
+      <div>
+        <h2>Кодификатор 2026 и шкала перевода</h2>
+        <div class="step-meta">
+          <span class="chip chip--bl">27 заданий</span><span class="chip">235 минут</span>
+          <span class="chip chip--cy">11 базовых · 11 повышенных · 5 высоких</span>
+          <span class="chip chip--vi">максимум 29 первичных = 100 тестовых</span>
+        </div>
+        <p class="instr">Источник — прикреплённый кодификатор ЕГЭ по информатике 2026 года. Отсюда взяты уровни сложности заданий, максимальные баллы, шкала перевода и пороговые значения. В протоколе этих полей нет — они подключены отдельным источником и помечены как справочные.</p>
+      </div>
+    </div>
+    <div class="grid g3 rv" id="thrCards"></div>
+    <div class="card rv" style="margin-top:16px">
+      <div class="row between">
+        <h3>Шкала перевода 2026 · первичный → тестовый</h3>
+        <span class="chip chip--am">наведите на столбик · на телефоне прокрутите</span>
+      </div>
+      <p class="small mut">Точки под столбиками — участники протокола. Проверка: тестовый балл всех 15 участников совпал со шкалой кодификатора.</p>
+      <div class="rul-wrap" style="margin-top:12px"><div class="ruler" id="scaleRuler"></div></div>
+      <div class="legend"><span><i style="background:var(--violet)"></i>участник сейчас</span><span><i style="background:transparent;box-shadow:inset 0 0 0 1.5px var(--magenta)"></i>модель «+баллы хвоста»</span><span><i style="background:#FFF6E8;box-shadow:inset 0 0 0 1px var(--amber)"></i>пороговые значения</span></div>
+    </div>
+    <div class="card rv" style="margin-top:16px">
+      <div class="row between"><h3>Модель: что даёт хвост 24–27</h3><button class="btn btn--sm no-print" id="btnSimReset">Сбросить модель</button></div>
+      <p class="small mut">Расчёт по официальной шкале 2026: каждому участнику добавляем до <b class="mono">6</b> первичных баллов — столько весят задания 24–27. <b>Это модельный расчёт, а не измерение и не прогноз результата.</b></p>
+      <div class="row no-print" style="margin-top:12px;gap:14px">
+        <span class="tiny mono dim">ПРИБАВКА</span>
+        <input type="range" id="simRange" min="0" max="6" step="1" value="0" style="flex:1;min-width:160px">
+        <b class="mono" id="simVal" style="color:var(--blue-i);min-width:74px;text-align:right">+0 баллов</b>
+      </div>
+      <div class="grid g4" id="simStats" style="margin-top:14px"></div>
+      <div class="note info" style="margin-top:14px"><b>Как читать.</b> Модель показывает цену одного навыка в баллах шкалы, но не утверждает, что навык появится. Реальный замер — диагностическая работа 22.12.2026 (шаг 5).</div>
+    </div>
+    <div class="card rv" style="margin-top:16px">
+      <h3>Условия проведения по кодификатору</h3>
+      <div class="grid g2" style="margin-top:10px">
+        <div class="kv"><dt>Время</dt><dd>235 минут на 27 заданий</dd><dt>Уровни</dt><dd>Б — 11 заданий, П — 11, В — 5</dd><dt>Баллы</dt><dd>задания 1–25 — по 1, задания 26 и 27 — по 2</dd></div>
+        <div class="kv"><dt>Техника</dt><dd>компьютер без доступа к интернету</dd><dt>ПО</dt><dd>редакторы электронных таблиц, текстовые редакторы, среды программирования</dd><dt>Языки</dt><dd class="mono">C# · C++ · Pascal · Java · Python</dd></div>
+      </div>
+      <div class="note" style="margin-top:12px"><b>Важно для разбора.</b> Задания 17, 24, 25 по кодификатору требуют собственную программу (10–20 строк), 26 и 27 — обработку целочисленных данных и анализ данных. Это отдельный тип деятельности, и именно он проверяется в шаге 2.</div>
+    </div>
+  </div>
+</section>
+
+<section id="step1">
+  <div class="wrap">
+    <div class="step-head rv">
+      <div class="step-num">01</div>
+      <div>
+        <h2>Разложить данные</h2>
+        <div class="step-meta"><span class="chip chip--bl">10 мин</span><span class="chip">Только цифры, без выводов</span><span class="chip">Пропуски → «нет данных»</span></div>
+        <p class="instr">Инструкция: разложите результаты на слои — по заданиям, уровням сложности, классам и типам ошибок. Задача педагога — сверить цифры с протоколом и убрать то, чего в нём нет.</p>
+        <details class="prompt"><summary>Промпт для ИИ из методички</summary><div class="pbody">«Вот результаты после образовательного события: [вставьте данные]. Разложи по заданиям, классам и типам ошибок. Только цифры, без выводов. Пропуски помечай "нет данных". Формат: таблица».<br><button class="btn btn--sm no-print" data-copy-prompt="1" style="margin-top:10px">Скопировать промпт</button></div></details>
+      </div>
+    </div>
+
+    <div class="ctl rv no-print">
+      <div class="ctl-h"><b>Пульт визуализации · применяется мгновенно</b>
+        <div class="row" style="gap:8px"><button class="btn btn--sm" id="ctlReset">Сбросить вид</button><button class="btn btn--sm" id="ctlCsv">Матрица в CSV</button></div>
+      </div>
+      <div class="ctl-views">
+        <span class="tiny mono dim">СОХРАНЁННЫЕ ВИДЫ</span>
+        <select id="viewSel" style="min-width:150px"><option value="">Текущий вид</option></select>
+        <input class="edit-in" id="viewName" placeholder="Название вида" style="width:170px;padding:6px 10px">
+        <button class="btn btn--sm" id="btnViewSave">Сохранить вид</button>
+        <button class="btn btn--sm btn--danger" id="btnViewDel">Удалить</button>
+      </div>
+      <div class="ctl-i"><span>Порог провала <b id="ctlThresholdVal">50%</b></span><input type="range" id="ctlThreshold" min="10" max="90" step="5" value="50"></div>
+      <div class="ctl-i"><span>Размер ячейки <b id="ctlCellVal">26 px</b></span><input type="range" id="ctlCell" min="16" max="40" step="2" value="26"></div>
+      <div class="ctl-i"><span>Подписи заданий</span><select id="ctlLabels"><option value="num">Номера (протокол)</option><option value="topic">Темы (кодификатор)</option></select></div>
+      <div class="ctl-i"><span>Цвет графиков</span><select id="ctlColorBy"><option value="level">По уровню сложности Б/П/В</option><option value="block">По блокам заданий</option></select></div>
+      <div class="ctl-i"><span>Палитра</span><select id="ctlPalette"><option value="contrast">Контрастная</option><option value="soft">Мягкая</option><option value="cvd">Для дальтоников</option></select></div>
+      <div class="ctl-i"><span>Порядок учеников</span><select id="ctlSort"><option value="n">№ строки протокола</option><option value="test">Тестовый балл ↓</option><option value="primary">Первичный балл ↓</option><option value="cls">Класс</option><option value="tail">Баллы за 24–27 ↓</option></select></div>
+      <div class="ctl-i"><span>Класс</span><div class="seg" id="ctlClass"><button data-v="all" class="on">Все</button><button data-v="11Т">11Т</button><button data-v="11Э">11Э</button><button data-v="11Г">11Г</button></div></div>
+      <div class="ctl-i"><span>Слои</span>
+        <label class="sw"><input type="checkbox" id="ctlOnlyFail"><i></i>Только провальные задания</label>
+        <label class="sw"><input type="checkbox" id="ctlPct" checked><i></i>Проценты под матрицей</label>
+      </div>
+      <div class="ctl-i"><span>Направляющие</span>
+        <label class="sw"><input type="checkbox" id="ctlGrid" checked><i></i>Сетка на графиках</label>
+        <label class="sw"><input type="checkbox" id="ctlHatch" checked><i></i>Штриховка «нет данных»</label>
+      </div>
+    </div>
+
+    <div class="tabs rv no-print" id="tabs1">
+      <button class="tab on" data-tab="students">Ученики · 15</button>
+      <button class="tab" data-tab="matrix">Матрица 27 × 15</button>
+      <button class="tab" data-tab="tasks">По заданиям</button>
+      <button class="tab" data-tab="cod">Кодификатор</button>
+      <button class="tab" data-tab="levels">Уровни и классы</button>
+      <button class="tab" data-tab="errors">Типы ошибок</button>
+      <button class="tab" data-tab="check">Сверка</button>
+    </div>
+
+    <div class="panel on" id="p-students">
+      <div class="toolbar no-print">
+        <div class="field"><label for="q">Поиск</label><input type="search" id="q" placeholder="Ученик 7, 11Т, 78…"></div>
+        <div class="field"><label for="sortSel">Сортировка</label><select id="sortSel"><option value="n">№ протокола</option><option value="name">Имя</option><option value="cls">Класс</option><option value="primary">Первичный</option><option value="test">Тестовый</option><option value="tail">24–27</option></select></div>
+        <button class="btn btn--sm" id="dirBtn">↑ по возрастанию</button>
+        <label class="sw"><input type="checkbox" id="riskOnly"><i></i>Зона риска (40–59)</label>
+        <span class="grow"></span><span class="chip" id="foundCount">15 строк</span>
+      </div>
+      <div class="toolbar no-print hidden" id="bulkBar" style="border:1px solid rgba(125,90,255,.35);background:#F5F1FF;border-radius:12px;padding:10px 12px">
+        <b class="mono" id="bulkCount">Выбрано: 0</b><span class="grow"></span>
+        <button class="btn btn--sm" id="bulkCsv">Экспорт выбранных</button>
+        <button class="btn btn--sm" id="bulkDrawer">Открыть первого</button>
+        <button class="btn btn--sm" id="bulkClear">Снять выделение</button>
+      </div>
+      <div class="tw"><table class="tbl"><thead><tr>
+        <th style="width:34px"><label class="check" title="Выбрать всех видимых"><input type="checkbox" id="selAll"><i></i></label></th>
+        <th class="srt" data-sort="n">№</th><th class="srt" data-sort="name">Участник</th><th class="srt" data-sort="cls">Класс</th>
+        <th>Лента 1–27</th><th class="srt" data-sort="primary">Первичный /29</th><th class="srt" data-sort="test">Тестовый /100</th><th class="srt" data-sort="tail">24–27 /6</th><th>Пороги</th>
+      </tr></thead><tbody id="studentsBody"></tbody></table></div>
+      <p class="small dim" style="margin-top:10px">Строка открывает карточку участника. «+» — верный ответ, «−» — неверный или отсутствующий (протокол их не различает), две последние цифры — баллы за задания 26 и 27.</p>
+    </div>
+
+    <div class="panel" id="p-matrix">
+      <div class="row between" style="margin-bottom:10px"><h3>Матрица «участник × задание»</h3><span class="chip" id="mxInfo"></span></div>
+      <div class="mx-wrap"><div class="mx" id="matrix"></div></div>
+      <div class="legend" id="mxLegend"></div>
+      <div class="note info" style="margin-top:12px"><b>Как читать.</b> Наведение на ячейку показывает участника, задание и результат. Клик по номеру сверху или по проценту снизу открывает разбор задания. Нижняя строка — доля набранных баллов от возможных.</div>
+    </div>
+
+    <div class="panel" id="p-tasks">
+      <div class="toolbar no-print">
+        <label class="sw"><input type="checkbox" id="taskFailOnly"><i></i>Только ниже порога</label>
+        <div class="field"><label for="taskSortSel">Сортировка</label><select id="taskSortSel"><option value="num">По номеру</option><option value="pct">По результату ↑</option><option value="zero">По числу нулей</option></select></div>
+        <span class="chip chip--vi">Уровни и формулировки — из кодификатора 2026</span>
+      </div>
+      <div class="tw"><table class="tbl"><thead><tr><th>№</th><th>Уровень</th><th>Проверяемое умение</th><th>Макс.</th><th>Набрано</th><th>Выполнение</th><th>Полный</th><th>Частичный</th><th>Ноль</th><th>Что видно</th></tr></thead><tbody id="tasksBody"></tbody></table></div>
+    </div>
+
+    <div class="panel" id="p-cod">
+      <div class="tw"><table class="tbl"><thead><tr><th>№</th><th>Проверяемые элементы содержания (кодификатор 2026)</th><th>Уровень</th><th>Макс. балл</th><th>Результат группы</th></tr></thead><tbody id="codBody"></tbody></table></div>
+      <div class="note" style="margin-top:12px"><b>Источник.</b> Формулировки, уровни сложности (Б — базовый, П — повышенный, В — высокий) и максимальные баллы взяты из прикреплённого кодификатора. Результат группы — из протокола 18.06.2026. Смешивать эти источники в один «факт» нельзя, поэтому они стоят в разных столбцах.</div>
+    </div>
+
+    <div class="panel" id="p-levels">
+      <div class="grid g3" id="levelCards"></div>
+      <div class="grid g3" id="classCards" style="margin-top:16px"></div>
+      <div class="card" style="margin-top:16px">
+        <h3>Распределение тестовых баллов · 15 участников</h3>
+        <p class="small mut">Минимальная граница — 40. Ниже границы: 0 участников. Ученик 2 (11Г) — ровно на границе аттестата.</p>
+        <div id="distChart"></div>
+      </div>
+    </div>
+
+    <div class="panel" id="p-errors">
+      <div class="tw"><table class="tbl"><thead><tr><th>Тип ошибки / слой</th><th>Как кодируется</th><th>Наблюдений</th><th>Статус данных</th></tr></thead><tbody id="errorsBody"></tbody></table></div>
+      <div class="note" style="margin-top:12px"><b>Ограничение протокола.</b> «−» и «0» одинаково обозначают неверный ответ и отсутствие ответа. Разделить «ошибку» и «пропуск» нельзя — слой помечен «нет данных», а не додумывается.</div>
+    </div>
+
+    <div class="panel" id="p-check">
+      <span id="p-check-anchor"></span>
+      <div class="tw"><table class="tbl"><thead><tr><th>Показатель</th><th>Пересчитано</th><th>Источник сравнения</th><th>Сверка</th></tr></thead><tbody id="checkBody"></tbody></table></div>
+      <div class="note ok" style="margin-top:12px"><b>Итог сверки.</b> Первичный балл каждого участника пересчитан из ленты ответов и совпал с протоколом; тестовый балл каждого участника совпал со шкалой перевода 2026 из кодификатора. Средние в протоколе округлены: точные 16,60 и 68,47.</div>
+    </div>
+
+    <div class="card rv" style="margin-top:18px">
+      <div class="row between"><h3>Таблица шага 1 · «Задание / группа — Результат — Что видно»</h3><button class="btn btn--sm no-print" data-copy-table="sheet1">Копировать</button></div>
+      <div class="tw" style="margin-top:12px"><table class="tbl" id="sheet1"><thead><tr><th style="width:22%">Задание / группа</th><th style="width:24%">Результат</th><th>Что видно</th></tr></thead><tbody id="sheet1Body"></tbody></table></div>
+      <div class="checks no-print"><label class="check"><input type="checkbox" id="ck1"><i></i>Все цифры сверены с протоколом</label><span class="small dim">Отметка предустановлена: пересчёт выполнен из лент и сверен со шкалой кодификатора. Подтвердите или снимите.</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="step2">
+  <div class="wrap">
+    <div class="step-head rv">
+      <div class="step-num">02</div>
+      <div>
+        <h2>Найти провал</h2>
+        <div class="step-meta"><span class="chip chip--bl">10 мин</span><span class="chip chip--am">Точечный или общий</span><span class="chip">Проверка устойчивости</span></div>
+        <p class="instr">Инструкция: где провал точечный (один тип заданий), а где общий (везде). Провал должен быть устойчивым — повторяться, а не быть случайностью одного участника.</p>
+        <details class="prompt"><summary>Промпт для ИИ из методички</summary><div class="pbody">«Где провал только в одном типе заданий, а где везде? Покажи таблицей: Паттерн – Где – Точечный или общий – Цифры».<br><button class="btn btn--sm no-print" data-copy-prompt="2" style="margin-top:10px">Скопировать промпт</button></div></details>
+      </div>
+    </div>
+    <div class="card rv">
+      <div class="row between"><h3>Выполнение по заданиям, % от максимума</h3><span class="chip" id="chartThr">порог 50%</span></div>
+      <div id="taskChart" style="margin-top:14px"></div>
+      <div class="legend" id="chartLegend"></div>
+    </div>
+    <div class="grid g2 rv" id="patternCards" style="margin-top:16px"></div>
+    <div class="card rv" style="margin-top:16px">
+      <h3>Точечность: один срез внутри разных групп</h3>
+      <p class="small mut">Общий провал одинаков во всех блоках. Точечный — сохраняется даже у сильных участников.</p>
+      <div id="groupChart" style="margin-top:10px"></div>
+    </div>
+    <div class="card rv" style="margin-top:16px">
+      <h3>Устойчивость паттерна по классам</h3>
+      <div class="grid g3" id="stability" style="margin-top:12px"></div>
+      <div class="note" style="margin-top:14px" id="stabilityNote"></div>
+    </div>
+    <div class="card rv" style="margin-top:16px">
+      <div class="row between"><h3>Таблица шага 2 · «Паттерн — Точечный / общий — Цифры»</h3><button class="btn btn--sm no-print" data-copy-table="sheet2">Копировать</button></div>
+      <div class="tw" style="margin-top:12px"><table class="tbl" id="sheet2"><thead><tr><th style="width:25%">Паттерн</th><th style="width:15%">Тип</th><th style="width:22%">Где</th><th>Цифры</th></tr></thead><tbody id="sheet2Body"></tbody></table></div>
+      <div class="checks no-print"><label class="check"><input type="checkbox" id="ck2"><i></i>Провал устойчив (проверено по доступным классам, ограничение n=1 учтено)</label></div>
+    </div>
+  </div>
+</section>
+
+<section id="step3">
+  <div class="wrap">
+    <div class="step-head rv">
+      <div class="step-num">03</div>
+      <div>
+        <h2>Придумать причины</h2>
+        <div class="step-meta"><span class="chip chip--bl">10 мин</span><span class="chip chip--vi">5 предложено</span><span class="chip chip--am">выбрать 3 реальных</span></div>
+        <p class="instr">Инструкция: под найденный провал предложены 5 причин. Выберите 3 реальные для своей школы. У каждой — способ проверки по этим же данным и то, что её опровергнет.</p>
+        <details class="prompt"><summary>Промпт для ИИ из методички</summary><div class="pbody">«Провал в [вставьте паттерн]. Предложи 5 причин. Для каждой укажи: 1) суть; 2) как проверить по этим же данным; 3) что её опровергнет. Формат: таблица "Причина – Как проверить – Что опровергнет"».<br><button class="btn btn--sm no-print" data-copy-prompt="3" style="margin-top:10px">Скопировать промпт</button></div></details>
+      </div>
+    </div>
+    <div class="row between rv no-print" style="margin-bottom:14px">
+      <span class="chip chip--bl" id="causeCount">Выбрано 0 из 3</span>
+      <div class="row" style="gap:8px"><button class="btn btn--sm" id="btnAddCause">+ Своя причина</button><button class="btn btn--sm" id="btnCauseReset">Вернуть исходные 5</button></div>
+    </div>
+    <div class="card rv hidden no-print" id="addCauseForm" style="margin-bottom:16px">
+      <h3>Новая причина</h3>
+      <div class="grid g3" style="margin-top:12px">
+        <div class="stack"><span class="tiny mono dim">СУТЬ</span><textarea class="edit-in" id="ncTitle" placeholder="Например: не отрабатывали запуск кода на файле полного объёма"></textarea></div>
+        <div class="stack"><span class="tiny mono dim">КАК ПРОВЕРИТЬ</span><textarea class="edit-in" id="ncCheck" placeholder="Какой срез протокола подтвердит причину"></textarea></div>
+        <div class="stack"><span class="tiny mono dim">ЧТО ОПРОВЕРГНЕТ</span><textarea class="edit-in" id="ncRefute" placeholder="Какой результат среза сделает причину несостоятельной"></textarea></div>
+      </div>
+      <div class="row" style="margin-top:12px"><button class="btn btn--primary btn--sm" id="ncSave">Добавить</button><button class="btn btn--sm" id="ncCancel">Отмена</button></div>
+    </div>
+    <div class="grid g2 rv" id="causeList"></div>
+    <div class="checks no-print"><label class="check"><input type="checkbox" id="ck3a"><i></i>Причины реальны для моей ОО</label><label class="check"><input type="checkbox" id="ck3b"><i></i>У каждой есть способ проверки</label></div>
+  </div>
+</section>
+
+<section id="step4">
+  <div class="wrap">
+    <div class="step-head rv">
+      <div class="step-num">04</div>
+      <div>
+        <h2>Проверить причины</h2>
+        <div class="step-meta"><span class="chip chip--bl">10 мин</span><span class="chip">Подтверждена / опровергнута / мало данных</span></div>
+        <p class="instr">Инструкция: какой срез подтверждает или опровергает каждую выбранную причину. Поставьте статус. Вывод строится только на подтверждённой причине.</p>
+        <details class="prompt"><summary>Промпт для ИИ из методички</summary><div class="pbody">«Какая из этих причин подтверждается, если провал только в [вставьте паттерн]? Покажи, по каким данным это видно. Формат: таблица "Причина – Подтверждающий срез – Опровергающий срез – Вывод"».<br><button class="btn btn--sm no-print" data-copy-prompt="4" style="margin-top:10px">Скопировать промпт</button></div></details>
+      </div>
+    </div>
+    <div class="tw rv"><table class="tbl"><thead><tr><th style="width:20%">Причина</th><th style="width:26%">Подтверждающий срез</th><th style="width:26%">Опровергающий срез</th><th style="width:28%">Вывод · статус</th></tr></thead><tbody id="verifyBody"></tbody></table></div>
+    <div class="card rv" style="margin-top:16px" id="mainCauseBox"></div>
+  </div>
+</section>
+
+<section id="step5">
+  <div class="wrap">
+    <div class="step-head rv">
+      <div class="step-num">05</div>
+      <div>
+        <h2>Вывод и решение</h2>
+        <div class="step-meta"><span class="chip chip--bl">10 мин</span><span class="chip chip--am">2 решения</span><span class="chip chip--vi">критерий = наше «до»</span></div>
+        <p class="instr">Инструкция: черновик вывода, 2 решения и критерий на будущее. Педагог утверждает, назначает ответственного и срок. Вывод опирается только на подтверждённую причину.</p>
+        <details class="prompt"><summary>Промпт для ИИ из методички</summary><div class="pbody">«Сформулируй: 1) вывод о проблеме (не о приросте, запрещены слова "привело", "выросло"); 2) 2 решения; 3) что замерить в следующий раз (это станет нашим "до"); 4) главный риск каждого решения. Формат: таблица "Вывод – Решение – Критерий на будущее – Риск"».<br><button class="btn btn--sm no-print" data-copy-prompt="5" style="margin-top:10px">Скопировать промпт</button></div></details>
+      </div>
+    </div>
+    <div class="grid g2 rv">
+      <div class="card">
+        <div class="row between"><h3>Вывод о проблеме</h3><button class="btn btn--sm no-print" id="btnDraft">Собрать из данных</button></div>
+        <p class="small mut">Только состояние на 18.06.2026. Редактор проверяет формулировки на «прирост» и наличие цифр протокола.</p>
+        <textarea class="edit-in" id="conclusion" style="min-height:230px"></textarea>
+        <div class="row" id="lintChips" style="gap:8px;margin-top:10px"></div>
+      </div>
+      <div class="card">
+        <h3>Реквизиты разбора</h3>
+        <div class="grid g2" style="margin-top:12px">
+          <label class="stack"><span class="tiny mono dim">МО</span><input class="edit-in" id="mo"></label>
+          <label class="stack"><span class="tiny mono dim">ДАТА ПЕДСОВЕТА</span><input class="edit-in" id="pedDate" type="date"></label>
+          <label class="stack"><span class="tiny mono dim">ПРЕДМЕТ / КЛАСС</span><input class="edit-in" id="subject"></label>
+          <label class="stack"><span class="tiny mono dim">ОТВЕТСТВЕННЫЙ</span><input class="edit-in" id="owner" placeholder="Фамилия И.О."></label>
+        </div>
+        <div class="note info" style="margin-top:14px"><b>Обезличивание.</b> ФИО, серия и номер в источнике скрыты. Участники пронумерованы по строкам протокола.</div>
+        <div class="hr"></div>
+        <h3 style="font-size:14px">Следующий замер</h3>
+        <p class="small mut">Диагностическая работа в формате КЕГЭ: те же типы заданий, тот же протокол плюс два новых поля — частичный балл по 26/27 и время входа в задания 24–27. Этот замер станет нашим «до».</p>
+        <label class="stack" style="margin-top:10px"><span class="tiny mono dim">ДАТА ЗАМЕРА</span><input class="edit-in" id="nextDate" type="date"></label>
+      </div>
+    </div>
+    <div class="row between rv no-print" style="margin:18px 0 12px">
+      <h3 style="font-size:18px">Решения <span class="small mut" style="font-weight:400">— перетащите за ⠿ или используйте стрелки</span></h3>
+      <button class="btn btn--sm" id="btnAddDecision">+ Добавить решение</button>
+    </div>
+    <div class="grid g2 rv" id="decisionList"></div>
+    <div class="card rv" style="margin-top:16px">
+      <div class="row between"><h3>Критерий на будущее · база из этого протокола</h3><button class="btn btn--sm no-print" data-copy-table="criteria">Копировать</button></div>
+      <div class="tw" style="margin-top:12px"><table class="tbl" id="criteria"><thead><tr><th style="width:30%">Что меряем</th><th style="width:24%">База 18.06.2026</th><th style="width:26%">Цель</th><th>Как фиксируем</th></tr></thead><tbody id="criteriaBody"></tbody></table></div>
+    </div>
+    <div class="card rv" style="margin-top:16px">
+      <div class="row between"><h3>Итоговая таблица шага 5</h3><button class="btn btn--sm no-print" data-copy-table="sheet5">Копировать</button></div>
+      <div class="tw" style="margin-top:12px"><table class="tbl" id="sheet5"><thead><tr><th style="width:26%">Что</th><th>Ответ</th></tr></thead><tbody id="sheet5Body"></tbody></table></div>
+      <div class="checks no-print">
+        <label class="check"><input type="checkbox" id="ck5a"><i></i>Вывод не сильнее данных</label>
+        <label class="check"><input type="checkbox" id="ck5b"><i></i>Критерий измерим</label>
+        <label class="check"><input type="checkbox" id="ck5c"><i></i>Срок реальный</label>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="final">
+  <div class="wrap">
+    <div class="step-head rv">
+      <div class="step-num">✓</div>
+      <div><h2>Итог МО · готовность</h2><p class="instr">Пункты отмечаются автоматически, когда данные действительно собраны. Любой можно снять вручную — это решение методического объединения.</p></div>
+    </div>
+    <div class="grid rv final-grid" style="grid-template-columns:auto 1fr;gap:22px;align-items:start">
+      <div class="card" style="text-align:center;min-width:200px">
+        <svg class="ring" width="148" height="148" viewBox="0 0 120 120" aria-hidden="true">
+          <defs><linearGradient id="ringgrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0A84FF"/><stop offset="55%" stop-color="#34C759"/><stop offset="100%" stop-color="#7D5AFF"/></linearGradient></defs>
+          <circle class="bg" cx="60" cy="60" r="50"></circle>
+          <circle class="fg" id="ringFg" cx="60" cy="60" r="50" stroke-dasharray="314.16" stroke-dashoffset="314.16"></circle>
+        </svg>
+        <div class="mono" style="font-size:27px;font-weight:700;margin-top:-90px;position:relative" id="ringPct">0%</div>
+        <div style="height:62px"></div>
+        <div class="small mut">готовность разбора</div>
+      </div>
+      <div class="stack" id="finalList"></div>
+    </div>
+    <div class="card rv no-print" style="margin-top:18px">
+      <h3>Выгрузить заполненный лист педсовета</h3>
+      <p class="small mut">Экспорт собирает пять шагов, таблицы кодификатора, статусы причин и отметки готовности — в том виде, в котором они сейчас на экране.</p>
+      <div class="row" style="margin-top:12px">
+        <button class="btn btn--primary" id="btnMd">Скачать .md</button>
+        <button class="btn" id="btnJson">Скачать .json</button>
+        <button class="btn" id="btnCsv">Участники .csv</button>
+        <button class="btn" id="btnCopy">Скопировать текст</button>
+        <button class="btn" id="btnPrint">Печать / PDF</button>
+        <span class="grow"></span>
+        <button class="btn btn--danger" id="btnReset">Сбросить правки</button>
+      </div>
+      <p class="tiny dim" style="margin-top:12px">Правки хранятся в этом браузере (localStorage). Файл самодостаточен: работает офлайн, внешних запросов не делает.</p>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="grid g2">
+      <div>
+        <p class="src"><b>Разработчик: учитель информатики Масликов Михаил Михайлович.</b></p>
+        <p class="src">Данные: 25_Информатика_2026.06.18_Результаты_050118_05.xlsx · Протокол проверки результатов ЕГЭ 2026 · 38 — Иркутская область · ОО 50118 · 25 — Информатика (КЕГЭ) · создан 2026.06.29 09:48.</p>
+        <p class="src">Справочные слои: Кодификатор.pdf — проверяемые элементы содержания, уровни Б/П/В, максимальные баллы, шкала перевода и пороги 2026 года.</p>
+      </div>
+      <div>
+        <p class="src">Методика: 19.11.2026_2.docx · педсовет «От перечня к результату: выстраиваем доказательную систему оценки образовательных событий».</p>
+        <p class="src">Обезличивание: ФИО, серия и номер скрыты в источнике; участники — «Ученик N» по номеру строки протокола. Единственный срез — 18.06.2026, замера «до» нет: все формулировки описывают состояние.</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-hidden="true" aria-label="Карточка">
+  <div class="drawer-h"><div><h3 id="drawerTitle">Карточка</h3><div class="small mut" id="drawerSub"></div></div><button class="x" id="drawerClose" aria-label="Закрыть">✕</button></div>
+  <div class="drawer-b" id="drawerBody"></div>
+</aside>
+<div class="toasts" id="toasts" aria-live="polite"></div>
+<div class="tip" id="tip" role="tooltip"></div>
+
 <script>
-"use strict";
-/* ============ ДАННЫЕ ПРОТОКОЛА (анонимизированы) ============ */
-const DATA = [
-  {n:1, c:"11Э", s:"++++-++--+++-----++--++--00", p:13, t:59},
-  {n:2, c:"11Г", s:"++++-+---+---------------00", p:6,  t:40},
-  {n:3, c:"11Т", s:"++++-+++++-++++++-+++++--00", p:20, t:78},
-  {n:4, c:"11Т", s:"+++++-++-+-++--+-+++++---00", p:16, t:67},
-  {n:5, c:"11Т", s:"++++++++-+--+-+---++-----00", p:13, t:59},
-  {n:6, c:"11Т", s:"++++++++-+-+-+++++++----00", p:18, t:72},
-  {n:7, c:"11Т", s:"++++-+++-++--------------00", p:9,  t:48},
-  {n:8, c:"11Т", s:"++++-+++++-++--+--+++----00", p:15, t:64},
-  {n:9, c:"11Т", s:"++-+++++++++++++--+++----00", p:18, t:72},
-  {n:10,c:"11Т", s:"++-+-++--++--------++--+-00", p:10, t:51},
-  {n:11,c:"11Т", s:"++++++++++-++++++-++++---00", p:20, t:78},
-  {n:12,c:"11Т", s:"+-++-++++++++++++++++++--02", p:23, t:85},
-  {n:13,c:"11Т", s:"++++-+++++-++++++-+++++--00", p:20, t:78},
-  {n:14,c:"11Т", s:"+++-+++-+++++++++-+++++--02", p:22, t:83},
-  {n:15,c:"11Т", s:"+++++++++++++++++++++++-+02", p:26, t:93}
+(function(){
+'use strict';
+/* ============ ИСТОЧНИК 1: ПРОТОКОЛ ============ */
+var RAW=[
+ {n:1,cls:'11Э',tape:'++++-++--+++-----++--++--00',primary:13,test:59},
+ {n:2,cls:'11Г',tape:'++++-+---+---------------00',primary:6,test:40},
+ {n:3,cls:'11Т',tape:'++++-+++++-++++++-+++++--00',primary:20,test:78},
+ {n:4,cls:'11Т',tape:'+++++-++-+-++--+-+++++---00',primary:16,test:67},
+ {n:5,cls:'11Т',tape:'++++++++-+--+-+---++-----00',primary:13,test:59},
+ {n:6,cls:'11Т',tape:'+++++++++-+-+-+++++++----00',primary:18,test:72},
+ {n:7,cls:'11Т',tape:'++++-+++-++--------------00',primary:9,test:48},
+ {n:8,cls:'11Т',tape:'++++-+++++-++--+--+++----00',primary:15,test:64},
+ {n:9,cls:'11Т',tape:'++-+++++++++++++--+++----00',primary:18,test:72},
+ {n:10,cls:'11Т',tape:'++-+-++--++--------++--+-00',primary:10,test:51},
+ {n:11,cls:'11Т',tape:'++++++++++-++++++-++++---00',primary:20,test:78},
+ {n:12,cls:'11Т',tape:'+-++-++++++++++++++++++--02',primary:23,test:85},
+ {n:13,cls:'11Т',tape:'++++-+++++-++++++-+++++--00',primary:20,test:78},
+ {n:14,cls:'11Т',tape:'+++-+++-+++++++++-+++++--02',primary:22,test:83},
+ {n:15,cls:'11Т',tape:'+++++++++++++++++++++++-+02',primary:26,test:93}
 ];
-const N = DATA.length;
-
+/* ============ ИСТОЧНИК 2: КОДИФИКАТОР 2026 ============ */
+var COD=[
+ {n:1,lv:'Б',t:'Представление и считывание данных в информационных моделях: схемы, карты, таблицы, графики, формулы',s:'модели'},
+ {n:2,lv:'Б',t:'Построение таблиц истинности и логических схем',s:'истинн'},
+ {n:3,lv:'Б',t:'Поиск информации в реляционных базах данных',s:'БД'},
+ {n:4,lv:'Б',t:'Кодирование и декодирование информации',s:'код'},
+ {n:5,lv:'Б',t:'Формальное исполнение алгоритма; линейный алгоритм для исполнителя с ограниченным набором команд',s:'исполн'},
+ {n:6,lv:'Б',t:'Определение результатов работы алгоритмов управления исполнителями и вычислительных алгоритмов',s:'алгор'},
+ {n:7,lv:'Б',t:'Объём памяти для хранения графической и звуковой информации',s:'память'},
+ {n:8,lv:'Б',t:'Основные понятия и методы измерения количества информации',s:'измер'},
+ {n:9,lv:'Б',t:'Обработка числовой информации в электронных таблицах',s:'табл'},
+ {n:10,lv:'Б',t:'Информационный поиск средствами текстового процессора',s:'поиск'},
+ {n:11,lv:'П',t:'Подсчёт информационного объёма сообщения',s:'объём'},
+ {n:12,lv:'П',t:'Анализ результата исполнения алгоритма для исполнителя с фиксированным набором команд',s:'Редакт'},
+ {n:13,lv:'П',t:'Использование маски подсети',s:'маска'},
+ {n:14,lv:'П',t:'Позиционные системы счисления',s:'СС'},
+ {n:15,lv:'П',t:'Основные понятия и законы математической логики',s:'логика'},
+ {n:16,lv:'П',t:'Вычисление рекуррентных выражений',s:'рекурс'},
+ {n:17,lv:'П',t:'Алгоритм обработки числовой последовательности и его запись программой (10–15 строк)',s:'прогр'},
+ {n:18,lv:'П',t:'Электронные таблицы для обработки целочисленных данных',s:'табл2'},
+ {n:19,lv:'Б',t:'Анализ алгоритма логической игры',s:'игра-Б'},
+ {n:20,lv:'П',t:'Поиск выигрышной стратегии игры',s:'игра-П'},
+ {n:21,lv:'В',t:'Построение дерева игры по алгоритму и поиск выигрышной стратегии',s:'игра-В'},
+ {n:22,lv:'П',t:'Математические модели для практических задач; архитектура компьютеров, многопроцессорные системы',s:'процес'},
+ {n:23,lv:'П',t:'Анализ хода исполнения алгоритма',s:'алгор2'},
+ {n:24,lv:'В',t:'Собственная программа (10–20 строк) для обработки символьной информации',s:'строки'},
+ {n:25,lv:'В',t:'Собственная программа (10–20 строк) для обработки целочисленной информации',s:'числа'},
+ {n:26,lv:'В',t:'Обработка целочисленной информации с использованием сортировки',s:'сорт'},
+ {n:27,lv:'В',t:'Анализ данных: сбор, очистка, оценка качества, модель, преобразование, визуализация, интерпретация',s:'анализ'}
+];
+var SCALE=[0,7,14,20,27,34,40,43,46,48,51,54,56,59,62,64,67,70,72,75,78,80,83,85,88,90,93,95,98,100];
+var LVKEY={'Б':'B','П':'P','В':'V'};
+var LEVELS=[
+ {k:'Б',key:'B',name:'Базовый уровень',nums:[1,2,3,4,5,6,7,8,9,10,19]},
+ {k:'П',key:'P',name:'Повышенный уровень',nums:[11,12,13,14,15,16,17,18,20,22,23]},
+ {k:'В',key:'V',name:'Высокий уровень',nums:[21,24,25,26,27]}
+];
+var PROG=[17,24,25,26,27];
+var THRESHOLDS=[
+ {t:40,p:6,name:'Аттестат',sub:'порог Рособрнадзора',cls:'a-ok'},
+ {t:44,p:8,name:'Вузы Минпросвещения',sub:'минимальный балл',cls:'a-am'},
+ {t:46,p:8,name:'Вузы Минобрнауки',sub:'минимальный балл',cls:'a-bl'}
+];
+var BLOCKS=[
+ {id:'b1',from:1,to:10,name:'Задания 1–10',sub:'модели, кодирование, таблицы',cls:'b1'},
+ {id:'b2',from:11,to:18,name:'Задания 11–18',sub:'алгоритмы, сети, логика',cls:'b2'},
+ {id:'b3',from:19,to:23,name:'Задания 19–23',sub:'игры, процессы, исполнители',cls:'b3'},
+ {id:'b4',from:24,to:25,name:'Задания 24–25',sub:'собственная программа',cls:'b4'},
+ {id:'b5',from:26,to:27,name:'Задания 26–27',sub:'обработка данных, по 2 балла',cls:'b5'}
+];
 /* ============ РАСЧЁТЫ ============ */
-function taskStats(){
-  const st = [];
-  for(let i=0;i<27;i++){
-    const max = i<25 ? 1 : 2;
-    let got = 0, solved = 0;
-    DATA.forEach(r=>{
-      const ch = r.s[i];
-      if(i<25){ if(ch==="+"){got++; solved++;} }
-      else { const d = +ch; got += d; if(d>0) solved++; }
-    });
-    st.push({i:i+1, max, got, solved, pct: got/(max*N)});
-  }
-  return st;
-}
-function classStats(){
-  const m = {};
-  DATA.forEach(r=>{ (m[r.c] = m[r.c] || []).push(r); });
-  return Object.keys(m).sort().map(c=>{
-    const rows = m[c];
-    const ap = rows.reduce((s,r)=>s+r.p,0)/rows.length;
-    const at = rows.reduce((s,r)=>s+r.t,0)/rows.length;
-    const ts = rows.map(r=>r.t);
-    return {c, n:rows.length, ap, at, min:Math.min(...ts), max:Math.max(...ts)};
-  });
-}
-function recalcPrimary(r){
-  let s=0; for(let i=0;i<25;i++) if(r.s[i]==="+") s++;
-  return s + (+r.s[25]) + (+r.s[26]);
-}
-const TS = taskStats(), CS = classStats();
-const avgP = DATA.reduce((s,r)=>s+r.p,0)/N, avgT = DATA.reduce((s,r)=>s+r.t,0)/N;
-const mism = DATA.filter(r=>recalcPrimary(r)!==r.p).length;
-
-/* ============ ШАГ 0: ПРОТОКОЛ ============ */
-(function(){
-  const tb = document.querySelector("#srcTable tbody");
-  tb.innerHTML = DATA.map(r=>{
-    const cells = r.s.split("").map(ch=>{
-      const cls = ch==="+" ? "p" : ch==="-" ? "m" : (ch==="0"?"d0":ch==="1"?"d1":"d2");
-      return '<i class="'+cls+'" title="'+(ch==="+"?"верно":ch==="-"?"неверно":ch+" балл(а)")+'"></i>';
-    }).join("");
-    return "<tr><td>"+r.n+"</td><td>Ученик "+r.n+"</td><td>"+r.c+"</td><td><span class=\"hs\">"+cells+"</span></td><td class=\"num\">"+r.p+"</td><td class=\"num\">"+r.t+"</td></tr>";
-  }).join("");
-  document.getElementById("srcNote").textContent =
-    "Пересчёт: первичный балл = сумма «+» за задания 1–25 + баллы 26–27; совпадение с протоколом: "+(N-mism)+" из "+N+
-    ". Средние по строкам: перв. "+avgP.toFixed(1)+" (в протоколе 17), тест. "+avgT.toFixed(1)+
-    ". В сводной строке протокола указан средний тестовый балл 68 — он не сходится со средним арифметическим 15 строк (71.1); расхождение требует уточнения у оператора РЦ [проверить].";
-})();
-
-/* ============ ШАГ 1 ============ */
-(function(){
-  const band = t => t.pct < .25 ? ["low","провал"] : t.pct < .5 ? ["mid","зона риска"] : t.pct < .75 ? ["mid","средне"] : ["ok","устойчиво"];
-  document.querySelector("#taskTable tbody").innerHTML = TS.map(t=>{
-    const b = band(t);
-    const seen = t.i<25 ? (t.solved===0?"0 из "+N+" решили":t.solved===N?"решили все "+N:t.solved+" из "+N+" решили")
-                        : (t.got===0?"0 баллов у всех "+N:t.got+" балл(ов) суммарно, взяли "+t.solved+" из "+N);
-    return "<tr><td>№"+t.i+(t.i>=26?" (разв.)":"")+"</td><td class=\"num\">"+t.max+"</td><td>"+seen+" · <span class=\"badge "+(b[0]==="low"?"err":b[0]==="mid"?"warn":"ok")+"\">"+b[1]+"</span></td><td><div class=\"bar\"><div class=\"fill "+b[0]+"\" style=\"width:"+(t.pct*100).toFixed(0)+"%\"></div></div></td><td class=\"num\">"+t.got+" / "+(t.max*N)+" ("+(t.pct*100).toFixed(0)+" %)</td></tr>";
-  }).join("");
-  document.querySelector("#classTable tbody").innerHTML = CS.map(c=>
-    "<tr><td>"+c.c+"</td><td class=\"num\">"+c.n+"</td><td class=\"num\">"+c.ap.toFixed(1)+"</td><td class=\"num\">"+c.at.toFixed(1)+"</td><td class=\"num\">"+c.min+"–"+c.max+"</td><td>"+(c.n<5?"мало данных для сравнения (n="+c.n+")":"основная группа; разброс перв. 9–26")+"</td></tr>"
-  ).join("");
-  const minus25 = 25*N - DATA.reduce((s,r)=>s+r.s.slice(0,25).split("+").length-1,0);
-  const err = [
-    ["«−» в заданиях 1–25 (задание не решено)", minus25, "в среднем 8,8 нерешённых заданий на участника"],
-    ["0 из 2 баллов в задании 26", TS[25].solved===0?N:N-TS[25].solved, "ни одного участника даже с 1 баллом"],
-    ["0 из 2 баллов в задании 27", N-TS[26].solved, "при 3 участниках с полными 2 баллами"],
-    ["Частичный балл (1 из 2) в 26–27", 0, "нет данных: таких случаев в протоколе нет"]
-  ];
-  document.querySelector("#errTable tbody").innerHTML = err.map(e=>"<tr><td>"+e[0]+"</td><td class=\"num\">"+e[1]+"</td><td>"+e[2]+"</td></tr>").join("");
-})();
-
-/* ============ ШАГ 2: распределение ============ */
-(function(){
-  const rows = DATA.slice().sort((a,b)=>a.t-b.t);
-  document.getElementById("dist").innerHTML = rows.map(r=>{
-    const cls = r.t<50?"low":r.t>=80?"ok":"";
-    return "<div class=\"row\"><span class=\"lbl\">У"+r.n+" · "+r.c+"</span><div class=\"bar\"><div class=\"fill "+cls+"\" style=\"width:"+(r.t)+"%\"></div></div><span class=\"val\">"+r.t+"</span></div>";
-  }).join("");
-})();
-
-/* ============ ШАГ 3–4: причины и проверка ============ */
-const CAUSES = [
-  {id:1, text:"Задания 26–27 (развёрнутый ответ: программы, оптимизация) не отрабатывались в регулярной практике: ни один участник не получил ни балла за 26.",
-   verify:"Столбец 26: 0 баллов у 15 из 15, в том числе у троих с тест. ≥ 83 (У12, У14, У15); столбец 27: 0 у 12 из 15.",
-   refute:"Если бы у сильных участников (тест. ≥ 80) были баллы за 26 — причина не в отработке, а в другом.",
-   status:"yes", slice:"Шаг 1, задания 26–27: 0/30 и 6/30 баллов; сильные У12/У14/У15: за 26 — 0, за 27 — 2."},
-  {id:2, text:"Темы заданий 24 и 25 не усвоены или не дойдены: резкий провал при высоких соседних заданиях.",
-   verify:"Сравнить столбцы 22–23 (10 и 11 из 15) со столбцами 24–25 (1 и 1 из 15); в 11Э и 11Г эти задания также «−».",
-   refute:"Если бы провал был равномерным по всему блоку 21–25 — это не точечная тема, а общий срыв конца работы.",
-   status:"yes", slice:"Шаг 1: зад. 22 — 10/15, зад. 23 — 11/15 против зад. 24 — 1/15, зад. 25 — 1/15."},
-  {id:3, text:"Дефицит времени на экзамене: участники не дошли до последних заданий.",
-   verify:"Косвенно: если бы причина только во времени, провал был бы монотонным к хвосту; но задания 5 и 9 в середине работы тоже низкие (4/15 и 8/15).",
-   refute:"Наличие решённых «поздних» заданий 19–23 у большинства (9–11 из 15) при нерешённых 5 и 9.",
-   status:"few", slice:"В протоколе нет времени выполнения — прямая проверка невозможна; картина провалов немонотонна."},
-  {id:4, text:"Неоднородная подготовка 11Т при едином темпе обучения: часть группы не успевает за программой.",
-   verify:"Распределение в 11Т: перв. 9–26; кластер тест. ≤ 51 (3 чел.) и кластер ≥ 67 (8 чел.).",
-   refute:"Межклассовое сравнение невозможно: в 11Э и 11Г по одному участнику (нет данных).",
-   status:"few", slice:"Шаг 1–2: разброс виден, но связь с темпом обучения протоколом не проверяется; n(11Э)=n(11Г)=1."},
-  {id:5, text:"Системный пробел по теме задания 5: задание не решено большинством, включая сильных.",
-   verify:"Столбец 5: 4 из 15; среди шести с тест. ≥ 78 решили только У14 и У15 (2 из 6).",
-   refute:"Если бы задание 5 не решили только слабые (тест. < 50) — это была бы общая неуспеваемость, а не пробел темы.",
-   status:"yes", slice:"Шаг 1: зад. 5 — 4/15; срез по сильным: 2 из 6; при этом зад. 6–7 — по 14/15."}
+var N=RAW.length;
+function maxOf(i){return i<25?1:2;}
+function blockOf(num){for(var i=0;i<BLOCKS.length;i++){if(num>=BLOCKS[i].from&&num<=BLOCKS[i].to)return BLOCKS[i];}return BLOCKS[0];}
+var STUDENTS=RAW.map(function(r){
+  var pts=r.tape.split('').map(function(ch){return ch==='+'?1:(ch==='-'?0:parseInt(ch,10));});
+  var primary=pts.reduce(function(a,b){return a+b;},0);
+  return {n:r.n,name:'Ученик '+r.n,cls:r.cls,tape:r.tape,pts:pts,primary:primary,match:primary===r.primary,
+    scaleMatch:SCALE[primary]===r.test,test:r.test,
+    tail:pts.slice(23).reduce(function(a,b){return a+b;},0),
+    head:pts.slice(0,23).reduce(function(a,b){return a+b;},0),
+    prog:PROG.reduce(function(a,n){return a+pts[n-1];},0)};
+});
+var TASKS=[];
+for(var ti=0;ti<27;ti++){(function(i){
+  var mx=maxOf(i),got=0,full=0,part=0,zero=0,solvers=[],failers=[];
+  STUDENTS.forEach(function(s){var v=s.pts[i];got+=v;if(v===mx){full++;solvers.push(s.n);}else if(v===0){zero++;failers.push(s.n);}else{part++;solvers.push(s.n);}});
+  var c=COD[i];
+  TASKS.push({num:i+1,max:mx,got:got,cap:N*mx,pct:got/(N*mx)*100,full:full,part:part,zero:zero,solvers:solvers,failers:failers,
+    topic:c.t,short:c.s,lv:c.lv,lvKey:LVKEY[c.lv],block:blockOf(i+1)});
+})(ti);}
+function sumRange(list,from,to){var g=0,c=0;list.forEach(function(s){for(var i=from-1;i<to;i++){g+=s.pts[i];c+=maxOf(i);}});return{got:g,cap:c,pct:c?g/c*100:0};}
+function sumNums(list,nums){var g=0,c=0;list.forEach(function(s){nums.forEach(function(n){g+=s.pts[n-1];c+=maxOf(n-1);});});return{got:g,cap:c,pct:c?g/c*100:0};}
+function avg(list,key){return list.length?list.reduce(function(a,s){return a+s[key];},0)/list.length:0;}
+var ALL=STUDENTS,TOP=STUDENTS.filter(function(s){return s.test>=78;}),RISK=STUDENTS.filter(function(s){return s.test<60;});
+var CLASSES=['11Т','11Э','11Г'].map(function(c){var l=STUDENTS.filter(function(s){return s.cls===c;});
+  return{cls:c,list:l,n:l.length,primary:avg(l,'primary'),test:avg(l,'test'),tail:sumRange(l,24,27),head:sumRange(l,1,23),
+  min:Math.min.apply(null,l.map(function(s){return s.test;})),max:Math.max.apply(null,l.map(function(s){return s.test;})),
+  zeroTail:l.filter(function(s){return s.tail===0;}).length};});
+var TOTAL={primary:STUDENTS.reduce(function(a,s){return a+s.primary;},0),test:avg(STUDENTS,'test'),prim:avg(STUDENTS,'primary'),
+  head:sumRange(ALL,1,23),tail:sumRange(ALL,24,27),prog:sumNums(ALL,PROG),
+  median:(function(){var a=STUDENTS.map(function(s){return s.test;}).sort(function(x,y){return x-y;});return a[Math.floor(a.length/2)];})()};
+var REST=[];for(var ri=1;ri<=27;ri++){if(PROG.indexOf(ri)<0)REST.push(ri);}
+TOTAL.rest=sumNums(ALL,REST);
+var TAILTOP=sumRange(TOP,24,27),HEADTOP=sumRange(TOP,1,23),TAILRISK=sumRange(RISK,24,27),TAIL11T=sumRange(CLASSES[0].list,24,27);
+var PROGTOP=sumNums(TOP,PROG);
+var WITH_TAIL=STUDENTS.filter(function(s){return s.tail>0;});
+var BANDS=[{k:'Ниже 40',lo:0,hi:39,cls:'b4'},{k:'40–59',lo:40,hi:59,cls:'b5'},{k:'60–79',lo:60,hi:79,cls:'b2'},{k:'80–100',lo:80,hi:100,cls:'b3'}];
+BANDS.forEach(function(b){b.list=STUDENTS.filter(function(s){return s.test>=b.lo&&s.test<=b.hi;});});
+function over(list,t){return list.filter(function(s){return s.test>=t;}).length;}
+/* ============ ФОРМАТ ============ */
+function fm(v,d){if(d===undefined)d=1;return Number(v).toFixed(d).replace('.',',');}
+function pc(v,d){return fm(v,d===undefined?1:d)+'%';}
+function esc(s){return String(s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function el(id){return document.getElementById(id);}
+function names(l){return l.map(function(n){return 'Ученик '+n;}).join(', ');}
+function clone(o){return JSON.parse(JSON.stringify(o));}
+function plural(n,a,b,c){var m=n%100;if(m>=11&&m<=14)return c;var k=n%10;return k===1?a:(k>=2&&k<=4?b:c);}
+function narrow(){return window.innerWidth<760;}
+function statusOf(t){return t<40?{t:'ниже границы',c:'b-bad'}:(t<46?{t:'только аттестат',c:'b-warn'}:(t<80?{t:'вузовский порог',c:'b-info'}:{t:'высокий',c:'b-ok'}));}
+function tapeHtml(s){var o='';for(var i=0;i<27;i++){var v=s.pts[i],k=v===0?(i<25?'m':'0'):(i<25?'p':(v===1?'1':'2'));
+  o+='<i class="mv-'+k+'" data-tip="'+esc('<b>'+s.name+' · задание '+(i+1)+'</b><br>'+(i<25?(v?'верно (+)':'неверно или нет ответа (−)'):(v+' из 2 баллов')))+'"></i>';}
+  return '<span class="mini-tape">'+o+'</span>';}
+/* ============ СОСТОЯНИЕ ============ */
+var LS='kege26_light_v3';
+var CAUSES0=[
+ {id:'c1',title:'Не сформирован навык самостоятельной программной обработки данных',
+  essence:'По кодификатору задания 17, 24, 25 требуют собственную программу, 26 и 27 — обработку и анализ данных. Провал сосредоточен в этом типе деятельности, а не в общем уровне подготовки.',
+  check:'Сравнить программный слой (17, 24–27) с остальными заданиями и проверить, сохраняется ли разрыв внутри группы с тестовым баллом ≥ 78.',
+  refute:'Если у группы ≥ 78 программный слой выполнен на уровне остальных заданий (разрыв меньше 15 п.п.) — причина не подтверждается.',
+  support:'Программный слой 17, 24–27: '+TOTAL.prog.got+'/'+TOTAL.prog.cap+' ('+pc(TOTAL.prog.pct)+') против '+TOTAL.rest.got+'/'+TOTAL.rest.cap+' ('+pc(TOTAL.rest.pct)+') в остальных. У группы ≥ 78: 1–23 — '+pc(HEADTOP.pct)+', 24–27 — '+pc(TAILTOP.pct)+'. Задание 26 — 0 баллов у 15 из 15.',
+  against:'Опровергающего среза в протоколе нет: ни у одного из 6 сильных участников программный хвост не выполнен на уровне их же остальных заданий.',
+  status:'confirmed'},
+ {id:'c2',title:'Дело в уровне сложности: провалены задания высокого уровня (В)',
+  essence:'Пять заданий высокого уровня объективно труднее, поэтому низкий результат в них — норма, а не дефицит подготовки.',
+  check:'Сравнить выполнение внутри уровня В: если все пять заданий провалены одинаково, версия работает.',
+  refute:'Если внутри уровня В есть задание с высоким результатом, а соседние нулевые — уровень сложности не объясняет провал.',
+  support:'Уровень В в целом: '+sumNums(ALL,LEVELS[2].nums).got+'/'+sumNums(ALL,LEVELS[2].nums).cap+' ('+pc(sumNums(ALL,LEVELS[2].nums).pct)+') против Б — '+pc(sumNums(ALL,LEVELS[0].nums).pct)+' и П — '+pc(sumNums(ALL,LEVELS[1].nums).pct)+'.',
+  against:'Внутри уровня В: №21 — 11/15 (73,3%), а №24 и №25 — по 1/15 (6,7%), №26 — 0/15. Базовое №5 — 7/15 (46,7%) ниже, чем высокое №21. Уровень сам по себе провал не объясняет.',
+  status:'refuted'},
+ {id:'c3',title:'Дефицит времени: 235 минут не хватает на хвост работы',
+  essence:'До заданий 24–27 не доходят из-за темпа, а не из-за незнания типа заданий.',
+  check:'Проверить монотонность спада к концу работы: при нехватке времени последние задания хуже предыдущих у всех.',
+  refute:'Если самое последнее задание выполнено, а более ранние из хвоста нулевые — версия о чистом дефиците времени не проходит.',
+  support:'Задания 24 и 25 решены одним участником каждое (Ученик 10 и Ученик 15), задание 26 — 0 из 15.',
+  against:'Задание 27 (последнее) — 2 балла у 3 участников при нулевом №26 у всех: спад немонотонный. Тайминга в протоколе нет, прямого замера времени не существует.',
+  status:'insufficient'},
+ {id:'c4',title:'Участники сознательно не приступают к 26–27',
+  essence:'Хвост пустой, потому что его пропускают, а не потому что решают неверно.',
+  check:'Найти отдельный признак «нет ответа» и посчитать частичные баллы (1 из 2) в 26–27.',
+  refute:'Если протокол не различает пропуск и ошибку, утверждать «не приступают» нельзя.',
+  support:'Частичных баллов (1 из 2) в 26–27 — 0 случаев: все оценки либо 0, либо 2.',
+  against:'Протокол кодирует неверный ответ и отсутствие ответа одинаково («−» и «0»). Поля «приступал / не приступал» нет — данных не хватает.',
+  status:'insufficient'},
+ {id:'c5',title:'Подготовка смещена к теории игр (19–21) в ущерб программному слою',
+  essence:'Часы ушли на отработку знакомых типов, а написание программ не отрабатывалось.',
+  check:'Сравнить выполнение 19–21 и программного слоя в этом же протоколе.',
+  refute:'Разрыв сам по себе не доказывает перекос подготовки: нужны данные о часах и содержании занятий, которых в протоколе нет.',
+  support:'№19 — 12/15 (80%), №20 — 12/15 (80%), №21 — 11/15 (73,3%); программный слой — '+pc(TOTAL.prog.pct)+'.',
+  against:'В протоколе нет содержания подготовки и распределения часов. Разрыв одинаково согласуется и с разной природой заданий.',
+  status:'insufficient'}
 ];
-const selected = new Set([1,2,5]);
-function statusBadge(s){
-  if(s==="yes") return '<span class="badge ok">☑ да</span>';
-  if(s==="few") return '<span class="badge warn">☐ мало данных</span>';
-  return '<span class="badge err">☐ нет</span>';
+var DEC0=[
+ {id:'d1',title:'Решение 1 · Практикум «собственная программа»',
+  text:'Два занятия в неделю по 40 минут: один тип за занятие (17 — числовая последовательность, 24 — символьная строка, 25 — целочисленная обработка, 26 — сортировка, 27 — анализ данных). Обязательный запуск кода на файле полного объёма в разрешённой среде (Python / C++ / Pascal / Java / C#) и отдельный разбор первого и второго элемента ответа.',
+  owner:'Учитель информатики',due:'2027-02-26',
+  risk:'Вытеснение часов у повышенного уровня ('+pc(sumNums(ALL,LEVELS[1].nums).pct)+'), где №18 — 33,3%: риск просадки середины. Контроль — тот же срез по 11–18 на каждом замере.'},
+ {id:'d2',title:'Решение 2 · Протокол частичного балла и времени',
+  text:'На каждой тренировочной работе фиксировать по заданиям 26 и 27 отдельно первый и второй элемент ответа, а также время входа в задания 24–27. Это закрывает поля «нет данных» по типам ошибок и по таймингу и позволяет проверить причину 3.',
+  owner:'Руководитель МО',due:'2026-12-22',
+  risk:'Протоколирование отнимает время работы; время фиксируется со слов участника и неточно. Часть участников может не дойти до хвоста уже на тренировке.'}
+];
+function crit0(){return[
+ {id:'k1',label:'Участники с ≥ 1 баллом в заданиях 24–27',base:WITH_TAIL.length+' из '+N+' ('+pc(WITH_TAIL.length/N*100)+')',target:'≥ 9 из 15 (60%)',how:'Сумма по 24, 25, 26, 27 в строке протокола'},
+ {id:'k2',label:'Сумма первичных баллов в 24–27',base:TOTAL.tail.got+' из '+TOTAL.tail.cap+' ('+pc(TOTAL.tail.pct)+')',target:'≥ 27 из 90 (30%)',how:'Матрица «участник × задание»'},
+ {id:'k3',label:'Программный слой 17, 24–27 (кодификатор)',base:TOTAL.prog.got+' из '+TOTAL.prog.cap+' ('+pc(TOTAL.prog.pct)+')',target:'≥ 32 из 105 (30%)',how:'Сумма по заданиям с собственной программой'},
+ {id:'k4',label:'Участники с ≥ 1 баллом в задании 26',base:'0 из 15',target:'≥ 5 из 15',how:'Столбец 26 в матрице'},
+ {id:'k5',label:'Частичные баллы (1 из 2) в 26–27',base:'0 случаев',target:'≥ 6 случаев на 15 участников',how:'Новое поле: первый и второй элемент ответа'},
+ {id:'k6',label:'Тестовый балл ≥ 46 (вузы Минобрнауки)',base:over(ALL,46)+' из 15',target:'15 из 15',how:'Шкала перевода 2026 из кодификатора'},
+ {id:'k7',label:'Контроль повышенного уровня 11–18',base:sumRange(ALL,11,18).got+' из '+sumRange(ALL,11,18).cap+' ('+pc(sumRange(ALL,11,18).pct)+')',target:'не ниже 55%',how:'Защита от риска решения 1'},
+ {id:'k8',label:'Время входа в задания 24–27',base:'нет данных',target:'зафиксировано у 15 из 15',how:'Новое поле протокола: отметка времени'}
+];}
+function draftText(){
+ var m=S.causes.filter(function(c){return c.id===S.main;})[0];
+ return 'На 18.06.2026 задания 24–27 дают '+TOTAL.tail.got+' из '+TOTAL.tail.cap+' первичных баллов ('+pc(TOTAL.tail.pct)+') при '+TOTAL.head.got+' из '+TOTAL.head.cap+' ('+pc(TOTAL.head.pct)+') в заданиях 1–23; задание 26 — 0 баллов у 15 из 15. По кодификатору это задания высокого уровня, требующие собственной программы и обработки данных: весь программный слой (17, 24–27) — '+TOTAL.prog.got+' из '+TOTAL.prog.cap+' ('+pc(TOTAL.prog.pct)+') против '+TOTAL.rest.got+' из '+TOTAL.rest.cap+' ('+pc(TOTAL.rest.pct)+') в остальных заданиях. Провал не объясняется уровнем сложности: внутри высокого уровня №21 выполнен у 11 из 15 (73,3%). Разрыв сохраняется у участников с 78–93 баллами: '+pc(HEADTOP.pct)+' в 1–23 против '+pc(TAILTOP.pct)+' в 24–27.'+(m?' Подтверждённая причина: '+m.title.charAt(0).toLowerCase()+m.title.slice(1)+'.':'')+' Порог аттестата 40 преодолели 15 из 15, вузовский 46 — '+over(ALL,46)+' из 15. Замера «до» нет — фиксируем состояние, а не динамику. Устойчивость между классами не проверяема: в 11Э и 11Г по одному участнику.';
 }
-function renderCauses(){
-  document.getElementById("causes").innerHTML = CAUSES.map(c=>
-    '<div class="cause'+(selected.has(c.id)?" sel":"")+'" data-id="'+c.id+'">'+
-    '<label><input type="checkbox" data-cause="'+c.id+'" '+(selected.has(c.id)?"checked":"")+'> Причина '+c.id+'. '+c.text+'</label>'+
-    '<div class="det"><b>Как проверить:</b> '+c.verify+'<br><b>Что опровергнет:</b> '+c.refute+'</div></div>'
-  ).join("");
-  document.getElementById("causeCounter").textContent = "(выбрано "+selected.size+" из 3)";
-  document.querySelectorAll("input[data-cause]").forEach(inp=>{
-    inp.addEventListener("change", e=>{
-      const id = +e.target.dataset.cause;
-      if(e.target.checked){
-        if(selected.size>=3){ e.target.checked=false; document.getElementById("causeMsg").textContent="Можно выбрать не более 3 причин — сначала снимите одну отметку."; return; }
-        selected.add(id);
-      } else selected.delete(id);
-      document.getElementById("causeMsg").textContent="";
-      renderCauses(); renderStep4();
-    });
+function defState(){return{
+ view:{thr:50,cell:26,labels:'num',colorBy:'level',palette:'contrast',sort:'n',cls:'all',onlyFail:false,pct:true,grid:true,hatch:true},
+ filters:{q:'',sort:'n',dir:'asc',risk:false},
+ sel:[],views:[],sim:0,causes:clone(CAUSES0),picked:['c1','c2','c3'],
+ verdict:{c1:'confirmed',c2:'refuted',c3:'insufficient',c4:'insufficient',c5:'insufficient'},main:'c1',
+ conclusion:'',decisions:clone(DEC0),criteria:crit0(),
+ checks:{ck1:true,ck2:true,ck3a:false,ck3b:true,ck5a:false,ck5b:false,ck5c:false},
+ fin:[false,false,false,false,false],finTouched:[false,false,false,false,false],
+ meta:{mo:'МО учителей информатики и математики',pedDate:'2026-11-19',subject:'Информатика (КЕГЭ), 11 классы',owner:'',nextDate:'2026-12-22'}
+};}
+var S=defState();S.conclusion=draftText();
+try{
+  var saved=localStorage.getItem(LS);
+  if(saved){var p=JSON.parse(saved),d=defState();
+    S=Object.assign(d,p);S.view=Object.assign(d.view,p.view||{});S.filters=Object.assign(d.filters,p.filters||{});
+    S.checks=Object.assign(d.checks,p.checks||{});S.meta=Object.assign(d.meta,p.meta||{});S.verdict=Object.assign({},p.verdict||d.verdict);
+    if(!Array.isArray(S.causes)||!S.causes.length)S.causes=clone(CAUSES0);
+    if(!Array.isArray(S.decisions)||!S.decisions.length)S.decisions=clone(DEC0);
+    if(!Array.isArray(S.criteria)||!S.criteria.length)S.criteria=crit0();
+    if(!Array.isArray(S.views))S.views=[];
+    if(!Array.isArray(S.sel))S.sel=[];
+    if(!Array.isArray(S.picked))S.picked=['c1','c2','c3'];
+    if(typeof S.sim!=='number'||S.sim<0||S.sim>6)S.sim=0;
+    if(!Array.isArray(S.fin)||S.fin.length!==5)S.fin=[false,false,false,false,false];
+    if(!Array.isArray(S.finTouched)||S.finTouched.length!==5)S.finTouched=[false,false,false,false,false];
+    if(typeof S.conclusion!=='string')S.conclusion=draftText();
+  }
+}catch(e){}
+var saveT=null;
+function save(){clearTimeout(saveT);saveT=setTimeout(function(){try{localStorage.setItem(LS,JSON.stringify(S));}catch(e){}},250);}
+/* ============ UI-ХЕЛПЕРЫ ============ */
+function toast(msg,type,actLabel,act){
+  var box=el('toasts'),t=document.createElement('div');t.className='toast '+(type||'');
+  t.innerHTML='<i></i><span>'+esc(msg)+'</span>';
+  if(actLabel){var b=document.createElement('button');b.className='btn btn--sm';b.textContent=actLabel;b.onclick=function(){act();kill();};t.appendChild(b);}
+  box.appendChild(t);
+  var to=setTimeout(kill,actLabel?9000:3600);
+  function kill(){clearTimeout(to);t.classList.add('out');setTimeout(function(){if(t.parentNode)t.parentNode.removeChild(t);},320);}
+}
+var tipEl=null;
+function showTip(html,x,y){
+  if(!tipEl)tipEl=el('tip');
+  if(tipEl._h!==html){tipEl.innerHTML=html;tipEl._h=html;}
+  tipEl.classList.add('on');
+  var w=tipEl.offsetWidth,h=tipEl.offsetHeight;
+  var left=Math.min(Math.max(8,x+14),window.innerWidth-w-8),top=y-h-14;
+  if(top<8)top=y+20;
+  tipEl.style.left=left+'px';tipEl.style.top=top+'px';
+}
+function hideTip(){if(!tipEl)tipEl=el('tip');tipEl.classList.remove('on');}
+function download(name,text,mime){
+  var blob=new Blob([text],{type:(mime||'text/plain')+';charset=utf-8'}),url=URL.createObjectURL(blob);
+  var a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();
+  setTimeout(function(){URL.revokeObjectURL(url);document.body.removeChild(a);},400);
+}
+function copyText(text,ok){
+  function fb(){var ta=document.createElement('textarea');ta.value=text;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();
+    try{document.execCommand('copy');toast(ok||'Скопировано','ok');}catch(e){toast('Не удалось скопировать','bad');}document.body.removeChild(ta);}
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(function(){toast(ok||'Скопировано','ok');},fb);}else fb();
+}
+function tableText(id){
+  var t=el(id);if(!t)return '';var out=[],head=[];
+  t.querySelectorAll('thead th').forEach(function(th){head.push(th.innerText.trim());});out.push(head.join(' | '));
+  t.querySelectorAll('tbody tr').forEach(function(tr){var r=[];tr.querySelectorAll('td').forEach(function(td){r.push(td.innerText.replace(/\s+/g,' ').trim());});out.push(r.join(' | '));});
+  return out.join('\n');
+}
+function applyView(){
+  document.documentElement.style.setProperty('--cell',S.view.cell+'px');
+  document.documentElement.setAttribute('data-palette',S.view.palette);
+  document.documentElement.setAttribute('data-hatch',S.view.hatch?'1':'0');
+  el('ctlThresholdVal').textContent=S.view.thr+'%';
+  el('ctlCellVal').textContent=S.view.cell+' px';
+  el('chartThr').textContent='порог '+S.view.thr+'%';
+}
+function visibleTasks(){return S.view.onlyFail?TASKS.filter(function(t){return t.pct<S.view.thr;}):TASKS;}
+function visibleStudents(){
+  var l=STUDENTS.slice();
+  if(S.view.cls!=='all')l=l.filter(function(s){return s.cls===S.view.cls;});
+  var v=S.view.sort;
+  if(v==='test')l.sort(function(a,b){return b.test-a.test||a.n-b.n;});
+  else if(v==='primary')l.sort(function(a,b){return b.primary-a.primary||a.n-b.n;});
+  else if(v==='cls')l.sort(function(a,b){return a.cls.localeCompare(b.cls,'ru')||a.n-b.n;});
+  else if(v==='tail')l.sort(function(a,b){return b.tail-a.tail||b.test-a.test;});
+  else l.sort(function(a,b){return a.n-b.n;});
+  return l;
+}
+function colorCls(t){return S.view.colorBy==='level'?('lv'+t.lvKey):t.block.cls;}
+/* ============ ОБЗОР ============ */
+function renderKpis(){
+  var k=[
+   {l:'Участников',to:N,dec:0,suf:'',n:'11Т · 13, 11Э · 1, 11Г · 1',a:''},
+   {l:'Средний тестовый',to:TOTAL.test,dec:2,suf:'',n:'в протоколе 68 · медиана '+TOTAL.median,a:'a-bl'},
+   {l:'Средний первичный',to:TOTAL.prim,dec:2,suf:'',n:'из 29 · в протоколе 17',a:''},
+   {l:'Порог 46 (вузы)',to:over(ALL,46),dec:0,suf:' / 15',n:'порог 40 — все 15',a:'a-ok'},
+   {l:'Хвост 24–27',to:TOTAL.tail.pct,dec:1,suf:'%',n:TOTAL.tail.got+' из '+TOTAL.tail.cap+' баллов',a:'a-bad'},
+   {l:'Программный слой',to:TOTAL.prog.pct,dec:1,suf:'%',n:'задания 17, 24–27 по кодификатору',a:'a-vi'}
+  ];
+  el('heroKpis').innerHTML=k.map(function(x){return '<div class="card kpi '+x.a+'"><div class="k-l">'+x.l+'</div><div class="k-v" data-to="'+x.to+'" data-dec="'+x.dec+'" data-suf="'+x.suf+'">0</div><div class="k-n">'+x.n+'</div></div>';}).join('');
+}
+function countUp(){
+  var red=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  el('heroKpis').querySelectorAll('.k-v').forEach(function(node){
+    var to=parseFloat(node.getAttribute('data-to')),dec=parseInt(node.getAttribute('data-dec'),10),suf=node.getAttribute('data-suf')||'';
+    if(red||to===0){node.textContent=fm(to,dec)+suf;return;}
+    var t0=null;
+    function step(ts){if(!t0)t0=ts;var p=Math.min(1,(ts-t0)/1100),e=1-Math.pow(1-p,3);node.textContent=fm(to*e,dec)+suf;if(p<1)requestAnimationFrame(step);}
+    requestAnimationFrame(step);
   });
 }
-function renderStep4(){
-  const rows = CAUSES.filter(c=>selected.has(c.id));
-  document.querySelector("#step4Table tbody").innerHTML = rows.length ? rows.map(c=>
-    "<tr><td>Причина "+c.id+"</td><td>"+statusBadge(c.status)+"</td><td>"+c.slice+"</td></tr>"
-  ).join("") : '<tr><td colspan="3" class="muted">Причины не выбраны — вернитесь к шагу 3.</td></tr>';
-  const conf = rows.filter(c=>c.status==="yes");
-  const line = document.getElementById("confirmedLine");
-  if(!rows.length){ line.className="note warn"; line.textContent="Причины не выбраны: подтверждённой причины нет, вывод шага 5 формировать нельзя."; }
-  else if(conf.length){ line.className="note"; line.textContent="Подтверждённая причина(ы): "+conf.map(c=>"№"+c.id).join(", ")+" — на неё(них) опирается вывод шага 5."; }
-  else { line.className="note warn"; line.textContent="Среди выбранных нет подтверждённых по данным: вывод шага 5 требует пересмотра причин (правило 3: вывод не сильнее данных)."; }
+function renderTape(){
+  var one=STUDENTS.map(function(s){
+    var ch=s.tape.split('').map(function(c){var k=c==='+'?'tp-p':(c==='-'?'tp-m':(c==='0'?'tp-0':'tp-2'));return '<span class="'+k+'">'+c+'</span>';}).join('');
+    return '<span><em>'+s.name+'</em>'+ch+'</span>';
+  }).join('');
+  el('tapeRun').innerHTML=one+one;
 }
-renderCauses(); renderStep4();
+/* ============ КОДИФИКАТОР / ШКАЛА ============ */
+function renderThr(){
+  el('thrCards').innerHTML=THRESHOLDS.map(function(t){
+    var c=over(ALL,t.t),fail=STUDENTS.filter(function(s){return s.test<t.t;});
+    return '<div class="card kpi '+t.cls+'"><div class="row between"><span class="chip">'+t.name+'</span><span class="badge '+(c===N?'b-ok':'b-warn')+'">'+t.t+' тестовых</span></div>'+
+    '<div class="k-v" style="margin-top:10px">'+c+' <span style="font-size:16px;color:var(--txt3)">/ 15</span></div>'+
+    '<div class="k-n">'+t.sub+' · от '+t.p+' первичных'+(fail.length?'<br>не преодолели: '+names(fail.map(function(s){return s.n;})):'<br>преодолели все участники')+'</div></div>';
+  }).join('');
+}
+function renderRuler(){
+  var html='';
+  for(var p=0;p<=29;p++){
+    var t=SCALE[p],here=STUDENTS.filter(function(s){return s.primary===p;});
+    var ghost=S.sim>0?STUDENTS.filter(function(s){return Math.min(29,s.primary+S.sim)===p&&s.primary!==p;}):[];
+    var isThr=(p===6||p===8);
+    var dots=here.map(function(s){return '<i data-tip="'+esc('<b>'+s.name+'</b><br>'+s.primary+' первичных → '+s.test+' тестовых')+'"></i>';}).join('')+
+             ghost.map(function(s){return '<i class="ghost" data-tip="'+esc('<b>'+s.name+' · модель +'+S.sim+'</b><br>'+s.primary+' → '+Math.min(29,s.primary+S.sim)+' первичных → '+SCALE[Math.min(29,s.primary+S.sim)]+' тестовых')+'"></i>';}).join('');
+    html+='<div class="rul-col'+(isThr?' thr':'')+'" data-tip="'+esc('<b>Первичный '+p+' → тестовый '+t+'</b><br>'+(here.length?'Сейчас: '+names(here.map(function(s){return s.n;})):'Сейчас никого')+(isThr?'<br>Пороговое значение':''))+'">'+
+      '<div class="rul-dots">'+dots+'</div><div class="rul-t">'+t+'</div>'+
+      '<div class="rul-bar" style="height:'+Math.max(3,t*0.62)+'px"></div><div class="rul-p">'+p+'</div></div>';
+  }
+  el('scaleRuler').innerHTML=html;
+}
+function renderSim(){
+  var k=S.sim,after=STUDENTS.map(function(s){return SCALE[Math.min(29,s.primary+k)];});
+  var aAvg=after.reduce(function(a,b){return a+b;},0)/N;
+  function cnt(arr,t){return arr.filter(function(x){return x>=t;}).length;}
+  var tiles=[
+   {l:'Средний тестовый',a:fm(TOTAL.test,2),b:fm(aAvg,2)},
+   {l:'Порог 46 · вузы',a:over(ALL,46)+' / 15',b:cnt(after,46)+' / 15'},
+   {l:'80+ тестовых',a:over(ALL,80)+' / 15',b:cnt(after,80)+' / 15'},
+   {l:'90+ тестовых',a:over(ALL,90)+' / 15',b:cnt(after,90)+' / 15'}
+  ];
+  el('simStats').innerHTML=tiles.map(function(x){return '<div class="simtile"><div class="s-l">'+x.l+'</div><div class="s-v"><em>'+x.a+'</em> → <b>'+x.b+'</b></div></div>';}).join('');
+  el('simVal').textContent='+'+k+' '+plural(k,'балл','балла','баллов');
+  el('simRange').value=k;
+}
+function renderCodTable(){
+  el('codBody').innerHTML=TASKS.map(function(t){
+    return '<tr data-task="'+t.num+'" class="rowbtn"><td class="num"><b>'+t.num+'</b></td><td class="small">'+esc(t.topic)+'</td>'+
+    '<td><span class="badge b-lv'+t.lvKey+'">'+t.lv+'</span></td><td class="num">'+t.max+'</td>'+
+    '<td class="num">'+t.got+'/'+t.cap+' · <b style="color:'+(t.pct<S.view.thr?'var(--red-i)':'var(--green-i)')+'">'+pc(t.pct)+'</b></td></tr>';
+  }).join('');
+}
+function renderLevels(){
+  el('levelCards').innerHTML=LEVELS.map(function(L){
+    var a=sumNums(ALL,L.nums),tp=sumNums(TOP,L.nums),rk=sumNums(RISK,L.nums);
+    return '<div class="card"><div class="row between"><h3>'+L.name+'</h3><span class="badge b-lv'+L.key+'">'+L.k+' · '+L.nums.length+' шт.</span></div>'+
+    '<div class="mono" style="font-size:26px;font-weight:700;margin-top:8px;color:var(--'+(L.key==='B'?'green-i':(L.key==='P'?'blue-i':'violet-i'))+')">'+pc(a.pct)+'</div>'+
+    '<div class="small mut mono">'+a.got+' из '+a.cap+' баллов · задания '+L.nums.join(', ')+'</div>'+
+    '<div class="bar" style="margin-top:10px;height:8px"><i class="'+(a.pct<50?'bad':(a.pct<80?'warn':'ok'))+'" style="width:'+a.pct.toFixed(1)+'%"></i></div>'+
+    '<div class="kv" style="margin-top:12px"><dt>Сильные ≥78</dt><dd class="mono small">'+tp.got+'/'+tp.cap+' · '+pc(tp.pct)+'</dd>'+
+    '<dt>Зона риска</dt><dd class="mono small">'+rk.got+'/'+rk.cap+' · '+pc(rk.pct)+'</dd></div></div>';
+  }).join('');
+  el('classCards').innerHTML=CLASSES.map(function(c){
+    var w=c.n<5;
+    return '<div class="card"><div class="row between"><h3>Класс '+c.cls+'</h3><span class="chip'+(w?' chip--am':' chip--bl')+'">n = '+c.n+'</span></div>'+
+    '<div class="kv" style="margin-top:12px"><dt>Первичный</dt><dd class="mono">'+fm(c.primary,2)+' / 29</dd><dt>Тестовый</dt><dd class="mono">'+fm(c.test,2)+' / 100</dd>'+
+    '<dt>Разброс</dt><dd class="mono">'+c.min+'–'+c.max+'</dd><dt>24–27</dt><dd class="mono">'+c.tail.got+'/'+c.tail.cap+' ('+pc(c.tail.pct)+')</dd>'+
+    '<dt>1–23</dt><dd class="mono">'+c.head.got+'/'+c.head.cap+' ('+pc(c.head.pct)+')</dd><dt>Ноль в 24–27</dt><dd class="mono">'+c.zeroTail+' из '+c.n+'</dd></div>'+
+    (w?'<div class="note" style="margin-top:12px"><b>n = 1.</b> Классные выводы недоступны: единичное наблюдение.</div>':'<div class="note ok" style="margin-top:12px"><b>n = 13.</b> Достаточно, чтобы увидеть повторяемость внутри класса.</div>')+'</div>';
+  }).join('');
+  renderDist();
+}
+function renderDist(){
+  var W=440,H=230,pad=34,bw=80,gap=(W-pad*2-bw*4)/3;
+  var mx=Math.max.apply(null,BANDS.map(function(b){return b.list.length;}))||1;
+  var s='<svg class="chart" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Распределение тестовых баллов">';
+  if(S.view.grid)[0,25,50,75,100].forEach(function(p){var y=H-42-(p/100)*(H-84);s+='<line class="grid-l" x1="'+pad+'" y1="'+y+'" x2="'+(W-pad)+'" y2="'+y+'"/>';});
+  BANDS.forEach(function(b,i){
+    var x=pad+i*(bw+gap),h=(b.list.length/mx)*(H-96),y=H-42-h;
+    s+='<rect class="cbar '+b.cls+' grow" x="'+x+'" y="'+y+'" width="'+bw+'" height="'+Math.max(h,2)+'" rx="7" style="animation-delay:'+(i*70)+'ms"/>';
+    s+='<text class="val" x="'+(x+bw/2)+'" y="'+(y-8)+'" text-anchor="middle" style="font-size:13px">'+b.list.length+'</text>';
+    s+='<text class="axis" x="'+(x+bw/2)+'" y="'+(H-20)+'" text-anchor="middle" style="font-size:11px">'+b.k+'</text>';
+    s+='<rect class="hit" x="'+x+'" y="16" width="'+bw+'" height="'+(H-56)+'" data-tip="'+esc('<b>'+b.k+' баллов</b><br>'+b.list.length+' из 15'+(b.list.length?'<br>'+names(b.list.map(function(z){return z.n;})):''))+'"/>';
+  });
+  s+='<text class="axis" x="'+pad+'" y="12">участников · граница 40</text></svg>';
+  el('distChart').innerHTML=s;
+}
+/* ============ ШАГ 1 ============ */
+function renderStudents(){
+  var q=S.filters.q.trim().toLowerCase(),l=visibleStudents();
+  if(S.filters.risk)l=l.filter(function(s){return s.test<60;});
+  if(q)l=l.filter(function(s){return (s.name+' '+s.cls+' '+s.test+' '+s.primary+' '+s.tape).toLowerCase().indexOf(q)>=0;});
+  var dir=S.filters.dir==='asc'?1:-1,key=S.filters.sort;
+  l.sort(function(a,b){
+    if(key==='cls')return dir*(a.cls.localeCompare(b.cls,'ru')||a.n-b.n);
+    var x=key==='name'?a.n:a[key],y=key==='name'?b.n:b[key];
+    return dir*(x-y)||a.n-b.n;
+  });
+  el('foundCount').textContent=l.length+' '+plural(l.length,'строка','строки','строк');
+  el('studentsBody').innerHTML=l.map(function(s){
+    var st=statusOf(s.test),on=S.sel.indexOf(s.n)>=0;
+    return '<tr class="rowbtn'+(on?' sel':'')+'" data-n="'+s.n+'">'+
+    '<td><label class="check"><input type="checkbox" data-sel="'+s.n+'"'+(on?' checked':'')+'><i></i></label></td>'+
+    '<td class="num dim">'+s.n+'</td><td><b>'+s.name+'</b></td><td><span class="chip">'+s.cls+'</span></td>'+
+    '<td>'+tapeHtml(s)+'</td><td class="num"><b>'+s.primary+'</b> <span class="dim">/29</span></td>'+
+    '<td class="num"><b style="font-size:15px">'+s.test+'</b><div class="bar" style="margin-top:5px"><i class="'+(s.test<46?'bad':(s.test<80?'warn':'ok'))+'" style="width:'+s.test+'%"></i></div></td>'+
+    '<td class="num" style="color:'+(s.tail===0?'var(--red-i)':'var(--green-i)')+'">'+s.tail+' <span class="dim">/6</span></td>'+
+    '<td><span class="badge '+st.c+'">'+st.t+'</span></td></tr>';
+  }).join('')||'<tr><td colspan="9" class="mut" style="padding:22px">Ничего не найдено. Измените поиск или фильтр класса.</td></tr>';
+  el('selAll').checked=l.length>0&&l.every(function(s){return S.sel.indexOf(s.n)>=0;});
+  el('bulkBar').classList.toggle('hidden',S.sel.length===0);
+  el('bulkCount').textContent='Выбрано: '+S.sel.length;
+  document.querySelectorAll('.tbl th.srt').forEach(function(th){
+    th.classList.remove('asc','desc');
+    if(th.getAttribute('data-sort')===S.filters.sort)th.classList.add(S.filters.dir);
+  });
+}
+function renderMatrix(){
+  var ts=visibleTasks(),ss=visibleStudents(),box=el('matrix');
+  if(!ts.length||!ss.length){
+    box.style.gridTemplateColumns='1fr';
+    box.innerHTML='<div class="mut small" style="padding:16px">'+(!ts.length?'Ниже порога '+S.view.thr+'% нет заданий.':'В выбранном классе нет участников.')+'</div>';
+    el('mxInfo').textContent=ss.length+' × '+ts.length;el('mxLegend').innerHTML='';return;
+  }
+  box.style.gridTemplateColumns=(narrow()?'104px':'132px')+' repeat('+ts.length+', var(--cell))';
+  var html='<div class="mx-lab" style="font-size:10px;color:var(--txt3)">'+(S.view.labels==='num'?'ЗАДАНИЕ →':'ТЕМА →')+'</div>';
+  ts.forEach(function(t){html+='<div class="mx-head'+(t.pct<S.view.thr?' bad':'')+'" data-task="'+t.num+'" data-tip="'+esc('<b>Задание '+t.num+' · уровень '+t.lv+'</b><br>'+t.topic+'<br>'+t.got+' из '+t.cap+' ('+pc(t.pct)+')')+'">'+(S.view.labels==='num'?t.num:t.short)+'</div>';});
+  ss.forEach(function(s){
+    html+='<div class="mx-lab" data-row="'+s.n+'"><b>'+s.name+'</b><span>'+s.cls+' · '+s.test+'</span></div>';
+    ts.forEach(function(t){
+      var v=s.pts[t.num-1],k=v===0?(t.num<=25?'m':'0'):(t.num<=25?'p':(v===1?'1':'2'));
+      var txt=v===0?(t.num<=25?'−':'0'):(t.num<=25?'+':String(v));
+      html+='<div class="mx-cell" data-v="'+k+'" data-n="'+s.n+'" data-task="'+t.num+'" data-tip="'+esc('<b>'+s.name+' · '+s.cls+'</b><br>Задание '+t.num+' ('+t.lv+') — '+t.topic+'<br>'+(t.num<=25?(v?'верно, 1 балл':'неверно или нет ответа, 0 баллов'):(v+' из 2 баллов'))+'<br>Тестовый балл: '+s.test)+'">'+txt+'</div>';
+    });
+  });
+  if(S.view.pct){
+    html+='<div class="mx-lab" style="font-size:10px;color:var(--txt3);border-top:1px solid var(--hair);padding-top:6px">НАБРАНО, %</div>';
+    ts.forEach(function(t){html+='<div class="mx-foot'+(t.pct<S.view.thr?' bad':'')+'" data-task="'+t.num+'" data-tip="'+esc('<b>Задание '+t.num+'</b><br>'+t.got+' из '+t.cap+' баллов<br>Полный балл у '+t.full+' из 15')+'">'+Math.round(t.pct)+'</div>';});
+  }
+  box.innerHTML=html;
+  el('mxInfo').textContent=ss.length+' × '+ts.length+' · порог '+S.view.thr+'%';
+  el('mxLegend').innerHTML=
+   '<span><i style="background:var(--hp-bg);box-shadow:inset 0 0 0 1px var(--hp-bd)"></i>+ верный ответ (1–25)</span>'+
+   '<span><i style="background:var(--hm-bg);box-shadow:inset 0 0 0 1px var(--hm-bd)"></i>− неверно или нет ответа</span>'+
+   '<span><i style="background:var(--h0-bg);box-shadow:inset 0 0 0 1px var(--h0-bd)"></i>0 — ноль баллов (26–27)</span>'+
+   '<span><i style="background:var(--h1-bg);box-shadow:inset 0 0 0 1px var(--h1-bd)"></i>1 — частичный балл: 0 случаев</span>'+
+   '<span><i style="background:var(--h2-bg);box-shadow:inset 0 0 0 1px var(--h2-bd)"></i>2 — полный балл: 3 случая</span>';
+}
+function taskNote(t){
+  if(t.pct===100)return 'Решили все 15 из 15.';
+  if(t.got===0)return 'Ноль баллов у 15 из 15.';
+  var s=(t.pct<S.view.thr?'Ниже порога '+S.view.thr+'%: ':'')+'полный балл у '+t.full+' из 15';
+  if(t.max===2)s+='; частичных — '+t.part;
+  if(t.solvers.length<=3)s+=' ('+names(t.solvers)+')';
+  return s+'.';
+}
+function renderTasks(){
+  var l=TASKS.slice();
+  if(S.view.onlyFail)l=l.filter(function(t){return t.pct<S.view.thr;});
+  var v=el('taskSortSel').value;
+  if(v==='pct')l.sort(function(a,b){return a.pct-b.pct||a.num-b.num;});
+  else if(v==='zero')l.sort(function(a,b){return b.zero-a.zero||a.num-b.num;});
+  el('tasksBody').innerHTML=l.map(function(t){
+    var bad=t.pct<S.view.thr;
+    return '<tr data-task="'+t.num+'" class="rowbtn"><td class="num"><b>'+t.num+'</b></td>'+
+    '<td><span class="badge b-lv'+t.lvKey+'">'+t.lv+'</span></td><td class="small">'+esc(t.topic)+'</td>'+
+    '<td class="num">'+t.max+'</td><td class="num">'+t.got+' <span class="dim">/'+t.cap+'</span></td>'+
+    '<td style="min-width:140px"><div class="row" style="gap:8px"><span class="num" style="color:'+(bad?'var(--red-i)':'var(--green-i)')+';width:50px">'+pc(t.pct)+'</span><div class="bar grow"><i class="'+(bad?'bad':(t.pct<80?'warn':'ok'))+'" style="width:'+t.pct.toFixed(1)+'%"></i></div></div></td>'+
+    '<td class="num">'+t.full+'</td><td class="num">'+(t.part||'<span class="dim">0</span>')+'</td>'+
+    '<td class="num" style="color:'+(t.zero>7?'var(--red-i)':'inherit')+'">'+t.zero+'</td><td class="small mut">'+taskNote(t)+'</td></tr>';
+  }).join('')||'<tr><td colspan="10" class="mut" style="padding:22px">Ниже порога '+S.view.thr+'% нет заданий.</td></tr>';
+}
+function renderErrors(){
+  var plus=0,minus=0,z=0,o=0,tw=0;
+  STUDENTS.forEach(function(s){for(var i=0;i<27;i++){var v=s.pts[i];if(i<25){if(v)plus++;else minus++;}else{if(v===0)z++;else if(v===1)o++;else tw++;}}});
+  var rows=[
+   ['Верный ответ, 1–25','символ «+»',plus+' '+plural(plus,'наблюдение','наблюдения','наблюдений'),'<span class="badge b-ok">есть данные</span>'],
+   ['Неверный ответ, 1–25','символ «−»',minus+' '+plural(minus,'наблюдение','наблюдения','наблюдений'),'<span class="badge b-warn">смешано с пропуском</span>'],
+   ['Ноль баллов, 26–27','цифра «0»',z+' '+plural(z,'наблюдение','наблюдения','наблюдений'),'<span class="badge b-warn">смешано с пропуском</span>'],
+   ['Частичный балл (1 из 2), 26–27','цифра «1»',o+' наблюдений','<span class="badge b-none">нет наблюдений</span>'],
+   ['Полный балл (2 из 2), 26–27','цифра «2»',tw+' '+plural(tw,'наблюдение','наблюдения','наблюдений'),'<span class="badge b-ok">есть данные</span>'],
+   ['Пропуск: не приступал','отдельного признака нет','нет данных','<span class="badge b-none">нет данных</span>'],
+   ['Тип ошибки: логика, вычисление, оформление','нужны сами работы','нет данных','<span class="badge b-none">нет данных</span>'],
+   ['Время выполнения задания','в протоколе отсутствует','нет данных','<span class="badge b-none">нет данных</span>'],
+   ['Результат «до» события','единственный срез 18.06.2026','нет данных','<span class="badge b-none">нет данных</span>']
+  ];
+  el('errorsBody').innerHTML=rows.map(function(r){return '<tr><td><b>'+r[0]+'</b></td><td class="mono small">'+r[1]+'</td><td class="num">'+r[2]+'</td><td>'+r[3]+'</td></tr>';}).join('');
+}
+function renderCheck(){
+  var okP=STUDENTS.filter(function(s){return s.match;}).length,okS=STUDENTS.filter(function(s){return s.scaleMatch;}).length;
+  var rows=[
+   ['Всего участников',N,'протокол: 15','<span class="badge b-ok">совпало</span>'],
+   ['Первичный балл по каждому',okP+' из 15 пересчитано из ленты','протокол: 15 значений','<span class="badge b-ok">совпало</span>'],
+   ['Тестовый балл по шкале 2026',okS+' из 15 по шкале кодификатора','протокол: 15 значений','<span class="badge b-ok">совпало</span>'],
+   ['Сумма первичных баллов',TOTAL.primary+' из 435','в протоколе не приводится','<span class="badge b-info">вычислено</span>'],
+   ['Средний первичный',fm(TOTAL.prim,2),'протокол: 17','<span class="badge b-warn">округление</span>'],
+   ['Средний тестовый',fm(TOTAL.test,2),'протокол: 68','<span class="badge b-warn">округление</span>'],
+   ['Максимум первичного','25 × 1 + 2 × 2 = 29','кодификатор: 29 → 100','<span class="badge b-ok">совпало</span>'],
+   ['Минимальная граница','40 тестовых = 6 первичных','протокол: 40 · кодификатор: 40','<span class="badge b-ok">совпало</span>'],
+   ['Уровни сложности','Б 11 · П 11 · В 5','кодификатор: 11 / 11 / 5','<span class="badge b-ok">совпало</span>'],
+   ['Участников ниже 40',over(ALL,0)-over(ALL,40),'в протоколе не приводится','<span class="badge b-info">вычислено</span>'],
+   ['Классы','11Т — 13, 11Э — 1, 11Г — 1','те же строки','<span class="badge b-ok">совпало</span>'],
+   ['ФИО, серия и номер','скрыты в источнике','скрыты','<span class="badge b-none">нет данных</span>']
+  ];
+  el('checkBody').innerHTML=rows.map(function(r){return '<tr><td><b>'+r[0]+'</b></td><td class="mono">'+r[1]+'</td><td class="mono mut small">'+r[2]+'</td><td>'+r[3]+'</td></tr>';}).join('');
+}
+function renderSheet1(){
+  function r(a,b,c){return '<tr><td><b>'+a+'</b></td><td class="mono">'+b+'</td><td class="small mut">'+c+'</td></tr>';}
+  var b1=sumRange(ALL,1,10),b2=sumRange(ALL,11,18),b3=sumRange(ALL,19,23),b4=sumRange(ALL,24,25),b5=sumRange(ALL,26,27);
+  var out='';
+  LEVELS.forEach(function(L){var a=sumNums(ALL,L.nums);
+    out+=r('Уровень '+L.k+' — '+L.name.toLowerCase(),a.got+'/'+a.cap+' · '+pc(a.pct),'Задания '+L.nums.join(', ')+'. Источник уровней — кодификатор 2026.');});
+  out+=r('Программный слой 17, 24–27',TOTAL.prog.got+'/'+TOTAL.prog.cap+' · '+pc(TOTAL.prog.pct),'По кодификатору здесь нужна собственная программа или обработка данных. Остальные задания: '+TOTAL.rest.got+'/'+TOTAL.rest.cap+' ('+pc(TOTAL.rest.pct)+').');
+  out+=r('Задания 1–10',b1.got+'/'+b1.cap+' · '+pc(b1.pct),'№1 — 15/15; №5 — 7/15 (46,7%) — единственное в блоке ниже 50%.');
+  out+=r('Задания 11–18',b2.got+'/'+b2.cap+' · '+pc(b2.pct),'№18 — 5/15 (33,3%), минимум среди 1–23; №14 и №17 — по 7/15 (46,7%).');
+  out+=r('Задания 19–23',b3.got+'/'+b3.cap+' · '+pc(b3.pct),'№19 и №20 — по 12/15 (80%), №21 — 11/15 (73,3%), №23 — 6/15 (40%).');
+  out+=r('Задания 24–25',b4.got+'/'+b4.cap+' · '+pc(b4.pct),'По одному решению: №24 — Ученик 10, №25 — Ученик 15.');
+  out+=r('Задания 26–27',b5.got+'/'+b5.cap+' · '+pc(b5.pct),'№26 — 0 у 15 из 15; №27 — 2 балла у 3 участников (12, 14, 15); частичных баллов 0.');
+  out+=r('Класс 11Т (13)',fm(CLASSES[0].primary,2)+' перв. · '+fm(CLASSES[0].test,2)+' тест.','Разброс 48–93; хвост 24–27 — '+CLASSES[0].tail.got+'/'+CLASSES[0].tail.cap+'.');
+  out+=r('Класс 11Э (1)','13 перв. · 59 тест.','n = 1: классные выводы недоступны.');
+  out+=r('Класс 11Г (1)','6 перв. · 40 тест.','n = 1: ровно минимальная граница, вузовский порог 46 не пройден.');
+  out+=r('Пороги 40 / 44 / 46',over(ALL,40)+' / '+over(ALL,44)+' / '+over(ALL,46)+' из 15','По шкале кодификатора 2026.');
+  out+=r('Тип ошибки: неверный / пропуск','<span class="badge b-none">нет данных</span>','Протокол кодирует одинаково: «−» и «0».');
+  out+=r('Частичное выполнение 26–27','0 случаев','Ни одной оценки «1» в протоколе.');
+  out+=r('Время выполнения','<span class="badge b-none">нет данных</span>','Тайминга в протоколе нет.');
+  out+=r('Замер «до»','<span class="badge b-none">нет данных</span>','Единственный срез — 18.06.2026.');
+  el('sheet1Body').innerHTML=out;
+}
+/* ============ ШАГ 2 ============ */
+function renderTaskChart(){
+  var ts=visibleTasks();
+  if(!ts.length){el('taskChart').innerHTML='<p class="mut small">Ниже порога '+S.view.thr+'% нет заданий.</p>';el('chartLegend').innerHTML='';return;}
+  var s,i;
+  if(narrow()){
+    var W=360,rh=22,top=26,H=top+ts.length*rh+16,x0=30,bw=W-x0-42;
+    s='<svg class="chart" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Выполнение заданий">';
+    s+='<line class="thr" x1="'+(x0+bw*S.view.thr/100)+'" y1="'+(top-8)+'" x2="'+(x0+bw*S.view.thr/100)+'" y2="'+(H-12)+'"/>';
+    s+='<text class="thr-t" x="'+(x0+bw*S.view.thr/100)+'" y="'+(top-12)+'" text-anchor="middle">порог '+S.view.thr+'%</text>';
+    ts.forEach(function(t,j){
+      var y=top+j*rh,w=Math.max(2,bw*t.pct/100);
+      s+='<text class="axis" x="'+(x0-6)+'" y="'+(y+11)+'" text-anchor="end" style="font-size:10px">'+t.num+'</text>';
+      s+='<rect class="cbar '+colorCls(t)+' growx" x="'+x0+'" y="'+(y+2)+'" width="'+w+'" height="12" rx="4" style="animation-delay:'+(j*14)+'ms"/>';
+      s+='<text class="val" x="'+(x0+w+5)+'" y="'+(y+12)+'" style="font-size:10px;fill:'+(t.pct<S.view.thr?'var(--red-i)':'var(--txt)')+'">'+Math.round(t.pct)+'</text>';
+      s+='<rect class="hit" x="0" y="'+y+'" width="'+W+'" height="'+rh+'" data-task="'+t.num+'" data-tip="'+esc('<b>Задание '+t.num+' · '+t.lv+'</b><br>'+t.topic+'<br>'+t.got+' из '+t.cap+' — '+pc(t.pct))+'"/>';
+    });
+    s+='</svg>';
+  }else{
+    var W2=1080,H2=300,pl=38,pr=12,tp=28,bt=44,iw=W2-pl-pr,st=iw/ts.length,bw2=Math.min(30,st*0.62);
+    function y(v){return tp+(1-v/100)*(H2-tp-bt);}
+    s='<svg class="chart" viewBox="0 0 '+W2+' '+H2+'" role="img" aria-label="Выполнение заданий">';
+    if(S.view.grid)[0,25,50,75,100].forEach(function(p){s+='<line class="grid-l" x1="'+pl+'" y1="'+y(p)+'" x2="'+(W2-pr)+'" y2="'+y(p)+'"/><text class="axis" x="'+(pl-8)+'" y="'+(y(p)+3)+'" text-anchor="end">'+p+'</text>';});
+    s+='<line class="thr" x1="'+pl+'" y1="'+y(S.view.thr)+'" x2="'+(W2-pr)+'" y2="'+y(S.view.thr)+'"/><text class="thr-t" x="'+(W2-pr)+'" y="'+(y(S.view.thr)-6)+'" text-anchor="end">порог '+S.view.thr+'%</text>';
+    ts.forEach(function(t,j){
+      var x=pl+j*st+(st-bw2)/2,h=Math.max(2,t.pct/100*(H2-tp-bt)),yy=y(t.pct);
+      s+='<rect class="cbar '+colorCls(t)+' grow" x="'+x+'" y="'+yy+'" width="'+bw2+'" height="'+h+'" rx="5" style="animation-delay:'+(j*20)+'ms"/>';
+      s+='<text class="val" x="'+(x+bw2/2)+'" y="'+(yy-7)+'" text-anchor="middle" style="fill:'+(t.pct<S.view.thr?'var(--red-i)':'var(--txt)')+'">'+Math.round(t.pct)+'</text>';
+      s+='<text class="axis" x="'+(x+bw2/2)+'" y="'+(H2-24)+'" text-anchor="middle">'+t.num+'</text>';
+      if(S.view.labels==='topic')s+='<text class="axis" x="'+(x+bw2/2)+'" y="'+(H2-10)+'" text-anchor="middle" style="font-size:8px">'+t.short+'</text>';
+      s+='<rect class="hit" x="'+(pl+j*st)+'" y="'+tp+'" width="'+st+'" height="'+(H2-tp-bt)+'" data-task="'+t.num+'" data-tip="'+esc('<b>Задание '+t.num+' · уровень '+t.lv+'</b><br>'+t.topic+'<br>'+t.got+' из '+t.cap+' — '+pc(t.pct)+'<br>Полный балл: '+t.full+' из 15 · ноль: '+t.zero+(t.solvers.length&&t.solvers.length<=4?'<br>Решили: '+names(t.solvers):''))+'"/>';
+    });
+    s+='<text class="axis" x="'+pl+'" y="14">% от максимального балла · 15 участников</text></svg>';
+  }
+  el('taskChart').innerHTML=s;
+  el('chartLegend').innerHTML=(S.view.colorBy==='level'
+    ?LEVELS.map(function(L){return '<span><i style="background:var(--lv'+L.key+')"></i>'+L.k+' — '+L.name.toLowerCase()+'</span>';}).join('')
+    :BLOCKS.map(function(b){return '<span><i style="background:var(--'+b.cls+')"></i>'+b.name+'</span>';}).join(''))
+    +'<span class="dim">клик по столбцу — разбор задания</span>';
+}
+function renderGroupChart(){
+  var G=[{k:'Сильные ≥ 78 (6)',list:TOP,c:'b2'},{k:'Все (15)',list:ALL,c:'b3'},{k:'Риск < 60 (5)',list:RISK,c:'b5'}];
+  var s;
+  if(narrow()){
+    var W=360,rh=18,sec=76,top=22,H=top+BLOCKS.length*sec,x0=8,bw=W-x0-46;
+    s='<svg class="chart" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Сравнение групп">';
+    BLOCKS.forEach(function(b,i){
+      var y0=top+i*sec;
+      s+='<text class="axis" x="'+x0+'" y="'+(y0+2)+'" style="font-size:11px;fill:var(--txt2)">'+b.name+'</text>';
+      G.forEach(function(g,j){
+        var st=sumRange(g.list,b.from,b.to),y=y0+10+j*rh,w=Math.max(2,bw*st.pct/100);
+        s+='<rect class="cbar '+g.c+' growx" x="'+x0+'" y="'+y+'" width="'+w+'" height="11" rx="4"/>';
+        s+='<text class="val" x="'+(x0+w+5)+'" y="'+(y+10)+'" style="font-size:9.5px">'+Math.round(st.pct)+'%</text>';
+        s+='<rect class="hit" x="0" y="'+(y-2)+'" width="'+W+'" height="'+rh+'" data-tip="'+esc('<b>'+g.k+' · '+b.name+'</b><br>'+st.got+' из '+st.cap+' — '+pc(st.pct))+'"/>';
+      });
+    });
+    s+='</svg><div class="legend">'+G.map(function(g){return '<span><i style="background:var(--'+g.c+')"></i>'+g.k+'</span>';}).join('')+'</div>';
+    el('groupChart').innerHTML=s;return;
+  }
+  var W2=1080,H2=280,pl=40,pr=14,tp=30,bt=64,iw=W2-pl-pr,st2=iw/BLOCKS.length,bw2=Math.min(46,st2/4.2);
+  function y(v){return tp+(1-v/100)*(H2-tp-bt);}
+  s='<svg class="chart" viewBox="0 0 '+W2+' '+H2+'" role="img" aria-label="Сравнение групп">';
+  if(S.view.grid)[0,25,50,75,100].forEach(function(p){s+='<line class="grid-l" x1="'+pl+'" y1="'+y(p)+'" x2="'+(W2-pr)+'" y2="'+y(p)+'"/><text class="axis" x="'+(pl-8)+'" y="'+(y(p)+3)+'" text-anchor="end">'+p+'</text>';});
+  BLOCKS.forEach(function(b,i){
+    var gx=pl+i*st2;
+    G.forEach(function(g,j){
+      var st=sumRange(g.list,b.from,b.to),x=gx+st2/2-(bw2*1.5+8)+j*(bw2+8),h=Math.max(2,st.pct/100*(H2-tp-bt)),yy=y(st.pct);
+      s+='<rect class="cbar '+g.c+' grow" x="'+x+'" y="'+yy+'" width="'+bw2+'" height="'+h+'" rx="5" style="animation-delay:'+((i*3+j)*35)+'ms"/>';
+      s+='<text class="val" x="'+(x+bw2/2)+'" y="'+(yy-7)+'" text-anchor="middle">'+Math.round(st.pct)+'</text>';
+      s+='<rect class="hit" x="'+x+'" y="'+tp+'" width="'+bw2+'" height="'+(H2-tp-bt)+'" data-tip="'+esc('<b>'+g.k+' · '+b.name+'</b><br>'+st.got+' из '+st.cap+' — '+pc(st.pct))+'"/>';
+    });
+    s+='<text class="axis" x="'+(gx+st2/2)+'" y="'+(H2-34)+'" text-anchor="middle" style="font-size:11px;fill:var(--txt2)">'+b.name+'</text>';
+    s+='<text class="axis" x="'+(gx+st2/2)+'" y="'+(H2-20)+'" text-anchor="middle" style="font-size:9px">'+b.sub+'</text>';
+  });
+  var lx=pl;
+  G.forEach(function(g){s+='<rect class="'+g.c+'" x="'+lx+'" y="6" width="11" height="11" rx="3"/><text class="axis" x="'+(lx+16)+'" y="16" style="fill:var(--txt2)">'+g.k+'</text>';lx+=g.k.length*6.6+46;});
+  s+='</svg>';
+  el('groupChart').innerHTML=s;
+}
+function patterns(){
+  var lvV=sumNums(ALL,LEVELS[2].nums),b2=sumRange(ALL,11,18);
+  return[
+   {id:'p1',type:'Точечный',cls:'',badge:'b-pt',title:'Хвост 24–27 провален при сохранной работе в 1–23',
+    where:'Все 15 участников; 11Т — '+TAIL11T.got+'/'+TAIL11T.cap+'; сильные ≥78 — '+TAILTOP.got+'/'+TAILTOP.cap,
+    fig:'24–27: '+TOTAL.tail.got+'/'+TOTAL.tail.cap+' ('+pc(TOTAL.tail.pct)+') против 1–23: '+TOTAL.head.got+'/'+TOTAL.head.cap+' ('+pc(TOTAL.head.pct)+'). №26 — 0/15; №24 — 1/15 (Ученик 10); №25 — 1/15 (Ученик 15); №27 — 2 балла у 3. С нулём по всему блоку — '+(N-WITH_TAIL.length)+' из 15.'},
+   {id:'p2',type:'Точечный по типу деятельности',cls:'',badge:'b-pt',title:'Провал там, где по кодификатору нужна собственная программа',
+    where:'Задания 17, 24, 25 (программа 10–20 строк) и 26, 27 (обработка и анализ данных)',
+    fig:'Программный слой: '+TOTAL.prog.got+'/'+TOTAL.prog.cap+' ('+pc(TOTAL.prog.pct)+') против '+TOTAL.rest.got+'/'+TOTAL.rest.cap+' ('+pc(TOTAL.rest.pct)+') в остальных 22 заданиях. У сильных ≥78 программный слой — '+PROGTOP.got+'/'+PROGTOP.cap+' ('+pc(PROGTOP.pct)+'). №17 (повышенный) — 7/15 (46,7%).'},
+   {id:'p3',type:'Не уровень сложности',cls:'lv',badge:'b-lvV',title:'Внутри высокого уровня результат разный: №21 держится, №24–26 нет',
+    where:'Уровень В: задания 21, 24, 25, 26, 27 (кодификатор 2026)',
+    fig:'Уровень В всего: '+lvV.got+'/'+lvV.cap+' ('+pc(lvV.pct)+'). Внутри: №21 — 11/15 (73,3%), №24 — 1/15, №25 — 1/15, №26 — 0/15, №27 — 6/30 (20%). Базовое №5 — 7/15 (46,7%) ниже, чем высокое №21.'},
+   {id:'p4',type:'Точечный внутри блока',cls:'',badge:'b-pt',title:'Просадка повышенного уровня 11–18: №18, 14, 17, 5',
+    where:'Все 15 участников; 11Т — '+sumRange(CLASSES[0].list,11,18).got+'/'+sumRange(CLASSES[0].list,11,18).cap,
+    fig:'11–18: '+b2.got+'/'+b2.cap+' ('+pc(b2.pct)+'). №18 — 5/15 (33,3%), №14 и №17 — по 7/15 (46,7%), №23 — 6/15 (40%). При этом №1 — 15/15, №2, 4, 6, 7, 10 — по 14/15 (93,3%).'},
+   {id:'p5',type:'Общий, но n = 1',cls:'gen',badge:'b-warn',title:'Общий низкий профиль отдельного участника (Ученик 2, 11Г)',
+    where:'Одна строка протокола; на класс 11Г не переносится',
+    fig:'Первичный 6/29 → тестовый 40: ровно порог аттестата, вузовские 44 и 46 не пройдены. 1–10: 6/10; 11–18: 0/8; 19–23: 0/5; 24–27: 0/6.'},
+   {id:'p6',type:'Успех',cls:'ok',badge:'b-ok',title:'Теория игр 19–21 держится выше середины работы',
+    where:'12 из 15 решили №19 и №20; в 11Т: №19 — 11 из 13, №20 — 12 из 13',
+    fig:'№19 (Б) — 12/15 (80%), №20 (П) — 12/15 (80%), №21 (В) — 11/15 (73,3%). Блок 19–23 — '+pc(sumRange(ALL,19,23).pct)+' против 11–18 — '+pc(b2.pct)+'. Это состояние: замера «до» нет.'}
+  ];
+}
+function renderPatterns(){
+  el('patternCards').innerHTML=patterns().map(function(p){
+    return '<div class="card pat '+p.cls+'"><div class="row between" style="align-items:flex-start"><h4>'+p.title+'</h4><span class="badge '+p.badge+'">'+p.type+'</span></div>'+
+    '<div class="small mut"><b class="mono dim">ГДЕ:</b> '+p.where+'</div><div class="fig">'+p.fig+'</div></div>';
+  }).join('');
+}
+function renderStability(){
+  el('stability').innerHTML=CLASSES.map(function(c){
+    var ok=c.n>=5;
+    return '<div class="card"><div class="row between"><h3 style="font-size:15px">'+c.cls+'</h3><span class="badge '+(ok?'b-ok':'b-none')+'">n = '+c.n+'</span></div>'+
+    '<div class="mono small" style="margin-top:8px">24–27: '+c.tail.got+'/'+c.tail.cap+' ('+pc(c.tail.pct)+')</div>'+
+    '<div class="mono small">нулей по блоку: '+c.zeroTail+' из '+c.n+'</div>'+
+    '<p class="small mut" style="margin-top:10px">'+(ok?'Паттерн повторяется у '+c.zeroTail+' из '+c.n+' — устойчивость внутри класса видна.':'Согласуется с паттерном, но один участник устойчивость не доказывает.')+'</p></div>';
+  }).join('');
+  el('stabilityNote').innerHTML='<b>Честный вывод.</b> Внутри 11Т (13 участников) провал 24–27 повторяется у '+CLASSES[0].zeroTail+' из 13 — паттерн устойчив. Между классами проверка невозможна: в 11Э и 11Г по одному участнику. Формулировка «повторяется в разных классах» по этим данным не подтверждается.';
+}
+function renderSheet2(){
+  el('sheet2Body').innerHTML=patterns().map(function(p){
+    return '<tr><td><b>'+p.title+'</b></td><td><span class="badge '+p.badge+'">'+p.type+'</span></td><td class="small mut">'+p.where+'</td><td class="mono small">'+p.fig+'</td></tr>';
+  }).join('');
+}
+/* ============ ШАГ 3–4 ============ */
+var editingCause=null;
+function renderCauses(){
+  el('causeCount').textContent='Выбрано '+S.picked.length+' из 3';
+  el('causeCount').className='chip '+(S.picked.length===3?'chip--bl':'chip--am');
+  el('causeList').innerHTML=S.causes.map(function(c,i){
+    var on=S.picked.indexOf(c.id)>=0,st=S.verdict[c.id]||'insufficient';
+    if(editingCause===c.id){
+      return '<div class="cause on"><div class="cause-h"><span class="cause-n">'+(i+1)+'</span><h4>Правка причины</h4></div>'+
+      '<div class="stack"><span class="tiny mono dim">СУТЬ</span><textarea class="edit-in" id="ec-t-'+c.id+'">'+esc(c.title)+'</textarea>'+
+      '<span class="tiny mono dim">КАК ПРОВЕРИТЬ</span><textarea class="edit-in" id="ec-c-'+c.id+'">'+esc(c.check)+'</textarea>'+
+      '<span class="tiny mono dim">ЧТО ОПРОВЕРГНЕТ</span><textarea class="edit-in" id="ec-r-'+c.id+'">'+esc(c.refute)+'</textarea></div>'+
+      '<div class="cause-f"><button class="btn btn--primary btn--sm" data-csave="'+c.id+'">Сохранить</button><button class="btn btn--sm" data-ccancel="1">Отмена</button></div></div>';
+    }
+    var badge=st==='confirmed'?'<span class="badge b-ok">подтверждена</span>':(st==='refuted'?'<span class="badge b-bad">опровергнута</span>':'<span class="badge b-warn">мало данных</span>');
+    return '<div class="cause'+(on?' on':'')+'"><div class="cause-h"><span class="cause-n">'+(i+1)+'</span><h4>'+esc(c.title)+'</h4></div>'+
+    '<p class="small mut" style="margin:0">'+esc(c.essence||'')+'</p>'+
+    '<dl><dt>Как проверить по этим же данным</dt><dd>'+esc(c.check)+'</dd><dt>Что опровергнет</dt><dd>'+esc(c.refute)+'</dd></dl>'+
+    '<div class="cause-f"><button class="btn btn--sm'+(on?' btn--primary':'')+'" data-pick="'+c.id+'">'+(on?'✓ Выбрана':'Выбрать')+'</button>'+(on?badge:'')+
+    '<span class="grow"></span><button class="btn btn--sm" data-cedit="'+c.id+'">Изменить</button><button class="btn btn--sm btn--danger" data-cdel="'+c.id+'">Удалить</button></div></div>';
+  }).join('');
+}
+var ST_LABEL={confirmed:'Подтверждена',refuted:'Опровергнута',insufficient:'Мало данных'};
+function renderVerify(){
+  var picked=S.picked.map(function(id){return S.causes.filter(function(c){return c.id===id;})[0];}).filter(Boolean);
+  if(!picked.length){el('verifyBody').innerHTML='<tr><td colspan="4" class="mut" style="padding:22px">В шаге 3 не выбрано ни одной причины.</td></tr>';renderMain();return;}
+  el('verifyBody').innerHTML=picked.map(function(c){
+    var st=S.verdict[c.id]||'insufficient',isMain=S.main===c.id;
+    var seg='<div class="seg st" data-vid="'+c.id+'">'+['confirmed','refuted','insufficient'].map(function(v){return '<button data-v="'+v+'"'+(st===v?' class="on"':'')+'>'+ST_LABEL[v]+'</button>';}).join('')+'</div>';
+    var main='<label class="check" style="margin-top:10px'+(st!=='confirmed'?';opacity:.45':'')+'"><input type="radio" name="maincause" data-main="'+c.id+'"'+(isMain?' checked':'')+(st!=='confirmed'?' disabled':'')+'><i></i>Главная подтверждённая</label>';
+    var v=st==='confirmed'?'Срез подтверждает: провал не сводится к уровню сложности или общему уровню подготовки.':(st==='refuted'?'Срез опровергает: внутри уровня В результат разный, нули есть и у сильных.':'Прямого замера в протоколе нет — вывод не строим.');
+    return '<tr><td><b>'+esc(c.title)+'</b><div class="tiny dim" style="margin-top:6px">'+esc(c.check)+'</div></td>'+
+    '<td class="small">'+esc(c.support||'Срез не задан — допишите в шаге 3.')+'</td>'+
+    '<td class="small mut">'+esc(c.against||'Опровергающий срез не задан.')+'</td>'+
+    '<td>'+seg+'<div class="tiny dim" style="margin-top:8px">'+v+'</div>'+main+'</td></tr>';
+  }).join('');
+  renderMain();
+}
+function renderMain(){
+  var c=S.causes.filter(function(x){return x.id===S.main;})[0];
+  if(!c||S.verdict[c.id]!=='confirmed'){
+    el('mainCauseBox').innerHTML='<div class="note"><b>Подтверждённая причина не выбрана.</b> Поставьте статус «Подтверждена» причине с работающим срезом и назначьте её главной: без этого шаг 5 остаётся черновиком.</div>';return;
+  }
+  el('mainCauseBox').innerHTML='<div class="note ok"><b>Подтверждённая причина.</b> '+esc(c.title)+'<div class="mono small" style="margin-top:8px;color:var(--txt)">'+esc(c.support)+'</div></div>'+
+  '<div class="row no-print" style="margin-top:12px"><button class="btn btn--primary btn--sm" id="btnUseMain">Подставить в вывод</button><span class="small mut">Вывод строится только на этой причине.</span></div>';
+  var b=el('btnUseMain');
+  if(b)b.onclick=function(){S.conclusion=draftText();el('conclusion').value=S.conclusion;light();toast('Черновик вывода пересобран','ok');};
+}
+/* ============ ШАГ 5 ============ */
+function renderDecisions(){
+  el('decisionList').innerHTML=S.decisions.map(function(d,i){
+    return '<div class="card" data-didx="'+i+'"><div class="row between"><span class="chip chip--vi">Решение '+(i+1)+'</span>'+
+    '<div class="row" style="gap:6px"><span class="grip no-print" draggable="true" data-grip="1" title="Перетащить">⠿</span>'+
+    '<button class="btn btn--sm no-print" data-dmove="up" data-id="'+d.id+'"'+(i===0?' disabled':'')+'>↑</button>'+
+    '<button class="btn btn--sm no-print" data-dmove="down" data-id="'+d.id+'"'+(i===S.decisions.length-1?' disabled':'')+'>↓</button>'+
+    '<button class="btn btn--sm btn--danger no-print" data-ddel="'+d.id+'">Удалить</button></div></div>'+
+    '<input class="edit-in" style="margin-top:10px;font-weight:700" data-df="title" data-id="'+d.id+'" value="'+esc(d.title)+'">'+
+    '<div class="stack" style="margin-top:10px"><span class="tiny mono dim">ЧТО ДЕЛАЕМ</span><textarea class="edit-in" data-df="text" data-id="'+d.id+'">'+esc(d.text)+'</textarea></div>'+
+    '<div class="grid g2" style="margin-top:10px"><label class="stack"><span class="tiny mono dim">ОТВЕТСТВЕННЫЙ</span><input class="edit-in" data-df="owner" data-id="'+d.id+'" value="'+esc(d.owner)+'" placeholder="Роль или ФИО"></label>'+
+    '<label class="stack"><span class="tiny mono dim">СРОК</span><input class="edit-in" type="date" data-df="due" data-id="'+d.id+'" value="'+esc(d.due)+'"></label></div>'+
+    '<div class="stack" style="margin-top:10px"><span class="tiny mono dim">ГЛАВНЫЙ РИСК</span><textarea class="edit-in" data-df="risk" data-id="'+d.id+'">'+esc(d.risk)+'</textarea></div></div>';
+  }).join('');
+}
+function renderCriteria(){
+  el('criteriaBody').innerHTML=S.criteria.map(function(k){
+    return '<tr><td><b>'+esc(k.label)+'</b></td><td class="mono small">'+esc(k.base)+'</td>'+
+    '<td><input class="edit-in" data-crit="'+k.id+'" value="'+esc(k.target)+'"></td><td class="small mut">'+esc(k.how)+'</td></tr>';
+  }).join('');
+}
+function fmtDate(v){if(!v)return 'не задана';var p=String(v).split('-');return p.length===3?p[2]+'.'+p[1]+'.'+p[0]:v;}
+function renderSheet5(){
+  var ds=S.decisions.map(function(d,i){return '<b>Решение '+(i+1)+'.</b> '+esc(d.title.replace(/^Решение \d+ · /,''))+' — '+esc(d.text)+' <span class="mono small">Ответственный: '+esc(d.owner||'не назначен')+', срок: '+esc(fmtDate(d.due))+'. Риск: '+esc(d.risk)+'</span>';}).join('<div class="hr" style="margin:10px 0"></div>');
+  var cr=S.criteria.map(function(k){return esc(k.label)+': база '+esc(k.base)+' → цель '+esc(k.target);}).join('<br>');
+  var rows=[
+   ['Вывод о проблеме',esc(S.conclusion).replace(/\n/g,'<br>')],
+   ['Решения',ds],
+   ['Что замерим в следующий раз',cr+'<div class="small mut" style="margin-top:8px">Замер: диагностическая работа в формате КЕГЭ '+esc(fmtDate(S.meta.nextDate))+', тот же протокол + поля «частичный балл» и «время». Это станет нашим «до».</div>'],
+   ['Ответственный и срок',esc(S.meta.owner||'не назначен — впишите ответственного')+' · педсовет '+esc(fmtDate(S.meta.pedDate))+' · замер '+esc(fmtDate(S.meta.nextDate))]
+  ];
+  el('sheet5Body').innerHTML=rows.map(function(r){return '<tr><td><b>'+r[0]+'</b></td><td class="small">'+r[1]+'</td></tr>';}).join('');
+}
+var BAN=['привело','привёл','привели','выросло','вырос','выросли','прирост','улучшилось','улучшился','повысилось','повысился','стало лучше','дало рост','положительная динамика'];
+function lint(){
+  var text=S.conclusion||'',t=text.toLowerCase(),hits=BAN.filter(function(w){return t.indexOf(w)>=0;});
+  var nums=(text.match(/\d+/g)||[]).length;
+  return[
+   {ok:hits.length===0,label:hits.length?'Запрещённые слова: '+hits.join(', '):'Нет слов о приросте'},
+   {ok:nums>=3,label:nums>=3?'Опора на цифры протокола ('+nums+')':'Мало цифр: нужно минимум 3'},
+   {ok:/до/.test(t)&&/нет|не проверяема|состояние/.test(t),label:/до/.test(t)?'Отмечено отсутствие замера «до»':'Не указано, что замера «до» нет'},
+   {ok:text.trim().length>=120,label:text.trim().length>=120?'Развёрнутая формулировка':'Слишком коротко'}
+  ];
+}
+function renderLint(){el('lintChips').innerHTML=lint().map(function(c){return '<span class="badge '+(c.ok?'b-ok':'b-bad')+'">'+(c.ok?'✓ ':'✕ ')+esc(c.label)+'</span>';}).join('');}
+/* ============ ИТОГ ============ */
+function finDefs(){
+  var l=lint(),lintOk=l.every(function(x){return x.ok;});
+  var decOk=S.decisions.length>=2&&S.decisions.every(function(d){return (d.owner||'').trim()&&(d.due||'').trim()&&(d.text||'').trim()&&(d.risk||'').trim();});
+  var crOk=S.criteria.every(function(k){return (k.target||'').trim();});
+  return[
+   {t:'Данные (таблица фактов)',ok:S.checks.ck1,hint:S.checks.ck1?'17 строк фактов, сверка с протоколом и шкалой кодификатора':'Шаг 1: отметьте сверку цифр'},
+   {t:'Паттерн (точечный / общий)',ok:S.checks.ck2,hint:S.checks.ck2?'6 паттернов с цифрами, устойчивость проверена с учётом n=1':'Шаг 2: подтвердите устойчивость'},
+   {t:'Три причины + проверка',ok:S.picked.length===3&&S.checks.ck3a&&S.checks.ck3b,hint:'Выбрано '+S.picked.length+' из 3'+(S.checks.ck3a?'':' · не отмечено «причины реальны»')+(S.checks.ck3b?'':' · не отмечено «есть проверка»')},
+   {t:'Одна подтверждённая причина',ok:!!S.main&&S.verdict[S.main]==='confirmed',hint:S.main&&S.verdict[S.main]==='confirmed'?'Главная причина назначена и подтверждена срезом':'Шаг 4: назначьте главную причину'},
+   {t:'Вывод + 2 решения + критерий + ответственный',ok:lintOk&&decOk&&crOk&&!!S.meta.owner.trim()&&S.checks.ck5a&&S.checks.ck5b&&S.checks.ck5c,
+    hint:[lintOk?'':'вывод не прошёл проверку',decOk?'':'у решений нет ответственного, срока или риска',crOk?'':'не заданы цели',S.meta.owner.trim()?'':'не назначен ответственный за разбор',(S.checks.ck5a&&S.checks.ck5b&&S.checks.ck5c)?'':'не отмечены три отметки шага 5'].filter(Boolean).join(' · ')||'Все элементы шага 5 на месте'}
+  ];
+}
+function updateFinal(){
+  var defs=finDefs(),done=0;
+  defs.forEach(function(d,i){if(!S.finTouched[i])S.fin[i]=!!d.ok;if(S.fin[i])done++;});
+  el('finalList').innerHTML=defs.map(function(d,i){
+    return '<div class="final-item'+(S.fin[i]?' done':'')+'"><label class="check"><input type="checkbox" data-fin="'+i+'"'+(S.fin[i]?' checked':'')+'><i></i></label>'+
+    '<div class="grow"><div class="row between"><b>'+esc(d.t)+'</b><span class="badge '+(d.ok?'b-ok':'b-warn')+'">'+(d.ok?'готово':'не хватает')+'</span></div>'+
+    '<div class="small mut" style="margin-top:4px">'+esc(d.hint)+'</div></div><span class="fi-n">0'+(i+1)+'</span></div>';
+  }).join('');
+  var p=done/5;
+  el('ringFg').setAttribute('stroke-dashoffset',String(314.16*(1-p)));
+  el('ringPct').textContent=Math.round(p*100)+'%';
+  el('progTxt').textContent=done+'/5';
+  document.querySelectorAll('[data-rail]').forEach(function(a,i){a.classList.toggle('done',!!S.fin[i]);});
+  save();
+}
+/* ============ КАРТОЧКИ ============ */
+var lastFocus=null;
+function openDrawer(){el('drawer').classList.add('on');el('scrim').classList.add('on');el('drawer').setAttribute('aria-hidden','false');}
+function closeDrawer(){el('drawer').classList.remove('on');el('scrim').classList.remove('on');el('drawer').setAttribute('aria-hidden','true');if(lastFocus&&lastFocus.focus)lastFocus.focus();}
+function openStudent(n){
+  var s=STUDENTS.filter(function(x){return x.n===n;})[0];if(!s)return;
+  lastFocus=document.activeElement;
+  var c=CLASSES.filter(function(x){return x.cls===s.cls;})[0],st=statusOf(s.test);
+  el('drawerTitle').textContent=s.name;
+  el('drawerSub').innerHTML='Класс '+s.cls+' · строка №'+s.n+' · <span class="badge '+st.c+'">'+st.t+'</span>';
+  var cells=s.pts.map(function(v,i){var k=v===0?(i<25?'m':'0'):(i<25?'p':(v===1?'1':'2'));
+    return '<div style="text-align:center"><div class="mx-cell" data-v="'+k+'" style="--cell:30px;margin:0 auto">'+(v===0?(i<25?'−':'0'):(i<25?'+':v))+'</div><div class="tiny dim mono" style="margin-top:3px">'+(i+1)+'</div></div>';}).join('');
+  var lv=LEVELS.map(function(L){var r=sumNums([s],L.nums);
+    return '<div style="margin-bottom:8px"><div class="row between small"><span>'+L.k+' · '+L.name+'</span><span class="mono">'+r.got+'/'+r.cap+'</span></div><div class="bar" style="margin-top:4px"><i class="'+(r.pct<50?'bad':(r.pct<80?'warn':'ok'))+'" style="width:'+r.pct.toFixed(1)+'%"></i></div></div>';}).join('');
+  var solved=[],zero=[];s.pts.forEach(function(v,i){if(v>0)solved.push(i+1);else zero.push(i+1);});
+  var next=THRESHOLDS.filter(function(t){return s.test<t.t;})[0];
+  el('drawerBody').innerHTML=
+   '<div class="row" style="gap:16px"><div><div class="tiny mono dim">ТЕСТОВЫЙ</div><div class="mono" style="font-size:32px;font-weight:700;color:var(--blue-i)">'+s.test+'</div></div>'+
+   '<div><div class="tiny mono dim">ПЕРВИЧНЫЙ</div><div class="mono" style="font-size:32px;font-weight:700">'+s.primary+'<span class="dim" style="font-size:15px">/29</span></div></div>'+
+   '<div><div class="tiny mono dim">24–27</div><div class="mono" style="font-size:32px;font-weight:700;color:'+(s.tail?'var(--green-i)':'var(--red-i)')+'">'+s.tail+'<span class="dim" style="font-size:15px">/6</span></div></div></div>'+
+   '<div class="hr"></div><div class="tiny mono dim" style="margin-bottom:8px">ЛЕНТА 1–27</div><div style="display:grid;grid-template-columns:repeat(9,1fr);gap:6px">'+cells+'</div>'+
+   '<div class="hr"></div><div class="tiny mono dim" style="margin-bottom:10px">ПО УРОВНЯМ КОДИФИКАТОРА</div>'+lv+
+   '<div class="hr"></div><dl class="kv"><dt>Решено</dt><dd class="mono small">'+(solved.join(', ')||'—')+'</dd>'+
+   '<dt>Ноль</dt><dd class="mono small" style="color:var(--red-i)">'+(zero.join(', ')||'—')+'</dd>'+
+   '<dt>Программы</dt><dd class="mono small">'+s.prog+' из 7 (задания 17, 24–27)</dd>'+
+   '<dt>К классу</dt><dd class="mono small">'+(s.test-c.test>=0?'+':'')+fm(s.test-c.test,2)+' к среднему '+s.cls+'</dd>'+
+   '<dt>К выборке</dt><dd class="mono small">'+(s.test-TOTAL.test>=0?'+':'')+fm(s.test-TOTAL.test,2)+' к среднему по 15</dd>'+
+   '<dt>Шкала</dt><dd class="small">'+(s.scaleMatch?'<span class="badge b-ok">тестовый балл совпал со шкалой 2026</span>':'<span class="badge b-bad">расхождение</span>')+'</dd>'+
+   (next?'<dt>Порог</dt><dd class="small">до «'+next.name+'» ('+next.t+') не хватает '+(next.p-s.primary)+' первичных '+plural(next.p-s.primary,'балла','баллов','баллов')+'</dd>':'<dt>Порог</dt><dd class="small"><span class="badge b-ok">все три порога пройдены</span></dd>')+'</dl>'+
+   (c.n<5?'<div class="note" style="margin-top:12px"><b>Класс '+s.cls+' — один участник.</b> Сравнение со средним по классу сравнивает участника с самим собой.</div>':'')+
+   '<div class="row no-print" style="margin-top:16px"><button class="btn btn--sm" id="dToMatrix">Показать в матрице</button><button class="btn btn--sm" id="dCopy">Скопировать строку</button></div>';
+  openDrawer();
+  el('dToMatrix').onclick=function(){closeDrawer();setTab('matrix');renderMatrix();
+    var box=el('matrix');box.querySelectorAll('[data-n="'+s.n+'"]').forEach(function(x){x.classList.add('mx-row-hl');});
+    el('p-matrix').scrollIntoView({behavior:'smooth',block:'center'});
+    setTimeout(function(){box.querySelectorAll('.mx-row-hl').forEach(function(x){x.classList.remove('mx-row-hl');});},2600);};
+  el('dCopy').onclick=function(){copyText(s.name+';'+s.cls+';'+s.tape+';'+s.primary+';'+s.test,'Строка скопирована');};
+}
+function openTask(num){
+  var t=TASKS[num-1];if(!t)return;
+  lastFocus=document.activeElement;
+  el('drawerTitle').textContent='Задание '+t.num;
+  el('drawerSub').innerHTML='<span class="badge b-lv'+t.lvKey+'">'+t.lv+'</span> · '+t.block.name+' · максимум '+t.max+' '+plural(t.max,'балл','балла','баллов');
+  var byClass=CLASSES.map(function(c){var g=0,cap=0;c.list.forEach(function(s){g+=s.pts[num-1];cap+=t.max;});
+    return '<div class="row between small" style="margin-bottom:6px"><span>'+c.cls+' <span class="dim mono">n='+c.n+'</span></span><span class="mono">'+g+'/'+cap+' · '+pc(g/cap*100,0)+'</span></div>';}).join('');
+  el('drawerBody').innerHTML=
+   '<p class="small" style="color:var(--txt2)">'+esc(t.topic)+'</p>'+
+   '<div class="row" style="gap:16px"><div><div class="tiny mono dim">НАБРАНО</div><div class="mono" style="font-size:30px;font-weight:700;color:'+(t.pct<S.view.thr?'var(--red-i)':'var(--green-i)')+'">'+pc(t.pct)+'</div></div>'+
+   '<div><div class="tiny mono dim">БАЛЛЫ</div><div class="mono" style="font-size:30px;font-weight:700">'+t.got+'<span class="dim" style="font-size:14px">/'+t.cap+'</span></div></div></div>'+
+   '<div class="bar" style="margin-top:12px;height:9px"><i class="'+(t.pct<S.view.thr?'bad':(t.pct<80?'warn':'ok'))+'" style="width:'+t.pct.toFixed(1)+'%"></i></div>'+
+   '<div class="hr"></div><dl class="kv"><dt>Полный балл</dt><dd class="mono">'+t.full+' из 15</dd>'+
+   '<dt>Частичный</dt><dd class="mono">'+t.part+' из 15'+(t.max===2&&t.part===0?' <span class="badge b-none">нет наблюдений</span>':'')+'</dd>'+
+   '<dt>Ноль</dt><dd class="mono" style="color:var(--red-i)">'+t.zero+' из 15</dd>'+
+   '<dt>Программа</dt><dd class="small">'+(PROG.indexOf(t.num)>=0?'по кодификатору требуется собственная программа / обработка данных':'программа по кодификатору не требуется')+'</dd></dl>'+
+   '<div class="hr"></div><div class="tiny mono dim" style="margin-bottom:8px">ПО КЛАССАМ</div>'+byClass+
+   '<div class="hr"></div><div class="tiny mono dim" style="margin-bottom:8px">НАБРАЛИ БАЛЛЫ</div><div class="row" style="gap:6px">'+(t.solvers.length?t.solvers.map(function(n){return '<button class="chip chip--cy" data-goto="'+n+'">Ученик '+n+'</button>';}).join(''):'<span class="badge b-bad">никто</span>')+'</div>'+
+   '<div class="tiny mono dim" style="margin:14px 0 8px">НЕ НАБРАЛИ</div><div class="row" style="gap:6px">'+(t.failers.length?t.failers.map(function(n){return '<button class="chip" data-goto="'+n+'">Ученик '+n+'</button>';}).join(''):'<span class="badge b-ok">никто</span>')+'</div>'+
+   '<div class="note info" style="margin-top:16px"><b>Два источника.</b> Формулировка и уровень — из кодификатора 2026; результат — из протокола 18.06.2026.</div>';
+  openDrawer();
+  el('drawerBody').querySelectorAll('[data-goto]').forEach(function(b){b.onclick=function(){openStudent(parseInt(b.getAttribute('data-goto'),10));};});
+}
+/* ============ ЭКСПОРТ ============ */
+function csvStudents(list){
+  var head=['№','Участник','Класс','Первичный','Тестовый','24-27','Программный слой','Лента'];
+  for(var i=1;i<=27;i++)head.push('З'+i);
+  var rows=[head.join(';')];
+  list.forEach(function(s){rows.push([s.n,s.name,s.cls,s.primary,s.test,s.tail,s.prog,s.tape].concat(s.pts).join(';'));});
+  return '\ufeff'+rows.join('\n');
+}
+function csvMatrix(){
+  var ts=visibleTasks(),ss=visibleStudents(),rows=[];
+  rows.push(['Участник','Класс'].concat(ts.map(function(t){return 'З'+t.num;})).concat(['Первичный','Тестовый']).join(';'));
+  ss.forEach(function(s){rows.push([s.name,s.cls].concat(ts.map(function(t){return s.pts[t.num-1];})).concat([s.primary,s.test]).join(';'));});
+  rows.push(['Набрано %',''].concat(ts.map(function(t){return fm(t.pct,1);})).join(';'));
+  return '\ufeff'+rows.join('\n');
+}
+function mdTable(head,rows){
+  return '| '+head.join(' | ')+' |\n|'+head.map(function(){return '---';}).join('|')+'|\n'+rows.map(function(r){return '| '+r.map(function(c){return String(c).replace(/\|/g,'/').replace(/\n/g,' ');}).join(' | ')+' |';}).join('\n')+'\n';
+}
+function buildMd(){
+  var L=[];
+  L.push('# Педагогический совет «От перечня к результату»\n');
+  L.push('**Разработчик:** учитель информатики Масликов Михаил Михайлович  \n**МО:** '+(S.meta.mo||'—')+'  \n**Дата:** '+fmtDate(S.meta.pedDate)+'  \n**Предмет / класс:** '+(S.meta.subject||'—')+'  \n**Ответственный:** '+(S.meta.owner||'не назначен')+'\n');
+  L.push('**Источники:** протокол ЕГЭ 2026 (38 — Иркутская область, ОО 50118, 25 — Информатика (КЕГЭ), 18.06.2026, создан 29.06.2026 09:48); кодификатор 2026 (уровни, баллы, шкала, пороги); методика педсовета 19.11.2026. Участники обезличены: Ученик 1 … Ученик 15.\n');
+  L.push('> Правила: нет «до» → состояние, не прирост; каждая причина проверяется по тем же данным; вывод не сильнее данных.\n');
+  L.push('## Кодификатор и шкала\n');
+  L.push(mdTable(['Порог','Тестовых','Первичных от','Преодолели'],THRESHOLDS.map(function(t){return [t.name,t.t,t.p,over(ALL,t.t)+' из 15'];})));
+  L.push('\n'+mdTable(['№','Уровень','Макс. балл','Проверяемое умение','Результат'],TASKS.map(function(t){return [t.num,t.lv,t.max,t.topic,t.got+'/'+t.cap+' ('+pc(t.pct)+')'];})));
+  L.push('\n## ШАГ 1. Разложить данные\n');
+  L.push('Участников '+N+'. Средний первичный '+fm(TOTAL.prim,2)+' (протокол: 17), средний тестовый '+fm(TOTAL.test,2)+' (протокол: 68). Сверка: первичные баллы 15/15, тестовые по шкале 2026 — 15/15.\n');
+  var s1=[];el('sheet1Body').querySelectorAll('tr').forEach(function(tr){var c=[];tr.querySelectorAll('td').forEach(function(td){c.push(td.innerText.replace(/\s+/g,' ').trim());});s1.push(c);});
+  L.push(mdTable(['Задание / группа','Результат','Что видно'],s1));
+  L.push('\n### Участники\n'+mdTable(['№','Участник','Класс','Первичный /29','Тестовый /100','24–27 /6'],STUDENTS.map(function(s){return [s.n,s.name,s.cls,s.primary,s.test,s.tail];})));
+  L.push('\n'+(S.checks.ck1?'☑':'☐')+' Все цифры сверены с протоколом\n');
+  L.push('## ШАГ 2. Найти провал\n');
+  L.push(mdTable(['Паттерн','Тип','Где','Цифры'],patterns().map(function(p){return [p.title,p.type,p.where,p.fig];})));
+  L.push('\n**Устойчивость:** внутри 11Т провал 24–27 у '+CLASSES[0].zeroTail+' из 13; между классами проверка невозможна (11Э и 11Г — по 1 участнику).\n');
+  L.push('\n'+(S.checks.ck2?'☑':'☐')+' Провал устойчив (с учётом n=1)\n');
+  L.push('## ШАГ 3. Причины\n');
+  L.push(mdTable(['№','Причина','Как проверить','Что опровергнет','Выбрана'],S.causes.map(function(c,i){return [i+1,c.title,c.check,c.refute,S.picked.indexOf(c.id)>=0?'да':'нет'];})));
+  L.push('\n'+(S.checks.ck3a?'☑':'☐')+' Причины реальны  \n'+(S.checks.ck3b?'☑':'☐')+' У каждой есть проверка\n');
+  L.push('## ШАГ 4. Проверка\n');
+  var pk=S.picked.map(function(id){return S.causes.filter(function(c){return c.id===id;})[0];}).filter(Boolean);
+  L.push(mdTable(['Причина','Подтверждающий срез','Опровергающий срез','Вывод'],pk.map(function(c){return [c.title,c.support||'—',c.against||'—',ST_LABEL[S.verdict[c.id]||'insufficient']+(S.main===c.id?' · главная':'')];})));
+  var mc=S.causes.filter(function(c){return c.id===S.main;})[0];
+  L.push('\n**Подтверждённая причина:** '+(mc&&S.verdict[mc.id]==='confirmed'?mc.title:'не выбрана')+'\n');
+  L.push('## ШАГ 5. Вывод и решение\n');
+  L.push('**Вывод:** '+S.conclusion+'\n');
+  L.push(mdTable(['Вывод','Решение','Критерий на будущее','Риск'],S.decisions.map(function(d,i){return [i===0?'Дефицит программной обработки данных (состояние на 18.06.2026)':'—',d.title.replace(/^Решение \d+ · /,'')+': '+d.text+' (отв. '+(d.owner||'—')+', срок '+fmtDate(d.due)+')',i===0?'См. таблицу критериев':'Новые поля протокола: частичный балл и время',d.risk];})));
+  L.push('\n### Что замерим ('+fmtDate(S.meta.nextDate)+')\n'+mdTable(['Что меряем','База','Цель','Как фиксируем'],S.criteria.map(function(k){return [k.label,k.base,k.target,k.how];})));
+  L.push('\n'+(S.checks.ck5a?'☑':'☐')+' Вывод не сильнее данных  \n'+(S.checks.ck5b?'☑':'☐')+' Критерий измерим  \n'+(S.checks.ck5c?'☑':'☐')+' Срок реальный\n');
+  L.push('## ИТОГ МО\n');
+  finDefs().forEach(function(d,i){L.push((S.fin[i]?'☑':'☐')+' '+(i+1)+'. '+d.t+' — '+(d.ok?'готово':'не хватает: '+d.hint));});
+  L.push('\n---\nМодель «+баллы хвоста» на сайте — расчёт по шкале 2026, не измерение. Замера «до» нет.\n');
+  return L.join('\n');
+}
+function buildJson(){
+  return JSON.stringify({
+   developer:'Масликов Михаил Михайлович, учитель информатики',meta:S.meta,
+   sources:{protocol:'25_Информатика_2026.06.18_Результаты_050118_05.xlsx',codifier:'Кодификатор.pdf (ЕГЭ 2026)',method:'19.11.2026_2.docx'},
+   scale2026:SCALE,thresholds:THRESHOLDS.map(function(t){return {name:t.name,test:t.t,primaryFrom:t.p,passed:over(ALL,t.t)};}),
+   totals:{primarySum:TOTAL.primary,primaryAvg:+TOTAL.prim.toFixed(2),testAvg:+TOTAL.test.toFixed(2),median:TOTAL.median,head:TOTAL.head,tail:TOTAL.tail,prog:TOTAL.prog},
+   students:STUDENTS.map(function(s){return {n:s.n,name:s.name,cls:s.cls,tape:s.tape,points:s.pts,primary:s.primary,test:s.test,tail:s.tail,prog:s.prog};}),
+   tasks:TASKS.map(function(t){return {num:t.num,level:t.lv,max:t.max,got:t.got,cap:t.cap,pct:+t.pct.toFixed(1),full:t.full,partial:t.part,zero:t.zero,codifier:t.topic};}),
+   levels:LEVELS.map(function(L){var a=sumNums(ALL,L.nums);return {level:L.k,name:L.name,tasks:L.nums,got:a.got,cap:a.cap,pct:+a.pct.toFixed(1)};}),
+   classes:CLASSES.map(function(c){return {cls:c.cls,n:c.n,primaryAvg:+c.primary.toFixed(2),testAvg:+c.test.toFixed(2),tail:c.tail};}),
+   patterns:patterns(),causes:S.causes,picked:S.picked,verdicts:S.verdict,mainCause:S.main,
+   conclusion:S.conclusion,decisions:S.decisions,criteria:S.criteria,checks:S.checks,final:S.fin,view:S.view,savedViews:S.views,sim:S.sim
+  },null,2);
+}
+/* ============ ВИД / ВКЛАДКИ ============ */
+function setTab(name){
+  document.querySelectorAll('#tabs1 .tab').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-tab')===name);});
+  ['students','matrix','tasks','cod','levels','errors','check'].forEach(function(k){var p=el('p-'+k);if(p)p.classList.toggle('on',k===name);});
+}
+function renderViews(){
+  var s=el('viewSel'),cur=s.value;
+  s.innerHTML='<option value="">Текущий вид</option>'+S.views.map(function(v){return '<option value="'+v.id+'">'+esc(v.name)+'</option>';}).join('');
+  s.value=S.views.some(function(v){return v.id===cur;})?cur:'';
+}
+function syncInputs(){
+  el('ctlThreshold').value=S.view.thr;el('ctlCell').value=S.view.cell;el('ctlLabels').value=S.view.labels;
+  el('ctlColorBy').value=S.view.colorBy;el('ctlPalette').value=S.view.palette;el('ctlSort').value=S.view.sort;
+  el('ctlOnlyFail').checked=S.view.onlyFail;el('ctlPct').checked=S.view.pct;el('ctlGrid').checked=S.view.grid;el('ctlHatch').checked=S.view.hatch;
+  el('taskFailOnly').checked=S.view.onlyFail;
+  document.querySelectorAll('#ctlClass button').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-v')===S.view.cls);});
+  el('q').value=S.filters.q;el('sortSel').value=S.filters.sort;el('riskOnly').checked=S.filters.risk;
+  el('dirBtn').textContent=S.filters.dir==='asc'?'↑ по возрастанию':'↓ по убыванию';
+  el('conclusion').value=S.conclusion;
+  el('mo').value=S.meta.mo;el('pedDate').value=S.meta.pedDate;el('subject').value=S.meta.subject;el('owner').value=S.meta.owner;el('nextDate').value=S.meta.nextDate;
+  Object.keys(S.checks).forEach(function(k){var e=el(k);if(e)e.checked=S.checks[k];});
+  renderViews();renderSim();
+}
+function renderCharts(){renderTaskChart();renderGroupChart();renderDist();}
+function renderAll(){
+  renderThr();renderRuler();renderSim();renderStudents();renderMatrix();renderTasks();renderCodTable();renderLevels();
+  renderErrors();renderCheck();renderSheet1();renderTaskChart();renderGroupChart();renderPatterns();renderStability();renderSheet2();
+  renderCauses();renderVerify();renderDecisions();renderCriteria();renderSheet5();renderLint();updateFinal();
+}
+function light(){renderSheet5();renderLint();updateFinal();}
+/* ============ СОБЫТИЯ ============ */
+var dragIdx=null;
+function moveDecision(from,to){
+  if(to<0||to>=S.decisions.length||from===to)return;
+  var d=S.decisions.splice(from,1)[0];S.decisions.splice(to,0,d);
+  renderDecisions();renderSheet5();updateFinal();
+}
+function wire(){
+  el('tabs1').addEventListener('click',function(e){var b=e.target.closest('[data-tab]');if(b)setTab(b.getAttribute('data-tab'));});
+  el('btnToCheck').addEventListener('click',function(e){e.preventDefault();setTab('check');el('tabs1').scrollIntoView({behavior:'smooth',block:'start'});});
+  el('ctlThreshold').addEventListener('input',function(){S.view.thr=parseInt(this.value,10);applyView();renderMatrix();renderTasks();renderCodTable();renderTaskChart();save();});
+  el('ctlCell').addEventListener('input',function(){S.view.cell=parseInt(this.value,10);applyView();save();});
+  el('ctlLabels').addEventListener('change',function(){S.view.labels=this.value;renderMatrix();renderTaskChart();save();});
+  el('ctlColorBy').addEventListener('change',function(){S.view.colorBy=this.value;renderTaskChart();save();});
+  el('ctlPalette').addEventListener('change',function(){S.view.palette=this.value;applyView();save();toast('Палитра: '+this.options[this.selectedIndex].text);});
+  el('ctlSort').addEventListener('change',function(){S.view.sort=this.value;renderStudents();renderMatrix();save();});
+  el('ctlClass').addEventListener('click',function(e){var b=e.target.closest('[data-v]');if(!b)return;
+    S.view.cls=b.getAttribute('data-v');
+    document.querySelectorAll('#ctlClass button').forEach(function(x){x.classList.toggle('on',x===b);});
+    renderStudents();renderMatrix();save();});
+  el('ctlOnlyFail').addEventListener('change',function(){S.view.onlyFail=this.checked;el('taskFailOnly').checked=this.checked;renderMatrix();renderTasks();renderTaskChart();save();});
+  el('taskFailOnly').addEventListener('change',function(){S.view.onlyFail=this.checked;el('ctlOnlyFail').checked=this.checked;renderMatrix();renderTasks();renderTaskChart();save();});
+  el('ctlPct').addEventListener('change',function(){S.view.pct=this.checked;renderMatrix();save();});
+  el('ctlGrid').addEventListener('change',function(){S.view.grid=this.checked;renderCharts();save();});
+  el('ctlHatch').addEventListener('change',function(){S.view.hatch=this.checked;applyView();save();});
+  el('ctlReset').addEventListener('click',function(){var snap=clone(S.view);S.view=defState().view;applyView();syncInputs();renderStudents();renderMatrix();renderTasks();renderCharts();save();
+    toast('Вид сброшен','','Отменить',function(){S.view=snap;applyView();syncInputs();renderStudents();renderMatrix();renderTasks();renderCharts();save();});});
+  el('ctlCsv').addEventListener('click',function(){download('матрица_КЕГЭ_050118.csv',csvMatrix(),'text/csv');toast('Матрица выгружена','ok');});
+  el('btnViewSave').addEventListener('click',function(){
+    var name=(el('viewName').value||'').trim()||('Вид '+(S.views.length+1));
+    var v={id:'v'+Date.now(),name:name,view:clone(S.view)};S.views.push(v);el('viewName').value='';renderViews();el('viewSel').value=v.id;save();
+    toast('Вид «'+name+'» сохранён','ok');});
+  el('viewSel').addEventListener('change',function(){
+    var v=S.views.filter(function(x){return x.id===this.value;},this)[0];if(!v)return;
+    S.view=clone(v.view);applyView();syncInputs();renderStudents();renderMatrix();renderTasks();renderCharts();save();toast('Применён вид «'+v.name+'»','ok');});
+  el('btnViewDel').addEventListener('click',function(){
+    var id=el('viewSel').value;if(!id){toast('Выберите сохранённый вид','bad');return;}
+    var idx=-1;S.views.forEach(function(v,i){if(v.id===id)idx=i;});
+    var rm=S.views[idx];S.views.splice(idx,1);renderViews();save();
+    toast('Вид удалён','','Отменить',function(){S.views.splice(idx,0,rm);renderViews();save();});});
+  el('simRange').addEventListener('input',function(){S.sim=parseInt(this.value,10);renderSim();renderRuler();save();});
+  el('btnSimReset').addEventListener('click',function(){S.sim=0;renderSim();renderRuler();save();toast('Модель сброшена');});
+  el('q').addEventListener('input',function(){S.filters.q=this.value;renderStudents();save();});
+  el('sortSel').addEventListener('change',function(){S.filters.sort=this.value;renderStudents();save();});
+  el('dirBtn').addEventListener('click',function(){S.filters.dir=S.filters.dir==='asc'?'desc':'asc';this.textContent=S.filters.dir==='asc'?'↑ по возрастанию':'↓ по убыванию';renderStudents();save();});
+  el('riskOnly').addEventListener('change',function(){S.filters.risk=this.checked;renderStudents();save();});
+  el('taskSortSel').addEventListener('change',renderTasks);
+  document.querySelectorAll('.tbl th.srt').forEach(function(th){th.addEventListener('click',function(){
+    var k=th.getAttribute('data-sort');
+    if(S.filters.sort===k)S.filters.dir=S.filters.dir==='asc'?'desc':'asc';else{S.filters.sort=k;S.filters.dir='asc';}
+    el('sortSel').value=k;el('dirBtn').textContent=S.filters.dir==='asc'?'↑ по возрастанию':'↓ по убыванию';renderStudents();save();});});
+  el('studentsBody').addEventListener('click',function(e){
+    var cb=e.target.closest('[data-sel]');
+    if(cb){var n=parseInt(cb.getAttribute('data-sel'),10),i=S.sel.indexOf(n);
+      if(cb.checked&&i<0)S.sel.push(n);if(!cb.checked&&i>=0)S.sel.splice(i,1);
+      var tr=cb.closest('tr');if(tr)tr.classList.toggle('sel',cb.checked);
+      el('bulkBar').classList.toggle('hidden',S.sel.length===0);el('bulkCount').textContent='Выбрано: '+S.sel.length;save();return;}
+    if(e.target.closest('label.check'))return;
+    var tr2=e.target.closest('tr[data-n]');if(tr2)openStudent(parseInt(tr2.getAttribute('data-n'),10));});
+  el('selAll').addEventListener('change',function(){
+    var on=this.checked;
+    el('studentsBody').querySelectorAll('tr[data-n]').forEach(function(tr){
+      var n=parseInt(tr.getAttribute('data-n'),10),i=S.sel.indexOf(n);
+      if(on&&i<0)S.sel.push(n);if(!on&&i>=0)S.sel.splice(i,1);});
+    renderStudents();save();});
+  el('bulkClear').addEventListener('click',function(){S.sel=[];renderStudents();save();toast('Выделение снято');});
+  el('bulkCsv').addEventListener('click',function(){var l=STUDENTS.filter(function(s){return S.sel.indexOf(s.n)>=0;});
+    download('выбранные_участники.csv',csvStudents(l),'text/csv');toast('Выгружено строк: '+l.length,'ok');});
+  el('bulkDrawer').addEventListener('click',function(){if(S.sel.length)openStudent(S.sel[0]);});
+  el('matrix').addEventListener('click',function(e){var t=e.target.closest('[data-task]');if(t)openTask(parseInt(t.getAttribute('data-task'),10));});
+  el('tasksBody').addEventListener('click',function(e){var tr=e.target.closest('tr[data-task]');if(tr)openTask(parseInt(tr.getAttribute('data-task'),10));});
+  el('codBody').addEventListener('click',function(e){var tr=e.target.closest('tr[data-task]');if(tr)openTask(parseInt(tr.getAttribute('data-task'),10));});
+  el('taskChart').addEventListener('click',function(e){var t=e.target.closest('[data-task]');if(t)openTask(parseInt(t.getAttribute('data-task'),10));});
+  el('causeList').addEventListener('click',function(e){
+    var pick=e.target.closest('[data-pick]'),ed=e.target.closest('[data-cedit]'),del=e.target.closest('[data-cdel]'),sv=e.target.closest('[data-csave]'),cc=e.target.closest('[data-ccancel]');
+    if(pick){var id=pick.getAttribute('data-pick'),i=S.picked.indexOf(id);
+      if(i>=0){S.picked.splice(i,1);if(S.main===id)S.main=null;}
+      else{if(S.picked.length>=3){toast('Нужно ровно 3 причины: снимите одну','bad');return;}S.picked.push(id);if(!S.verdict[id])S.verdict[id]='insufficient';}
+      renderCauses();renderVerify();updateFinal();return;}
+    if(ed){editingCause=ed.getAttribute('data-cedit');renderCauses();return;}
+    if(cc){editingCause=null;renderCauses();return;}
+    if(sv){var sid=sv.getAttribute('data-csave'),c=S.causes.filter(function(x){return x.id===sid;})[0];
+      var t=el('ec-t-'+sid).value.trim();if(!t){toast('Суть причины пуста','bad');return;}
+      c.title=t;c.check=el('ec-c-'+sid).value.trim();c.refute=el('ec-r-'+sid).value.trim();
+      editingCause=null;renderCauses();renderVerify();updateFinal();toast('Причина обновлена','ok');return;}
+    if(del){var did=del.getAttribute('data-cdel'),idx=-1;S.causes.forEach(function(x,i){if(x.id===did)idx=i;});
+      var rm=S.causes[idx],wp=S.picked.indexOf(did)>=0,wm=S.main===did;
+      S.causes.splice(idx,1);S.picked=S.picked.filter(function(x){return x!==did;});if(wm)S.main=null;
+      renderCauses();renderVerify();updateFinal();
+      toast('Причина удалена','','Отменить',function(){S.causes.splice(idx,0,rm);if(wp&&S.picked.length<3)S.picked.push(did);if(wm)S.main=did;renderCauses();renderVerify();updateFinal();});}
+  });
+  el('btnAddCause').addEventListener('click',function(){el('addCauseForm').classList.toggle('hidden');if(!el('addCauseForm').classList.contains('hidden'))el('ncTitle').focus();});
+  el('ncCancel').addEventListener('click',function(){el('addCauseForm').classList.add('hidden');});
+  el('ncSave').addEventListener('click',function(){
+    var t=el('ncTitle').value.trim(),c=el('ncCheck').value.trim(),r=el('ncRefute').value.trim();
+    if(!t||!c||!r){toast('Заполните три поля: суть, проверка, опровержение','bad');return;}
+    var id='u'+Date.now();
+    S.causes.push({id:id,title:t,essence:'Причина добавлена педагогом.',check:c,refute:r,support:'Срез не задан: допишите подтверждающие цифры.',against:'Срез не задан: допишите опровергающие цифры.',status:'insufficient'});
+    S.verdict[id]='insufficient';el('ncTitle').value='';el('ncCheck').value='';el('ncRefute').value='';el('addCauseForm').classList.add('hidden');
+    renderCauses();renderVerify();updateFinal();toast('Причина добавлена','ok');});
+  el('btnCauseReset').addEventListener('click',function(){
+    var sc=clone(S.causes),sp=clone(S.picked),sv=clone(S.verdict),sm=S.main;
+    S.causes=clone(CAUSES0);S.picked=['c1','c2','c3'];S.verdict={c1:'confirmed',c2:'refuted',c3:'insufficient',c4:'insufficient',c5:'insufficient'};S.main='c1';
+    renderCauses();renderVerify();updateFinal();
+    toast('Возвращены исходные 5 причин','','Отменить',function(){S.causes=sc;S.picked=sp;S.verdict=sv;S.main=sm;renderCauses();renderVerify();updateFinal();});});
+  el('verifyBody').addEventListener('click',function(e){
+    var b=e.target.closest('.seg.st button');if(!b)return;
+    var id=b.parentNode.getAttribute('data-vid'),v=b.getAttribute('data-v');
+    S.verdict[id]=v;if(v!=='confirmed'&&S.main===id){S.main=null;toast('Главная причина снята');}
+    renderVerify();renderCauses();updateFinal();});
+  el('verifyBody').addEventListener('change',function(e){
+    var r=e.target.closest('[data-main]');if(!r)return;
+    S.main=r.getAttribute('data-main');renderVerify();updateFinal();toast('Главная причина назначена','ok');});
+  el('decisionList').addEventListener('input',function(e){
+    var f=e.target.closest('[data-df]');if(!f)return;
+    var d=S.decisions.filter(function(x){return x.id===f.getAttribute('data-id');})[0];if(!d)return;
+    d[f.getAttribute('data-df')]=f.value;renderSheet5();updateFinal();});
+  el('decisionList').addEventListener('click',function(e){
+    var mv=e.target.closest('[data-dmove]'),del=e.target.closest('[data-ddel]');
+    if(mv){var id=mv.getAttribute('data-id'),idx=-1;S.decisions.forEach(function(d,i){if(d.id===id)idx=i;});
+      moveDecision(idx,mv.getAttribute('data-dmove')==='up'?idx-1:idx+1);return;}
+    if(del){if(S.decisions.length<=2){toast('Нужно минимум 2 решения','bad');return;}
+      var did=del.getAttribute('data-ddel'),i2=-1;S.decisions.forEach(function(d,i){if(d.id===did)i2=i;});
+      var rm=S.decisions[i2];S.decisions.splice(i2,1);renderDecisions();renderSheet5();updateFinal();
+      toast('Решение удалено','','Отменить',function(){S.decisions.splice(i2,0,rm);renderDecisions();renderSheet5();updateFinal();});}});
+  el('decisionList').addEventListener('dragstart',function(e){
+    var h=e.target.closest('[data-grip]');if(!h)return;
+    var card=h.closest('[data-didx]');dragIdx=parseInt(card.getAttribute('data-didx'),10);
+    if(e.dataTransfer){e.dataTransfer.effectAllowed='move';try{e.dataTransfer.setData('text/plain',String(dragIdx));}catch(err){}}});
+  el('decisionList').addEventListener('dragover',function(e){
+    if(dragIdx===null)return;e.preventDefault();
+    var c=e.target.closest('[data-didx]');
+    el('decisionList').querySelectorAll('.card').forEach(function(x){x.classList.toggle('drop-target',x===c);});});
+  el('decisionList').addEventListener('drop',function(e){
+    if(dragIdx===null)return;e.preventDefault();
+    var c=e.target.closest('[data-didx]');
+    if(c){moveDecision(dragIdx,parseInt(c.getAttribute('data-didx'),10));toast('Порядок решений изменён','ok');}
+    dragIdx=null;el('decisionList').querySelectorAll('.drop-target').forEach(function(x){x.classList.remove('drop-target');});});
+  el('decisionList').addEventListener('dragend',function(){dragIdx=null;
+    el('decisionList').querySelectorAll('.drop-target').forEach(function(x){x.classList.remove('drop-target');});});
+  el('btnAddDecision').addEventListener('click',function(){
+    if(S.decisions.length>=4){toast('Больше 4 решений размывает ответственность','bad');return;}
+    S.decisions.push({id:'d'+Date.now(),title:'Решение '+(S.decisions.length+1)+' · новое',text:'',owner:'',due:S.meta.nextDate,risk:''});
+    renderDecisions();renderSheet5();updateFinal();toast('Решение добавлено — заполните поля','ok');});
+  el('criteriaBody').addEventListener('input',function(e){
+    var f=e.target.closest('[data-crit]');if(!f)return;
+    var k=S.criteria.filter(function(x){return x.id===f.getAttribute('data-crit');})[0];if(!k)return;
+    k.target=f.value;renderSheet5();updateFinal();});
+  el('conclusion').addEventListener('input',function(){S.conclusion=this.value;light();});
+  el('btnDraft').addEventListener('click',function(){var old=S.conclusion;S.conclusion=draftText();el('conclusion').value=S.conclusion;light();
+    toast('Черновик собран из данных','','Отменить',function(){S.conclusion=old;el('conclusion').value=old;light();});});
+  ['mo','pedDate','subject','owner','nextDate'].forEach(function(k){el(k).addEventListener('input',function(){S.meta[k]=this.value;renderSheet5();updateFinal();});});
+  Object.keys(S.checks).forEach(function(k){var e=el(k);if(e)e.addEventListener('change',function(){S.checks[k]=this.checked;updateFinal();});});
+  el('finalList').addEventListener('change',function(e){
+    var c=e.target.closest('[data-fin]');if(!c)return;var i=parseInt(c.getAttribute('data-fin'),10);
+    S.fin[i]=c.checked;S.finTouched[i]=true;updateFinal();});
+  document.querySelectorAll('[data-copy-table]').forEach(function(b){b.addEventListener('click',function(){copyText(tableText(b.getAttribute('data-copy-table')),'Таблица скопирована');});});
+  document.querySelectorAll('[data-copy-prompt]').forEach(function(b){b.addEventListener('click',function(){
+    copyText(b.parentNode.innerText.replace('Скопировать промпт','').trim(),'Промпт скопирован');});});
+  el('btnExportTop').addEventListener('click',function(){el('final').scrollIntoView({behavior:'smooth',block:'start'});toast('Выберите формат выгрузки');});
+  el('btnMd').addEventListener('click',function(){download('педсовет_КЕГЭ_050118.md',buildMd(),'text/markdown');toast('Лист педсовета выгружен','ok');});
+  el('btnJson').addEventListener('click',function(){download('педсовет_КЕГЭ_050118.json',buildJson(),'application/json');toast('Данные выгружены','ok');});
+  el('btnCsv').addEventListener('click',function(){download('участники_КЕГЭ_050118.csv',csvStudents(STUDENTS),'text/csv');toast('15 участников выгружены','ok');});
+  el('btnCopy').addEventListener('click',function(){copyText(buildMd(),'Текст разбора скопирован');});
+  el('btnPrint').addEventListener('click',function(){window.print();});
+  el('btnReset').addEventListener('click',function(){
+    var snap=clone(S);S=defState();S.conclusion=draftText();applyView();syncInputs();renderAll();
+    toast('Правки сброшены','','Отменить',function(){S=snap;applyView();syncInputs();renderAll();toast('Правки восстановлены','ok');});});
+  el('drawerClose').addEventListener('click',closeDrawer);
+  el('scrim').addEventListener('click',closeDrawer);
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeDrawer();el('navlinks').classList.remove('open');}});
+  el('burger').addEventListener('click',function(){var o=el('navlinks').classList.toggle('open');this.setAttribute('aria-expanded',String(o));});
+  el('navlinks').addEventListener('click',function(e){if(e.target.closest('a'))el('navlinks').classList.remove('open');});
+  document.body.addEventListener('mousemove',function(e){
+    var t=e.target.closest?e.target.closest('[data-tip]'):null;
+    if(t)showTip(t.getAttribute('data-tip'),e.clientX,e.clientY);else hideTip();});
+  document.body.addEventListener('mouseleave',hideTip);
+  window.addEventListener('scroll',hideTip,{passive:true});
+}
+/* ============ SCROLL / REVEAL / RESIZE ============ */
+var SECS=['top','codifier','step1','step2','step3','step4','step5','final'],tick=false;
+function spy(){
+  var y=window.scrollY+140,cur=SECS[0];
+  SECS.forEach(function(id){var e=el(id);if(e&&e.getBoundingClientRect().top+window.scrollY<=y)cur=id;});
+  document.querySelectorAll('[data-nav]').forEach(function(a){a.classList.toggle('on',a.getAttribute('data-nav')===cur);});
+  document.querySelectorAll('[data-rail]').forEach(function(a){a.classList.toggle('on',a.getAttribute('data-rail')===cur);});
+  tick=false;
+}
+function observe(){
+  var items=document.querySelectorAll('.rv');
+  if(!('IntersectionObserver' in window)){items.forEach(function(x){x.classList.add('in');});return;}
+  var io=new IntersectionObserver(function(en){en.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target);}});},{threshold:.05,rootMargin:'0px 0px -24px 0px'});
+  items.forEach(function(x,i){x.style.transitionDelay=Math.min(i%6*55,280)+'ms';io.observe(x);});
+}
+var lastNarrow=narrow(),rzT=null;
+function onResize(){
+  hideTip();
+  clearTimeout(rzT);
+  rzT=setTimeout(function(){
+    var n=narrow();
+    if(n!==lastNarrow){lastNarrow=n;renderTaskChart();renderGroupChart();renderMatrix();}
+  },180);
+}
+/* ============ СТАРТ ============ */
+applyView();renderKpis();renderTape();syncInputs();renderAll();wire();observe();countUp();spy();
+window.addEventListener('scroll',function(){if(!tick){tick=true;requestAnimationFrame(spy);}},{passive:true});
+window.addEventListener('resize',onResize,{passive:true});
+window.addEventListener('orientationchange',onResize,{passive:true});
+})();
 </script>
 </body>
 </html>
